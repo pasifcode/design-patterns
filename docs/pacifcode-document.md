@@ -55,24 +55,24 @@ deesenvolvimento de componentes, páginas e estilização no Frontend com React.
 
 ## [Estrutura do Backend](https://github.com/Henri-BS/gerenciador-curriculo/tree/main/backend)
 
-| Ferramentas do Backend                                                                                 |
-|--------------------------------------------------------------------------------------------------------|
-| Linguagem: [Java](https://docs.oracle.com/en/java/javase/17/)                                          |
-| IDE: [IntelliJ Idea](https://www.jetbrains.com/idea/)                                                  |
-| Build: [Maven](https://maven.apache.org/)                                                              |
-| Framework: [Spring Boot](https://spring.io/projects/spring-boot)                                       |
-| Persistência: [Spring Data Jpa](https://spring.io/projects/spring-data-jpa)                            |
-| Ferramentas Web: [Spring Web](https://docs.spring.io/spring-boot/docs/current/reference/html/web.html) |
-| Segurança: [Spring Security](https://spring.io/projects/spring-security)                               |
-| Banco de Dados em Memória: [H2 Database](https://h2database.com/html/main.html)                        |
-| Banco de Dados SQL: [PostgreSQL]()                                                                     |
-| Automatização: [Lombok]()                                                                              |
-| Teste de Requisições: [Postman]()                                                                      |
+| Ferramentas do Backend         | Nome                                                                                  |
+|--------------------------------|---------------------------------------------------------------------------------------|
+| Linguagem de Programação       | [Java](https://docs.oracle.com/en/java/javase/17/)                                    |
+| IDE                            | [IntelliJ Idea](https://www.jetbrains.com/idea/)                                      |
+| Build                          | [Maven](https://maven.apache.org/)                                                    |
+| Framework                      | [Spring Boot](https://spring.io/projects/spring-boot)                                 |
+| Persistência                   | [Spring Data Jpa](https://spring.io/projects/spring-data-jpa)                         |
+| Ferramentas Web                | [Spring Web](https://docs.spring.io/spring-boot/docs/current/reference/html/web.html) |
+| Segurança                      | [Spring Security](https://spring.io/projects/spring-security)                         |
+| Banco de Dados em Memória      | [H2 Database](https://h2database.com/html/main.html)                                  |
+| Banco de Dados SQL             | [PostgreSQL]()                                                                        |
+| Automatização de Código        | [Lombok]()                                                                            |
+| Teste de Requisições           | [Postman]()                                                                           |
 
 
 ### Spring Initializr
 
-- criação de um arquivo _zip_ do projeto através do site [Spring Initializr](https://start.spring.io/;)
+- criação do projeto através do site [Spring Initializr](https://start.spring.io/;) ou através do plugin do intellij 
 - adicionar configurações e dependências necessárias
 - baixar, descompactar e renomear a pasta para 'backend'
 
@@ -83,7 +83,12 @@ deesenvolvimento de componentes, páginas e estilização no Frontend com React.
 - codificação da backend
 - Java 17
 
-![IntelliJ Run](https://github.com/Henri-BS/pasifcode-docs/base-project/blob/main/images/intellij-run.png)
+| Plugins Recomendados                                                   |
+|------------------------------------------------------------------------|
+| [GitTollBox](https://plugins.jetbrains.com/plugin/7499-gittoolbox)     |
+| [Maven Helper](https://plugins.jetbrains.com/plugin/7179-maven-helper) |
+| [JPA Buddy](https://plugins.jetbrains.com/plugin/15075-jpa-buddy)      |
+| [Wakatime](https://plugins.jetbrains.com/plugin/7425-wakatime)         |
 
 ### Application Properties
 
@@ -95,7 +100,7 @@ spring.jpa.open-in-view=false
 ```
 
 ### Application Test
-- arquivo com propriedades do banco em memória 
+- arquivo com propriedades do banco de dados em memória 
 
 ```
 spring.datasource.url=jdbc:h2:mem:testdb
@@ -111,33 +116,45 @@ spring.jpa.properties.hibernate.format_sql=true
 
 - ### Hierarquia de pastas do backend
 
-A organização das pastas será baseada no padrão MVC com os padrões Repository e DTO, com isso as
-seguintes camadas serão estabelecidas: _entities, repositories, dto, controllers e services_ que contém 2 sub-camadas
-chamadas _interf e impl_. Além disso, será criada uma camada chamada config que conterá as configurações do Spring
-Security. A figura abaixo apresenta o resultado da estrutura de pastas do Backend.
+- organização baseada no padrão MVC, Repository e DTO
+- camadas estabelecidas: _config, entities, repositories, dto, controllers e services_ 
+- camada _service_ contém 2 sub-camadas _interf e impl_
 
 ![Backend Folders](https://github.com/Henri-BS/pasifcode-docs/base-project/blob/main/images/backend-folders.png)
 
 ## [Estrutura do Frontend](https://github.com/Henri-BS/pasifcode-docs/base-project/tree/main/frontend)
 
-| Ferramentas do Frontend                                                        |
-|--------------------------------------------------------------------------------|
-| Linguagem: [TypeScript](https://www.typescriptlang.org/)                       |
-| IDE: [VS Code](https://code.visualstudio.com/)                                 |
-| Build: [Yarn](https://yarnpkg.com/)                                            |
-| Framework: [ReactJs](https://pt-br.legacy.reactjs.org/)                        |
-| Estilização: [Bootstrap](https://getbootstrap.com/)                            |
-| Datas: [MomentJs](https://momentjs.com/)                                       |
-| Requisições: [Axios](https://axios-http.com/docs/intro)                        |
-| Roteamento: [React Router](https://create-react-app.dev/docs/adding-a-router/) |
+| Ferramentas do Frontend  | Nome                                                               |
+|--------------------------|--------------------------------------------------------------------|
+| Linguagem de Programação | [TypeScript](https://www.typescriptlang.org/)                      |
+| IDE                      | [VS Code](https://code.visualstudio.com/)                          |
+| Build                    | [Yarn](https://yarnpkg.com/)                                       |
+| Framework                | [ReactJs](https://pt-br.legacy.reactjs.org/)                       |
+| Estilização              | [Bootstrap](https://getbootstrap.com/)                             |
+| Datas e Horários         | [MomentJs](https://momentjs.com/)                                  |
+| Requisições              | [Axios](https://axios-http.com/docs/intro)                         |
+| Roteamento               | [React Router](https://create-react-app.dev/docs/adding-a-router/) |
+
+### IntelliJ
+
+- codificação da camada frontend
+
+| Plugins Recomendados                                                                                     |
+|----------------------------------------------------------------------------------------------------------|
+| [Prettier - Code formatter](https://marketplace.visualstudio.com/items?itemName=esbenp.prettier-vscode)  |
+| [Code Runner](https://marketplace.visualstudio.com/items?itemName=formulahendry.code-runner)             |
+| [JSX HTML <tags/>](https://marketplace.visualstudio.com/items?itemName=angelorafael.jsx-html-tags)       |
+| [Git History](https://marketplace.visualstudio.com/items?itemName=donjayamanne.githistory)               |
+| [Wakatime](https://marketplace.visualstudio.com/items?itemName=WakaTime.vscode-wakatime)                 |
 
 ### ReactJs
 
-Para que a aplicação TypeScript seja executada no Frontend será preciso realizar o download
-do [Node](https://nodejs.org/en), após o download é possível ver em um terminal a versão baixada através do comando
-```node -v```, com isso já é possível fazer comandos num terminal no diretório do projeto em uma pasta nomeada 
-'frontend' que será a aplicação React, o terminal usado será o [Git Bash](https://git-scm.com/download/win). A tabela a
-seguir apresenta a sequência de comandos para criar o projeto React e para instalar as bibliotecas do Frontend.
+- download do [Node](https://nodejs.org/en)
+- criação de aplicação ReactJs com TypeScript
+- nomear o app para 'frontend'
+- adicionar a propriedade ``"baseUrl": "./src"`` em _tsconfig.json_
+
+A tabela com sequência de comandos no terminal [Git Bash](https://git-scm.com/download/win).  para criar o projeto React e para instalar as bibliotecas do Frontend.
 
 | Ação                                                | Comando                                              |
 |-----------------------------------------------------|------------------------------------------------------|
@@ -152,24 +169,10 @@ seguir apresenta a sequência de comandos para criar o projeto React e para inst
 ### [CSS](https://github.com/Henri-BS/pasifcode-docs/base-project/tree/main/frontend/src/assets/css)
 
 - localizados em src > assets > css  
-- todos os arquivos deverão ter um _import_ no arquivo _index.tsx_ 
-- _imports_ do Bootstrap no 
+- inserir _imports_ dos arquivos CSS no arquivo _index.tsx_ 
+- inserir _imports_ do Bootstrap no CSS
 
-```
-{/*importações do bootstrap*/}
-import 'bootstrap/dist/css/bootstrap.css';
-import 'bootstrap/js/src/modal';
-```    
-
-
-
-Assim como foi feita a organização na pasta _backend_, o mesmo processo será feito na pasta _frontend_, na pasta
-tsconfig.json será adicionada a propriedade ``"baseUrl": "./src"`` para definir a base da url para os _imports_
-
-- ### Hierarquia de pastas do Frontend
-
-Algumas pastas serão inclusas como: assests, components, pages, utils, types, routes e entre outras; bem como alguns arquivos
-serão adicionados, alterados ou deletados. A estrutura final da pasta _frontend_ pode ser vista na figura abaixo.
+### Hierarquia de pastas do Frontend
 
 ![Frontend Folders](https://github.com/Henri-BS/pasifcode-docs/base-project/blob/main/images/frontend-folders.png)
 
@@ -177,24 +180,24 @@ serão adicionados, alterados ou deletados. A estrutura final da pasta _frontend
 
 ### Classes e Interfaces
 
-| Classe / Interface                          | Função                                                  |
-|-------------------------------------|------------------------------------------------------|
-| Instalação do yarn                  | npm install --global yarn                            |
-| Cria projeto ReactJs com TypeScript | yarn create react-app frontend --template typescript |
+| Tipo de Classe / Interface | Função |
+|----------------------------|--------|
+| Entity Class               |        |
+| Repository Interface       |        |
+| Dto Class                  |        |
+| Service Interface          |        |
+| ServiceImpl Class          |        |
+| Controller Class           |        |
 
-O conjunto de classes e interfaces abordadas no projeto forma baseadas com padrão MVC em conjunto com o padrões
-Repository e DTO resultando nas seguintes camadas: _Entity_, _Dto_, _Repository_, _Service_, _ServiceImpl_ e
-_Controller_ e também a classe de configurações de segurança do Spring a _SecurityConfig_. Alguns exemplos destas
-classes e interfaces poderão ser vistos a seguir, o link para a respectiva pasta de cada camada estará no título do
-tópico.
 
-- #### [SecurityConfig](https://github.com/Henri-BS/gerenciador-curriculo/tree/main/backend/src/main/java/com/altercode/gerenciadorcurriculo/config/SecurityConfig.java)
+- #### [SecurityConfig](https://github.com/Henri-BS/pasifcode-docs/base-project/tree/main/backend/src/main/java/com/altercode/gerenciadorcurriculo/config/SecurityConfig.java)
+  
+  * Configurações de segurança do Spring
+  * 
+  * método `configure` para a proteção dos _endpoints_ com HTTP básico
+  * método `corsConfigurationSource` para configurar o CORS padrão do Spring
 
-A implementação das propriedades do Spring Security será feita na classe SecurityConfig, está classe irá possuir dois
-métodos importantes o `configure` para a proteção dos _endpoints_ com HTTP básico, bem como irá configurar o perfil
-_test_ do H2 e também o método `corsConfigurationSource` para configurar o CORS padrão do Spring.
-
-- #### [Entity](https://github.com/Henri-BS/gerenciador-curriculo/tree/main/backend/src/main/java/com/altercode/gerenciadorcurriculo/entities)
+- #### [Entity](https://github.com/Henri-BS/pasifcode-docs/base-project/tree/main/backend/src/main/java/com/altercode/gerenciadorcurriculo/entities)
 
 A classe do tipo Entidade(Entity) irá representar os dados que serão persistidos no banco de dados H2, a classe será
 definida como entidade através da anotação `@Entity` e irá se correlacionar com uma tabela através da anotação `@Table`
