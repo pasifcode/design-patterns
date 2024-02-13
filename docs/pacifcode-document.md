@@ -69,10 +69,9 @@ deesenvolvimento de componentes, páginas e estilização no Frontend com React.
 | Automatização de Código        | [Lombok]()                                                                            |
 | Teste de Requisições           | [Postman]()                                                                           |
 
-
 ### Spring Initializr
 
-- criação do projeto através do site [Spring Initializr](https://start.spring.io/;) ou através do plugin do intellij 
+- criação do projeto através do site [Spring Initializr](https://start.spring.io/;) ou através do plugin do intellij
 - adicionar configurações e dependências necessárias
 - baixar, descompactar e renomear a pasta para 'backend'
 
@@ -92,7 +91,7 @@ deesenvolvimento de componentes, páginas e estilização no Frontend com React.
 
 ### Application Properties
 
-- adicionar propriedade de ativar perfil 
+- adicionar propriedade de ativar perfil
 
 ```
 spring.profiles.active=test
@@ -100,7 +99,8 @@ spring.jpa.open-in-view=false
 ```
 
 ### Application Test
-- arquivo com propriedades do banco de dados em memória 
+
+- arquivo com propriedades do banco de dados em memória
 
 ```
 spring.datasource.url=jdbc:h2:mem:testdb
@@ -117,7 +117,7 @@ spring.jpa.properties.hibernate.format_sql=true
 - ### Hierarquia de pastas do backend
 
 - organização baseada no padrão MVC, Repository e DTO
-- camadas estabelecidas: _config, entities, repositories, dto, controllers e services_ 
+- camadas estabelecidas: _config, entities, repositories, dto, controllers e services_
 - camada _service_ contém 2 sub-camadas _interf e impl_
 
 ![Backend Folders](https://github.com/Henri-BS/pasifcode-docs/base-project/blob/main/images/backend-folders.png)
@@ -154,7 +154,8 @@ spring.jpa.properties.hibernate.format_sql=true
 - nomear o app para 'frontend'
 - adicionar a propriedade ``"baseUrl": "./src"`` em _tsconfig.json_
 
-A tabela com sequência de comandos no terminal [Git Bash](https://git-scm.com/download/win).  para criar o projeto React e para instalar as bibliotecas do Frontend.
+A tabela com sequência de comandos no terminal [Git Bash](https://git-scm.com/download/win). para criar o projeto React
+e para instalar as bibliotecas do Frontend.
 
 | Ação                                                | Comando                                              |
 |-----------------------------------------------------|------------------------------------------------------|
@@ -168,8 +169,8 @@ A tabela com sequência de comandos no terminal [Git Bash](https://git-scm.com/d
 
 ### [CSS](https://github.com/Henri-BS/pasifcode-docs/base-project/tree/main/frontend/src/assets/css)
 
-- localizados em src > assets > css  
-- inserir _imports_ dos arquivos CSS no arquivo _index.tsx_ 
+- localizados em src > assets > css
+- inserir _imports_ dos arquivos CSS no arquivo _index.tsx_
 - inserir _imports_ do Bootstrap no CSS
 
 ### Hierarquia de pastas do Frontend
@@ -180,147 +181,87 @@ A tabela com sequência de comandos no terminal [Git Bash](https://git-scm.com/d
 
 ### Classes e Interfaces
 
-| Tipo de Classe / Interface | Função |
-|----------------------------|--------|
-| Entity Class               |        |
-| Repository Interface       |        |
-| Dto Class                  |        |
-| Service Interface          |        |
-| ServiceImpl Class          |        |
-| Controller Class           |        |
+- #### [SecurityConfig](https://github.com/Henri-BS/pasifcode-docs/base-project/tree/main/backend/src/main/java/com/pasifcode/baseproject/config/SecurityConfig.java)
 
+    * configurações de segurança do Spring
+    * anotações `@Configuration` e `@EnableWebSecurity`
+    * método `configure` para a proteção dos _endpoints_ com HTTP básico
+    * método `corsConfigurationSource` para configurar o CORS padrão do Spring
 
-- #### [SecurityConfig](https://github.com/Henri-BS/pasifcode-docs/base-project/tree/main/backend/src/main/java/com/altercode/gerenciadorcurriculo/config/SecurityConfig.java)
-  
-  * Configurações de segurança do Spring
-  * 
-  * método `configure` para a proteção dos _endpoints_ com HTTP básico
-  * método `corsConfigurationSource` para configurar o CORS padrão do Spring
-
-- #### [Entity](https://github.com/Henri-BS/pasifcode-docs/base-project/tree/main/backend/src/main/java/com/altercode/gerenciadorcurriculo/entities)
-
-A classe do tipo Entidade(Entity) irá representar os dados que serão persistidos no banco de dados H2, a classe será
-definida como entidade através da anotação `@Entity` e irá se correlacionar com uma tabela através da anotação `@Table`
-onde será adicionado o atributo _name_ para indicar o nome da tabela. Além disso, os atributos da classe irão
-representar as colunas da tabela e poderão conter a anotação `@Column` para personalizar as características do atributo,
-também deverá haver um atributo específico chamado _id_ que será equivalente a chave primária no database e deverá
-conter as anotações `@Id` e `@GeneratedValue`. Neste projeto todas as classes de entidade seguiram este padrão conforme
-mostrado abaixo.
-
-```
-// Exemplo de declaração de uma classe Entity
-@Entity
-@Table(name = "tb_cv")
-public class Cv {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "cv_id")
-    private Long id;
-    @Column(name= "name", nullable = false)
-    private String name;
-    @Column(name= "job_title")
-    private String jobTitle;
-    
-    @OneToMany(mappedBy = "cv", cascade = CascadeType.ALL)
-    private final List<Education> educationList = new ArrayList<>();
-    @OneToMany(mappedBy = "cv", cascade = CascadeType.ALL)
-    private final List<Experience> experiences = new ArrayList<>();
-    @OneToMany(mappedBy = "cv", cascade = CascadeType.ALL)
-    private final List<Section> sections = new ArrayList<>();
-    
-    //constructors
-    //getters and setters
-}
-```
-
-- #### [DTO](https://github.com/Henri-BS/gerenciador-curriculo/tree/main/backend/src/main/java/com/altercode/gerenciadorcurriculo/dto)
-
-O padrão _DTO_ será utilizado como forma de transferir os dados entre os processos reduzindo o número de transações, as
-classes do tipo DTO irão implementar a interface _Serializable_ para realizar a serialização de dados, também será
-adicionada o atibuto _serialVersionUID_ para definir a versão e a anotação `@Serial` será inclusa no atributo. A
-anotação `@JsonIncluse` adicionada na classe irá ocultar dados nulos na requisição Json e também será criado um
-construtor em que os atibutos da classe _DTO_ irão receber os métodos _get_ da classe Entity correspondente.
-
-```
-// Exemplo de declaração de uma classe DTO
-@JsonInclude(JsonInclude.Include.NON_NULL)
-public class CvDto implements Serializable {
-@Serial
-private static final long serialVersionUID = 1L;
-
-    private Long id;
-    private String name;
-    private String jobTitle;
-
-    public CvDto(Cv entity) {
-        id = entity.getId();
-        name = entity.getName();
-        jobTitle = entity.getJobTitle();
-    }
-    
-    // getters
-```
-
-- #### [Repository](https://github.com/Henri-BS/gerenciador-curriculo/tree/main/backend/src/main/java/com/altercode/gerenciadorcurriculo/repositories)
-
-Os métodos disponibilizados no Spring Data JPA poderão ser facilmente utilizado através da interface _Repository_, essa
-interface poderá ser definida como Repository ao receber a anotação `@Repository`, também será acrescentador a interface
-um `extends JpaRepository<Entity, Long>` que permitirá que a classe _Entity_ especificada receba os métodos da JPA.
-
-```
-// Exemplo de declaração de uma interface Repository
-@Repository
-public interface CvRepository extends JpaRepository<Cv, Long>{
-}
-```
+![Security Config](https://github.com/Henri-BS/pasifcode-docs/base-project/blob/main/images/security-config.png)
 
 <br/>
 
-- #### [Service](https://github.com/Henri-BS/gerenciador-curriculo/tree/main/backend/src/main/java/com/altercode/gerenciadorcurriculo/service/interf) e [ServiceImpl](https://github.com/Henri-BS/gerenciador-curriculo/tree/main/backend/src/main/java/com/altercode/gerenciadorcurriculo/services/impl)
+- #### [Base Entity](https://github.com/Henri-BS/pasifcode-docs/base-project/tree/main/backend/src/main/java/com/pasifcode/baseproject/entities/BaseEntity.java)
 
-A camada Service será reapresentada tanto por classes quanto por interfaces, a interface Service permitirá que os
-métodos relacionados a lógica de negócios sejam declarados.
+    * classe abstrata com as propriedades básicas de uma Entidade correlacionada ao banco de dados
+    * atributo _id_ com as anotações `@Id` e `@GeneratedValue`
+    * atributos `createdDate` para a data de criação e `lastModifiedDate` para a data de atualização da Entidade
+    * atributos `createdBy` para o criador original e `lastModifiedBy` para o
 
-```
-// Exemplo de declaração de uma interface ServiceImpl
-public interface CvService {
-}
-```
+![Base Entity](https://github.com/Henri-BS/pasifcode-docs/base-project/blob/main/images/base-entity.png)
 
 <br/>
-Já nas classes do tipo _ServiceImpl_ serão implementados os métodos das suas respectivas interfaces, também será
-adicionado a anotação `@Service` para definir a classe como _Service_ e a será acrescentado também a anotação `@Transacitional` para declarar a semântica de transação.
 
-```
-// Exemplo de uma classe declaração de ServiceImpl
-@Service
-@Transactional
-public class CvServiceImpl implements CvService {
-    @Autowired
-    private CvRepository cvRepository;
-}
-```
+- #### [Entity](https://github.com/Henri-BS/pasifcode-docs/base-project/tree/main/backend/src/main/java/com/pasifcode/baseproject/entities)
+
+    * classe correlacionada a uma tabela no banco de dados
+    * estende a classe _BaseEntity_
+    * anotação `@Entity` para indicar entidade
+    * anotação `@Table(name = "tb_name")` para relacionar e nomear uma tabela.
+    * `@Column` para personalizar as características dos atributos
+
+![Entity](https://github.com/HenriBS/pasifcode-docs/base-project/blob/main/images/entity.png)
+
+<br/>
+
+- #### [DTO](https://github.com/Henri-BS/pasifcode-docs/base-project/tree/main/backend/src/main/java/com/pasifcode/baseproject/dto)
+
+    * transferir os dados entre os processos reduzindo o número de transações
+    * implementa a interface _Serializable_
+    * atibuto `serialVersionUID` para definir a versão e a anotação `@Serial` será inclusa no atributo de versão
+    * anotação `@JsonIncluse` para ocultar dados nulos na requisição Json
+    * construtor com os atibutos da classe _DTO_ recebendo os métodos _get_ da classe _Entity_ correspondente
+
+![DTO](https://github.com/Henri-BS/pasifcode-docs/base-project/blob/main/images/dto.png)
+
+<br/>
+
+- #### [Repository](https://github.com/Henri-BS/pasifcode-docs/base-project/tree/main/backend/src/main/java/com/pasifcode/baseproject/repositories)
+
+    * anotação `@Repository` para definir como _Repository_
+    * estende a interface `JpaRepository<Entity, Long>` para receber os métodos da JPA.
+
+![Repository](https://github.com/Henri-BS/pasifcode-docs/base-project/blob/main/images/repository.png)
+
+<br/>
+
+- #### [Service](https://github.com/Henri-BS/pasifcode-docs/base-project/tree/main/backend/src/main/java/com/pasifcode/baseproject/services/interf)
+
+    * camada para declarar funções da lógica de negócios
+
+![Service](https://github.com/Henri-BS/pasifcode-docs/base-project/blob/main/images/service.png)
+
+<br/>
+
+- #### [ServiceImpl](https://github.com/Henri-BS/pasifcode-docs/base-project/tree/main/backend/src/main/java/com/pasifcode/baseproject/services/impl)
+
+    * camada de implementação dos métodos das suas respectivas interfaces
+    * anotação `@Service` para definir como _Service_
+    * anotação `@Transacitional` para declarar a semântica de transação
+
+![ServiceImpl](https://github.com/Henri-BS/pasifcode-docs/base-project/blob/main/images/service-impl.png)
 
 <br/>
 
 - #### [Controller](https://github.com/Henri-BS/gerenciador-curriculo/tree/main/backend/src/main/java/com/altercode/gerenciadorcurriculo/controllers)
 
-Por fim as classes `Controllers` irão representar o controlador da aplicação, possuindo as nuances de persistência e o
-mapeamento de solicitações da Web, para isso será acrescentado a anotação `@RestContoller` para definir a classe como
-controlador e a a notação `@RequestMapping` para mapear as solicitações. A classe também irá conter um atributo do tipo
-interface `Service` com a anotação `@Autowired` esse atributo possibilitará a chamada dos métodos definidos na interface
-`Service`.
+    * controlador da aplicação vom as nuances de persistência e o mapeamento de solicitações da Web
+    * anotação `@RestContoller` para definir a classe como controlador
+    * anotação `@RequestMapping` para mapear as solicitações
+    * atributo do tipo interface `Service` para a chamada dos métodos definidos na camada `Service`.
 
-```
-// Exemplo de declaração de uma classe controller
-@RestController
-@RequestMapping(value = "/cv")
-public class CvController {
-    @Autowired
-    private CvServiceImpl cvServiceImpl;
-}
-```
+![ServiceImpl](https://github.com/Henri-BS/pasifcode-docs/base-project/blob/main/images/controller.png)
 
 <br/>
 
@@ -330,59 +271,38 @@ As funções e procedimentos serão definidas em 4 camadas diferentes: _Reposito
 Controller_. O processo de construção das principais funções CRUD utilizadas no projeto será abordado com alguns
 exemplos.
 
-- #### FindAll
+- #### FindAll(Page)
+Funções do tipo _findAll_ irão retornar uma coleção de objetos  
 
-A interface Repository poderá oferecer métodos para listagem com busca inclusa através da Jpa, neste projeto as os
-métodos personalizados para listagem serão declarados nas interfaces Repository, poderão ser do tipo `List<Entity>`
-ou `Page<Entity>` o tipo Page também recebe o parâmetro `Pageable pageable`, o método também irá conter a
-anotação `@Query` para criar instruções SQL definindo o tipo de _case_, a ordem e o parâmetro de busca.
+| Tipo de Classe ou Interface | Declaração                                                                                       | Anotações                                     | Retorno                         |
+|-----------------------------|--------------------------------------------------------------------------------------------------|-----------------------------------------------|---------------------------------|
+| [Interface Repository]()    | `Page <EntityClass> findEntities (Pageable pageable, String atr);`                               | @Query                                        |                                 |       
+| [Interface Service]()       | `Page <DtoClass> findEntities (Pageable pageable, String atr);`                                  |                                               |                                 |
+| [Classe ServiceImpl]()      | `Page <DtoClass> findEntities (Pageable pageable, String atr){}`                                 | @Override<br/>@Transactional(readOnly = true) | return find.map(CvDto::new);    |
+| [Classe Controller]()       | `Page <DtoClass> findEntities (Pageable pageable, @RequestParams(defaultValue="") String atr){}` | @GetMapping                                   | return ResponseEntity.ok(page); |
 
-```
-// Exemplo de método de listagem na interface Repository 
-    @Query("SELECT obj FROM Cv obj WHERE UPPER(obj.name) " +
-            "LIKE UPPER(CONCAT('%', ?1, '%')) " +
-            "ORDER BY (obj.name) ASC")
-    Page<Cv> findAllCvs(String name, Pageable pageable);
-```
+<br/>
 
-As interfaces do tipo Service terão métodos de listagem declarados com o tipo `List<Dto>` ou `Page<Dto>`.
+- #### FindAll(List)
 
-```
-// Exemplo de método de listagem declarado na interface Service 
-    Page<CvDto> findAllCvs(String name, Pageable pageable);
-```
-
-A função _findAll_ em uma classe _ServiceImpl_ será implementada de sua interface _Service_ através da
-anotação `@Override` e a anotação `@Transactional(readOnly = true)` para definir a transação apenas como leitura, também
-irá chamar o método _findAll_ da interface _Repository_.
-
-```
-// Exemplo de função de listagem na classe ServiceImpl
-    @Override
-    @Transactional(readOnly = true)
-    public Page<CvDto> findAllCvs(String name, Pageable pageable) {
-        Page<Cv> find = cvRepository.findAllCvs(name, pageable);
-        return find.map(CvDto::new);
-    }
-```
-
-A função _findAll_ em uma classe de _Controller_ deverão conter a anotação `@GetMapping` com o atributo _name_ para
-mapear a solicitação como _GET_, caso tenha um parâmetro de busca deve ser adicionado a anotação `@RequestParam` no
-atributo para definir um parâmetro na solicitação, a função também irá chamar o método da interface _Service_ para usar
-como argumento, um `ResponseEntity<>` poderá ser adicionado ao tipo do método para retornar o status como _OK_.
-
-```
-// Exemplo de função de listagem na classe Controller
-    @GetMapping("/page")
-    public ResponseEntity<Page<CvDto>> findAllCvs(@RequestParam(defaultValue = "") String name, Pageable pageable) {
-        Page<CvDto> page = cvServiceImpl.findAllCvs(name, pageable);
-        return ResponseEntity.ok(page);
-    }
-```
+| Tipo de Classe ou Interface | Declaração                                                                                       | Anotações                                     |
+|-----------------------------|--------------------------------------------------------------------------------------------------|-----------------------------------------------|
+| [Interface Repository]()    | `Page <EntityClass> findEntities (Pageable pageable, String atr);`                               | @Query                                        | 
+| [Interface Service]()       | `Page <DtoClass> findEntities (Pageable pageable, String atr);`                                  |                                               |
+| [Classe ServiceImpl]()      | `Page <DtoClass> findEntities (Pageable pageable, String atr){}`                                 | @Override<br/>@Transactional(readOnly = true) |
+| [Classe Controller]()       | `Page <DtoClass> findEntities (Pageable pageable, @RequestParams(defaultValue="") String atr){}` | @GetMapping                                   |
 
 <br/>
 
 - #### FindById
+
+| Tipo de Classe ou Interface | Declaração                                                                                       | Anotações                                     |
+|-----------------------------|--------------------------------------------------------------------------------------------------|-----------------------------------------------|
+| [Interface Repository]()    | `Page <EntityClass> findEntities (Pageable pageable, String atr);`                               | @Query                                        | 
+| [Interface Service]()       | `Page <DtoClass> findEntities (Pageable pageable, String atr);`                                  |                                               |
+| [Classe ServiceImpl]()      | `Page <DtoClass> findEntities (Pageable pageable, String atr){}`                                 | @Override<br/>@Transactional(readOnly = true) |
+| [Classe Controller]()       | `Page <DtoClass> findEntities (Pageable pageable, @RequestParams(defaultValue="") String atr){}` | @GetMapping                                   |
+
 
 A função _findById_ em uma interface _Service_ terá como tipo uma classe _Dto_ e terá um parâmetro de busca que será
 um `Long id`.
@@ -423,6 +343,14 @@ um `ResponseEntity<>` poderá ser adicionado ao tipo do método para retornar o 
 <br/>
 
 - #### Save
+
+| Tipo de Classe ou Interface | Declaração                                                                                       | Anotações                                     |
+|-----------------------------|--------------------------------------------------------------------------------------------------|-----------------------------------------------|
+| [Interface Repository]()    | `Page <EntityClass> findEntities (Pageable pageable, String atr);`                               | @Query                                        | 
+| [Interface Service]()       | `Page <DtoClass> findEntities (Pageable pageable, String atr);`                                  |                                               |
+| [Classe ServiceImpl]()      | `Page <DtoClass> findEntities (Pageable pageable, String atr){}`                                 | @Override<br/>@Transactional(readOnly = true) |
+| [Classe Controller]()       | `Page <DtoClass> findEntities (Pageable pageable, @RequestParams(defaultValue="") String atr){}` | @GetMapping                                   |
+
 
 A função _save_ em uma interface _Service_ terá como tipo e como parâmetro uma classe _Dto_.
 
@@ -471,6 +399,14 @@ poderá ser adicionado para indicar o _body_ e retornar o status como _CREATE_.
 
 - ##### Update
 
+| Tipo de Classe ou Interface | Declaração                                                                                       | Anotações                                     |
+|-----------------------------|--------------------------------------------------------------------------------------------------|-----------------------------------------------|
+| [Interface Repository]()    | `Page <EntityClass> findEntities (Pageable pageable, String atr);`                               | @Query                                        | 
+| [Interface Service]()       | `Page <DtoClass> findEntities (Pageable pageable, String atr);`                                  |                                               |
+| [Classe ServiceImpl]()      | `Page <DtoClass> findEntities (Pageable pageable, String atr){}`                                 | @Override<br/>@Transactional(readOnly = true) |
+| [Classe Controller]()       | `Page <DtoClass> findEntities (Pageable pageable, @RequestParams(defaultValue="") String atr){}` | @GetMapping                                   |
+
+
 A função _update_ em uma interface _Service_ terá como tipo e como parâmetro uma classe _Dto_.
 
 ```
@@ -515,6 +451,14 @@ poderá ser adicionado para indicar o _body_ e retornar o status como _OK_.
 
 - ##### Delete
 
+| Tipo de Classe ou Interface | Declaração                                                                                       | Anotações                                     |
+|-----------------------------|--------------------------------------------------------------------------------------------------|-----------------------------------------------|
+| [Interface Repository]()    | `Page <EntityClass> findEntities (Pageable pageable, String atr);`                               | @Query                                        | 
+| [Interface Service]()       | `Page <DtoClass> findEntities (Pageable pageable, String atr);`                                  |                                               |
+| [Classe ServiceImpl]()      | `Page <DtoClass> findEntities (Pageable pageable, String atr){}`                                 | @Override<br/>@Transactional(readOnly = true) |
+| [Classe Controller]()       | `Page <DtoClass> findEntities (Pageable pageable, @RequestParams(defaultValue="") String atr){}` | @GetMapping                                   |
+
+
 O procedimento _delete_ em uma interface _Service_ será do tipo _void_ e terá um parâmetro de busca que será
 um `Long id`.
 
@@ -554,34 +498,23 @@ diretamente na solicitação, a função também irá chamar o método da interf
 
 - #### Manipulação de dados com H2
 
-Através do banco de dados H2 incorporado no projeto, será possível visualizar e manipular dados presentes nos _scripts_
-do arquivo `application-test.properties`, assim como também será possível utilizar a interface gráfica do banco. Para
-ter acesso ao H2 será preciso executar a aplicação através do botão _Run_ e logo em seguida acessar no navegador a
-url: `http://localhost:8080/h2-console` referente a página de login e nesta página serão solicitado os dados de login
-definidos no arquivo do H2 como pode ser visto na figura abaixo.
+    * visualizar e manipular dados presentes nos _scripts_
+do arquivo `application-test.properties` 
+    * interface gráfica no navegador a url: `http://localhost:8080/h2-console`
 
-![H2 Login](https://github.com/Henri-BS/gerenciador-curriculo/blob/main/images/h2_login.png)
-
-Com a conexão estabelecida, a página será redirecionada para a interface principal do H2 que é constituída pelas
-informações de esquema do banco de dados que ficam no lado esquerdo, a caixa de texto para as instruções ao centro e
-logo abaixo a área dos resultados. Com isso banco H2 poderá ser utilizado para receber instruções SQL e apresentar os
-resultados, para fazer uma instrução do tipo `SELECT` e visualizar os registros de uma tabela como mostrado na próxima
-figura, pode-se escrever a instrução `SELECT * FROM tb_name;` na caixa de texto ou simplesmente clicar numa tabela
-específica na aba de esquemas.
-
-![H2 Select](https://github.com/Henri-BS/gerenciador-curriculo/blob/main/images/h2_select.png)
-
-O h2 também permite a criação de um novo registro, que poderá ser feita através do comando `INSERT INTO`, ao inserir um
+    * ![H2 Login](https://github.com/Henri-BS/pasifcode-docs/base-project/blob/main/images/h2-login.png)
+    * instrução do tipo `SELECT` e visualizar os registros de uma tabela
+    * ![H2 Select](https://github.com/Henri-BS/pasifcode-docs/base-project/blob/main/images/h2-select.png)
+    * criação de um novo registro através do comando `INSERT INTO`, ao inserir um
 novo registro o banco de dados informará sobre a condição da inserção com uma mensagem.
-
-![H2 Insert](https://github.com/Henri-BS/gerenciador-curriculo/blob/main/images/h2_insert.png)
+    * ![H2 Insert](https://github.com/Henri-BS/pasifcode-docs/base-project/blob/main/images/h2-insert.png)
 
 - #### Teste de Requisições
 
-A plaraforma de API Postman poderá ser usada para de testar as requisições da aplicação, na plataforma poderá ser feita
-a criação de _collectitons_ que irão agregar as requisições que poderão ser organizadas em pastas.
+    * plaraforma de API Postman para o teste as requisições
+    * requições organizadas em coleções e pastas
 
-![Postman Folder](https://github.com/Henri-BS/gerenciador-curriculo/blob/main/images/postman-folder.png)
+![Postman Folder](https://github.com/Henri-BS/pasifcode-docs/base-project/blob/main/images/postman-folder.png)
 
 Para testar uma requisição será necessário selecionar o tipo e adicionar a URL, numa requisição do tipo _GET_ deve-se
 adicionar a URL que corresponde a operação criada no Backend e mapeada através da camada de _Controller_, ou seja,
@@ -590,323 +523,114 @@ pode-se incluir parâmetros de busca na url. Feito isso, o postman retornará o 
 do tipo _DELETE_ segue o mesmo processo, mas retornar apenas o _status_. Abaixo um exemplo de uma requisição para buscar
 todos currículos.
 
-![Postman FindAll Function](https://github.com/Henri-BS/gerenciador-curriculo/blob/main/images/postman-all.png)
+![Postman FindAll Function](https://github.com/Henri-BS/pasifcode-docs/base-project/blob/main/images/postman-all.png)
 
-Em requisições do tipo _POST_ ou _PUT_ o processo será semelhante ao que foi visto anteriormente, porem será preciso
-selecionar a opção _Body_ no menu opções e logo em seguida selecionar o tipo de texto _raw_ de depois o formato de envio
-que no caso será JSON. Com isso será possível escrever a requisição na caixa de texto abaixo do menu de opções e ao
-enviar a requisição irá retornar uma resposta em JSON, em requisições do tipo _PUT_ será preciso incluir o id entre os
-atributos. Abaixo um exemplo de uma requisição para salvar um novo currículo.
+* em requisições do tipo _POST_ ou _PUT_ seleciona-se a opção _Body_ no menu opções 
+* tipo de texto _raw_ e o formato JSON 
 
-![Postman Save Function](https://github.com/Henri-BS/gerenciador-curriculo/blob/main/images/postman-save.png)
+![Postman Save Function](https://github.com/Henri-BS/pasifcode-docs/base-project/blob/main/images/postman-save.png)
 
 ## Programação Frontend
 
-### [Requests](https://github.com/Henri-BS/gerenciador-curriculo/blob/main/frontend/src/utils/requests.tsx)
+### [Requests](https://github.com/Henri-BS/pasifcode-docs/base-project/blob/main/frontend/src/utils/requests.tsx)
 
-Para que a camada de Frontend possa encontrar a camada de Backend é necessário criar um arquivo que será nomeado de
-_requests.ts_, neste arquivo irá conter o caminho para o Backend que se chamará `BASE_URL` que poderá ser apenas a url
-do localhost ou um operador de coalescência nula para indicar outra localidade de acesso ao Backend como visto no código
-abaixo.  
+**o componente request permite que a camada de Frontend possa encontrar a camada de Backend através do arquivo _requests.ts_**, 
+* criar caminho para o Backend chamado `BASE_URL` 
+* incluir a url do localhost 
+* incluir operador de coalescência nula para indicar outra localidade 
+
 `export const BASE_URL = process.env.REACT_APP_BACKEND_URL ?? "http://localhost:8080";`
 
-### [Types](https://github.com/Henri-BS/gerenciador-curriculo/blob/main/frontend/src/types)
+### [Types](https://github.com/Henri-BS/pasifcode-docs/base-project/blob/main/frontend/src/types)
 
-Com a `BASE_URL` já criada, as _types_ poderão ser implementadas no TypeScript para definir os tipos de dados contidos
-nas requisições, as _types_ poderão representar objetos, coleções ou parêmtros e irão conter os atributos
-correspondentes aos do Backend como pode ser visto no exemplo abaixo das _types_ relacionadas ao currículo.
+* incluir _type_ para represetar objetos
+* incluir _type_ para representarem coleções paginadas
+* incluir _type_ para representar parâmetros
 
-```
-export type Cv = {
-    id: number;
-    name: string;
-    jobTitle: string;
-    description: string;
-    image: string;
-    phone: string;
-    location: string;
-    email: string;
-}
-```
 
 <br/>
 
 ### Componentes
 
-- #### [Card](https://github.com/Henri-BS/gerenciador-curriculo/blob/main/frontend/src/components/cards)
+#### [Card](https://github.com/Henri-BS/pasifcode-docs/base-project/blob/main/frontend/src/components/cards)
 
-O componente _card_ será usado como um "cartão" que irá conter informações sobre determinado conteúdo, neste projeto
-será usado o modelo de _card_ do Bootstrap, assim como alguns cards também serão personalizados através do arquivo
-_card.css_. Os componentes de _cards_ também poderão ter _types_ para receber os dados necessários como pode ser visto
-no exemplo abaixo.
-
-```
-export function CvCard({ cv }: CvProps) {
-
-    return (
-        <>
-            <Link to={`/cv/${cv.id}`} className="text-decoration-none">
-                <div className="card-md-container shadow-purple">
-                    <nav className="card-md-title">
-                        <h3>{cv.name}</h3>
-                        <img src={cv.image} alt="cv-image" />
-                    </nav>                    
-                    <p className="card-md-content">{cv.jobTitle}</p>
-                    <ul className="card-md-list">
-                        <li className="card-md-item "><i className="fa fa-phone" />
-                            <p className="card-md-content">{cv.phone}</p>
-                        </li>
-                        <li className="card-md-item "><i className="fa fa-envelope" />
-                            <p className="card-md-content">{cv.email}</p>
-                        </li>
-                        <li className="card-md-item"><i className="fa fa-map-marker" />
-                            <p className="card-md-content">{cv.location}</p>
-                        </li>
-                    </ul>
-                </div>
-            </Link>
-        </>
-    );
-}
-```
+**O componente _card_ será usado como um "cartão" que irá conter informações sobre determinado conteúdo**
+* criar modelo de _card_ do Bootstrap ou _cards_ personalizados através do arquivo _card.css_ 
+* incluir _types_ para receber os dados necessários
 
 <br/>
 
-- #### [Form](https://github.com/Henri-BS/gerenciador-curriculo/blob/main/frontend/src/components/forms)
+#### [Form](https://github.com/Henri-BS/pasifcode-docs/base-project/blob/main/frontend/src/components/forms)
 
-Para a implementação dos formulários, deverá ser acrescentada as configurações da biblioteca Axios no componente _form_,
-na função do componente será preciso cria uma _Arrow Function_ chamada `handleSubmit` que será responsável por criar um
-evento de submissão no formulário, dentro desta função deverá ser incluso constantes referente a cada atributo contido
-na _type_ que será referenciada no formulário, além disso, também deve haver uma _const_ do tipo AxiosRequestConfig que
-irá conter as propriedades necessárias para uma requisição sendo elas: **baseUrl** que terá a url configurada no
-arquivo _requests.ts_, **method** que definirá o método HTTP usado, **url** que será o caminho da função mapeada na
-camada _Controller_ e **data** que irá corresponder aos dados presentes na _request_. E por fim um será feita uma
-chamada do método _axios_ para receber as configurações definidas anteriormente, dentro deste método é possível inserir
-uma constante para navegação de páginas da biblioteca React Routes como pode ser visto neste exemplo de um formulário
-para a adição de um novo currículo.
+**O componente _form_ irá permitir que a submição se dados seja feita**
+  * criação uma _Arrow Function_ chamada `handleSubmit` que fará evento de submissão no formulário
+  * incluir constantes no `handleSubmit` referente a cada atributo da _type_ referenciada 
+  * criar uma _const_ do tipo `AxiosRequestConfig` para as propriedades requisição sendo elas: 
+    - **baseUrl** que terá a url configurada no arquivo _requests.ts_ 
+    - **method** que definirá o método HTTP usado
+    - **url** que será o caminho da função mapeada na
+    camada _Controller_ 
+    - **data** que irá corresponder aos dados presentes na _request_. 
+  * chamar do método _axios_ para receber as configurações definidas anteriormente
+  * inserir uma constante para navegação de páginas da biblioteca React Routes
 
-```
- export function CvAddForm() {
-    const navigate = useNavigate();
-    const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-        const name = (event.target as any).name.value;
-        const jobTitle = (event.target as any).jobTitle.value;
-
-        const config: AxiosRequestConfig = {
-            baseURL: BASE_URL,
-            method: "POST",
-            url: "/cv/save",
-            data: {
-                name: name,
-                jobTitle: jobTitle
-            }
-        };
-        axios(config).then(response => {
-            navigate("/");
-        })
-    }
-     return (
-        <form className=" form-container m-0 row" onSubmit={handleSubmit}>
-
-            <div className="form-group col-6">
-                <label htmlFor="name">Nome Completo: </label>
-                <input type="text" className="form-control" id="name" />
-            </div>
-
-            <div className="form-group col-6">
-                    <label htmlFor="jobTitle">Cargo: </label>
-                    <input type="text" className="form-control" id="jobTitle"/>
-                </div>
-
-            <div className="modal-footer">
-                <button type="button" className="text-close" data-bs-dismiss="modal">cancelar</button>
-                <button type="submit" className="btn btn-success">Adicionar</button>
-            </div>
-        </form>
-    );
- }
-```
 
 <br/>
 
-- #### [Pagination](https://github.com/Henri-BS/gerenciador-curriculo/blob/main/frontend/src/components/shared/Pagination.tsx)
+#### [Pagination](https://github.com/Henri-BS/pasifcode-docs/base-project/blob/main/frontend/src/components/shared/Pagination.tsx)
 
-O componente de paginação será criado na pasta de componentes _shared_ com o nome de _pagination.tsx_ e este componente
-será responsável pela criação das propriedades de paginação utilizando o Bootstrap. A função terá de receber uma _type_
-um tipo que contenha no seu atributo _content_ as listas que serão paginadas e também terá um atributo de mudança entre
-páginas, o _pagination_ será composto por um botão para a página anterior, um botão para a próxima e também irá mostrar
-o número da atual como pode ser visto no código abaixo.
-
-```
-type PageProps = {
-    page: Page;
-    onPageChange: Function;
-}
-function Pagination({ page, onPageChange }: PageProps) {
-
-    return (
-        <nav>
-            <ul className="pagination">
-                <li className={`page-item ${page.first ? `disable` : ''}`}>
-                    <button className="page-link" onClick={() => onPageChange(page.number - 1)} aria-label="Previous">
-                        <span aria-hidden="true">&laquo;</span>
-                    </button>
-                </li>
-
-                <li className={"page-item"}>
-                    <span className="page-link no-hover">{page.number + 1} de {page.totalPages} </span>
-                    </li>
-
-                <li className={`page-item ${page.last ? `disabled` : ''}`}>
-                    <button className="page-link" onClick={() => onPageChange(page.number + 1)} aria-label="Next">
-                        <span aria-hidden="true">&raquo;</span>
-                    </button>
-                </li>
-            </ul>
-        </nav>
-    );
-}
-export default Pagination;
-```
-
+  * componente criado na pasta de componentes _shared_ com o nome de _pagination.tsx_ 
+  * recebe uma _type_ de Page com um atributo _content_ das listas que serão paginadas 
+  * recebe um atributo de mudança entre
+  páginas 
+  
 <br/>
 
 ### Páginas e Rotas
 
-- #### [List](https://github.com/Henri-BS/gerenciador-curriculo/blob/main/frontend/src/pages)
+#### [List](https://github.com/Henri-BS/pasifcode-docs/base-project/blob/main/frontend/src/pages)
 
-Para a criação de uma lista paginada com um mecanismo de busca deverá ser feita a inclusão três constantes com
-o `useState`, a primeira irá representar o número das páginas e a segunda constante representará o texto do parâmetro de
-busca e a terceira será dedicada a _type_ da lista. Também deverá ser criado um `useEffect` para permitir que o
-componente execute os efeitos necessários para a lista e para isso será necessário incluir um
-método `axios.get().then()` que receberá a `BASE_URL` sucedida da url correspondente a função estabelecida na camada
-de _Controller_, também deverão ser adicionados os parâmetros `pageNumber` e `value`, também será criada uma _const_
-chamada `handlePageChange` para definir as mudanças da página. No `return()` da função haverá a inclusão do botão para
-adicionar um novo elemento na lista, o componente com os botões de paginação, o mecanismo de busca, a lista paginada e
-o _modal_ do Bootstrap referente a adição de um novo conteúdo.
+  **implementação de uma lista paginada com um mecanismo de busca**
+  * criar uma constante para o número das páginas 
+  * criar uma constante representará o texto do parâmetro de busca 
+  * criar uma constante dedicada a _type_ da lista.
+  
+  ![List Consts]()
 
-```
-function CvList() {
-    const [value, setValue] = useState("");
-    const [pageNumber, setPageNumber] = useState(0);
-    const handlePageChange = (newPageNumber: number) => {
-        setPageNumber(newPageNumber);
-    }
+  * criação um `useEffect` para permitir que o
+  componente execute os efeitos necessários para a lista 
+  * inclusão do método `axios.get().then()` que receberá a `BASE_URL` 
+  * acrescentar url correspondente a função estabelecida na camada
+  de _Controller_
+  * adicionar os parâmetros `pageNumber` e `value`
+  * criar uma _const_ chamada `handlePageChange` para definir as mudanças da página
+  
+  ![ListUseEffect]()
+  
+  * incluir ao `return()` da função um botão para
+  adicionar um novo elemento na lista
+  * importar o componente _Pagnation_ para os botões de paginação, 
+  * o mecanismo de busca e a lista paginada 
+  * criar o _modal_ do Bootstrap referente a adição de um novo conteúdo.
 
-    const [cvPage, setCvPage] = useState<CvPage>({
-        content: [],
-        number: 0
-    });
-    useEffect(() => {
-        axios.get(`${BASE_URL}/cv/page?page=${pageNumber}&name=${value}&size=12`)
-            .then((response) => {
-                setCvPage(response.data);
-            });
-    }, [pageNumber, value]);
-
-    return (
-        <> 
-        <div className="container">
-                <nav className="navbar row m-0">
-                    <div className="col-12 col-md-4 col-xl-4 mb-2" >
-                        <button data-bs-target="#addCvModal" data-bs-toggle="modal" className="option-link"><i className="fa fa-plus" /> Novo Currículo</button>
-                    </div>
-                    <div className="col-12 col-md-4 col-xl-3 mt-2" >
-                        <Pagination page={cvPage} onPageChange={handlePageChange} />
-                    </div>
-                    <div className="col-12 col-md-4 col-xl-3 mb-2" >
-                        <div className="form-group">
-                            <input
-                                type="text"
-                                id="value"
-                                value={value}
-                                onChange={(e) => setValue(e.target.value)}
-                                className="form-control"
-                                placeholder="buscar currículos..."
-                            />
-                        </div>
-                    </div>
-                </nav >
-        
-                <div className="row">
-                    {cvPage.content?.filter((x) =>
-                        x.name.toUpperCase().includes(value.toLocaleUpperCase()))
-                        .map(x => (
-                            <div key={x.id} className="col-12 col-md-6 col-xl-4 mb-3">
-                                <CvCard cv={x} />
-                            </div>
-                        ))}
-                </div>
-            </div >
-            
-            <div className="modal fade" id="addCvModal" role={"dialog"}>
-                <div className="modal-dialog" role={"document"}>
-                    <div className="modal-content">
-                        <div className="modal-header">
-                            <label className="modal-title">Adicionar um novo currículo</label>
-                            <button className="close" data-bs-dismiss="modal" aria-label="Close">
-                                <span aria-hidden="true"><i className="fa fa-times" /></span>
-                            </button>
-                        </div>
-                        <div className="modal-body"><CvAddForm /></div>
-                    </div>
-                </div>
-            </div>
-        </>
-    );
-}
-export default CvList;
-```
+  ![List Reteurn]()
 
 <br/>
 
-- #### [Profile](https://github.com/Henri-BS/gerenciador-curriculo/blob/main/frontend/src/pages/CvProfile.tsx)
-
-O componente Profile irá agregar outros componentes para criar um perfil específico, os componentes também irão possuir
-um parâmetro de uma constante com o `useParams` do React Routes para indicar o _id_ referente ao objeto do componente
-como visto a seguir no código do perfil de um currículo.
-
-```
-export function CvProfile() {
-    const params = useParams();
-
-    return (
-        <>
-            <div className="container">
-                <CvProfileCard id={`${params.cvId}`} />
-                <EducationListByCv id={`${params.cvId}`} />
-                <ExperienceListByCv id={`${params.cvId}`} />
-                <SectionListByCv id={`${params.cvId}`} />
-            </div>
-        </>
-    );
-}
-```
+#### [Profile](https://github.com/Henri-BS/pasifcode-docs/base-project/blob/main/frontend/src/pages/CvProfile.tsx)
+**componente Profile irá agregar outros componentes para criar um perfil específico**
+  * criar uma constante com o `useParams` do React Routes 
+  * inclur o _id_ referente ao objeto do componente como parâmetro
 
 <br/>
 
-- #### [Routes](https://github.com/Henri-BS/gerenciador-curriculo/blob/main/frontend/src/routes/PageRoutes.tsx)
+#### [Routes](https://github.com/Henri-BS/pasifcode-docs/base-project/blob/main/frontend/src/routes/PageRoutes.tsx)
+**A interação entre as páginas poderá ser feita através das configurações com o React Routes** 
+  * incluir as _tags_ `<BrowserRoutes>` e `<Routes>` para agregar todas as rotas 
+  * incluir a _tag_ `<Route>` para agragrar rotas específicas
+  * adicionar url no atributo `path` 
+  * adicionar o componente no atributo `element` 
+  * criar sub-rotas interna para relacionar um _path_ a um _id_.
 
-A interação entre as páginas poderá ser feita através das configurações com o React Routes presentes no arquivo _
-PageRoutes.tsx_, as _tags_ `<BrowserRoutes>` e `<Routes>` irão agregar as rotas e cada uma estará contida na
-_tag_ `<Route>` do React Routes. As _tags_ possuem o atributo `path` para adicionar a url e o atributo `element` que
-conterá o componente. Também é possível ter uma sub-rota interna com um _path_ relacionado a um _id_.
-
-```
-function PageRoutes() {
-    return (
-        <BrowserRouter>
-            <Routes>
-                <Route path="/" element={<CvList />} />
-                <Route path="/cv" >
-                    <Route path=":cvId" element={<CvProfile />} />
-                </Route>
-            </Routes>
-        </BrowserRouter>
-    );
-}
-export default PageRoutes;
-```
 
 <br/>
-
