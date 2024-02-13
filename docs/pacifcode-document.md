@@ -1,6 +1,6 @@
 # Documentação de Padrões Spring React
 
-> Programação Web para Backend
+> Pasifcode
 
 ## Sumário
 
@@ -9,7 +9,7 @@
     * [Spring Initializr](#spring-initializr)
     * [IntelliJ](#intellij)
     * [Aplication Properties](#application-properties)
-    * [Aplication Properties](#application-properties)
+    * [Aplication Test Properties](#application-properties)
     * [Hierarqueria de Pastas do Backend](#hierarquia-de-pastas-do-backend)
 - [Estrutura do Frontend](#estrutura-do-frontend)
     * [ReactJs](#reactjs)
@@ -18,6 +18,7 @@
 - [Programação Backend](#programação-backend)
     * [Classes e Interfaces](#classes-e-interfaces)
         - [SecurityConfig](#security-config)
+        - [BaseEntity](#base-entity)
         - [Entity](#entity)
         - [DTO](#dto)
         - [Repository](#repository)
@@ -29,11 +30,9 @@
         - [Save](#save)
         - [Update](#update)
         - [Delete](#delete)
-
-* [H2 Database e Postman](#h2-database-e-postman)
-    - [Manipulação de Dados com H2](#manipulação-de-dados-com-h2)
+* [Teste de dados](#teste-de-dados)
+    - [Teste com H2 Database](#teste-com-h2-database)
     - [Teste de Requisições com Postman](#teste-de-requisições-com-postman)
-
 - [Programação Frontend](#programação-frontend)
     * [Requests](#requests)
     * [Types](#types)
@@ -98,9 +97,9 @@ spring.profiles.active=test
 spring.jpa.open-in-view=false
 ```
 
-### Application Test
+**Outros arquivos com o formato _properties_ irão representar perfis específicos como é o caso do `application-test.properties` e `application-dev.properties`**
 
-- arquivo com propriedades do banco de dados em memória
+* arquivo `application-test.properties` possui as propriedades do banco de dados em memória
 
 ```
 spring.datasource.url=jdbc:h2:mem:testdb
@@ -114,11 +113,7 @@ spring.jpa.show-sql=true
 spring.jpa.properties.hibernate.format_sql=true
 ```
 
-- ### Hierarquia de pastas do backend
-
-- organização baseada no padrão MVC, Repository e DTO
-- camadas estabelecidas: _config, entities, repositories, dto, controllers e services_
-- camada _service_ contém 2 sub-camadas _interf e impl_
+### Hierarquia de pastas do backend
 
 ![Backend Folders](https://github.com/Henri-BS/pasifcode-docs/base-project/blob/main/images/backend-folders.png)
 
@@ -267,252 +262,99 @@ e para instalar as bibliotecas do Frontend.
 
 ### Funções e Procedimentos
 
-As funções e procedimentos serão definidas em 4 camadas diferentes: _Repository_, _Service_, _ServiceImpl_ e _
-Controller_. O processo de construção das principais funções CRUD utilizadas no projeto será abordado com alguns
+As funções e procedimentos serão definidas em 4 camadas diferentes: _Repository_, _Service_, _ServiceImpl_ e 
+_Controller_. O processo de construção das principais funções CRUD utilizadas no projeto será abordado com alguns
 exemplos.
 
-- #### FindAll(Page)
+#### FindAll(Page)
 Funções do tipo _findAll_ irão retornar uma coleção de objetos  
 
-| Tipo de Classe ou Interface | Declaração                                                                                       | Anotações                                     | Retorno                         |
-|-----------------------------|--------------------------------------------------------------------------------------------------|-----------------------------------------------|---------------------------------|
-| [Interface Repository]()    | `Page <EntityClass> findEntities (Pageable pageable, String atr);`                               | @Query                                        |                                 |       
-| [Interface Service]()       | `Page <DtoClass> findEntities (Pageable pageable, String atr);`                                  |                                               |                                 |
-| [Classe ServiceImpl]()      | `Page <DtoClass> findEntities (Pageable pageable, String atr){}`                                 | @Override<br/>@Transactional(readOnly = true) | return find.map(CvDto::new);    |
-| [Classe Controller]()       | `Page <DtoClass> findEntities (Pageable pageable, @RequestParams(defaultValue="") String atr){}` | @GetMapping                                   | return ResponseEntity.ok(page); |
+| Tipo de Classe ou Interface   | Declaração                                                                                       | Anotações                                     | Retorno                         |
+|-------------------------------|--------------------------------------------------------------------------------------------------|-----------------------------------------------|---------------------------------|
+| [FindAll(Page) Repository]()  | `Page <EntityClass> findEntities (Pageable pageable, String atr);`                               | @Query                                        |                                 |       
+| [FindAll(Page) Service]()     | `Page <DtoClass> findEntities (Pageable pageable, String atr);`                                  |                                               |                                 |
+| [FindAll(Page) ServiceImpl]() | `Page <DtoClass> findEntities (Pageable pageable, String atr){}`                                 | @Override<br/>@Transactional(readOnly = true) | return find.map(CvDto::new);    |
+| [FindAll(Page) Controller]()  | `Page <DtoClass> findEntities (Pageable pageable, @RequestParams(defaultValue="") String atr){}` | @GetMapping                                   | return ResponseEntity.ok(page); |
 
 <br/>
 
-- #### FindAll(List)
+#### FindAll(List)
 
-| Tipo de Classe ou Interface | Declaração                                                                                       | Anotações                                     |
-|-----------------------------|--------------------------------------------------------------------------------------------------|-----------------------------------------------|
-| [Interface Repository]()    | `Page <EntityClass> findEntities (Pageable pageable, String atr);`                               | @Query                                        | 
-| [Interface Service]()       | `Page <DtoClass> findEntities (Pageable pageable, String atr);`                                  |                                               |
-| [Classe ServiceImpl]()      | `Page <DtoClass> findEntities (Pageable pageable, String atr){}`                                 | @Override<br/>@Transactional(readOnly = true) |
-| [Classe Controller]()       | `Page <DtoClass> findEntities (Pageable pageable, @RequestParams(defaultValue="") String atr){}` | @GetMapping                                   |
-
-<br/>
-
-- #### FindById
-
-| Tipo de Classe ou Interface | Declaração                                                                                       | Anotações                                     |
-|-----------------------------|--------------------------------------------------------------------------------------------------|-----------------------------------------------|
-| [Interface Repository]()    | `Page <EntityClass> findEntities (Pageable pageable, String atr);`                               | @Query                                        | 
-| [Interface Service]()       | `Page <DtoClass> findEntities (Pageable pageable, String atr);`                                  |                                               |
-| [Classe ServiceImpl]()      | `Page <DtoClass> findEntities (Pageable pageable, String atr){}`                                 | @Override<br/>@Transactional(readOnly = true) |
-| [Classe Controller]()       | `Page <DtoClass> findEntities (Pageable pageable, @RequestParams(defaultValue="") String atr){}` | @GetMapping                                   |
-
-
-A função _findById_ em uma interface _Service_ terá como tipo uma classe _Dto_ e terá um parâmetro de busca que será
-um `Long id`.
-
-```
-// Exemplo da função findById interface Service 
-    CvDto findById(Long id);
-```
-
-A função _findById_ em uma classe _ServiceImpl_ será implementada de sua interface _Service_ através da
-anotação `@Override` e a anotação `@Transactional(readOnly = true)` para definir a transação apenas como leitura, também
-irá chamar o método _findById_ da interface Repository.
-
-```
-// Exemplo da função findById na classe ServiceImpl
-    @Override
-    @Transactional(readOnly = true)
-    public CvDto findById(Long id) {
-        Cv find = cvRepository.findById(id).orElseThrow();
-        return new CvDto(find);
-    }
-```
-
-A função _findById_ em uma classe _Controller_ deverá conter a anotação `@GetMapping` com o atributo _name_ para mapear
-a solicitação como _GET_, no parâmetro `Long id` deve ser adicionado a anotação `@PathVariable` para incluir o _id_
-diretamente na solicitação, a função também irá chamar o método da interface _Service_ para usar como argumento,
-um `ResponseEntity<>` poderá ser adicionado ao tipo do método para retornar o status como _OK_.
-
-```
-// Exemplo da função findById na classe Controller
-    @GetMapping("/{id}")
-    public ResponseEntity<CvDto> findById(@PathVariable Long id) {
-        CvDto find = cvServiceImpl.findById(id);
-        return ResponseEntity.ok(find);
-    }
-```
+| Tipo de Camada da Função       | Declaração                           | Anotações                                     |
+|--------------------------------|--------------------------------------|-----------------------------------------------|
+| [FindAll(List) Service]()      | `List<DtoClass> findEntities ();`    |                                               |
+| [FindAll(List) ServiceImpl]()  | `List<DtoClass> findEntities (){}`   | @Override<br/>@Transactional(readOnly = true) |
+| [FindAll(List) Controller]()   | `List<DtoClass> findEntities (){}`   | @GetMapping                                   |
 
 <br/>
 
-- #### Save
+#### FindById
 
-| Tipo de Classe ou Interface | Declaração                                                                                       | Anotações                                     |
-|-----------------------------|--------------------------------------------------------------------------------------------------|-----------------------------------------------|
-| [Interface Repository]()    | `Page <EntityClass> findEntities (Pageable pageable, String atr);`                               | @Query                                        | 
-| [Interface Service]()       | `Page <DtoClass> findEntities (Pageable pageable, String atr);`                                  |                                               |
-| [Classe ServiceImpl]()      | `Page <DtoClass> findEntities (Pageable pageable, String atr){}`                                 | @Override<br/>@Transactional(readOnly = true) |
-| [Classe Controller]()       | `Page <DtoClass> findEntities (Pageable pageable, @RequestParams(defaultValue="") String atr){}` | @GetMapping                                   |
+| Tipo de Camada da Função | Declaração                                            | Anotações                                     |
+|--------------------------|-------------------------------------------------------|-----------------------------------------------|
+| [FindById Service]()     | `DtoClass findEntityById (Long id);`                  |                                               |
+| [FindById ServiceImpl]() | `DtoClass findEntityById (Long id){}`                 | @Override<br/>@Transactional(readOnly = true) |
+| [FindById Controller]()  | `DtoClass findEntityById (@PathVariable Long id){}`   | @GetMapping                                   |
 
 
-A função _save_ em uma interface _Service_ terá como tipo e como parâmetro uma classe _Dto_.
+<br/>
 
-```
-// Exemplo da função save na interface Service 
-        CvDto saveCv(CvDto dto);
-```
+#### Save
 
 A função _save_ em uma classe do tipo _ServiceImpl_ será implementada de sua interface _Service_ através da
 anotação `@Override`, e criará uma nova instância com os métodos _setters_ de uma respectiva classe _Entity_ junto com
 os métodos _getters_ de uma classe _Dto_ correspondente como argumento.
 
-```
-// Exemplo da função save na classe ServiceImpl 
-    @Override
-    public CvDto saveCv(CvDto dto) {
-        Cv add = new Cv();
-        add.setId(dto.getId());
-        add.setName(dto.getName());
-        add.setJobTitle(dto.getJobTitle());
-        add.setImage(dto.getImage());
-        add.setPhone(dto.getPhone());
-        add.setEmail(dto.getEmail());
-        add.setLocation(dto.getLocation());
-        add.setDescription(dto.getDescription());
-
-        return new CvDto(cvRepository.saveAndFlush(add));
-    }
-```
-
-A função _save_ em uma classe _Controller_ deverá conter a anotação `@PostMapping` com o atributo _name_ para mapear a
-solicitação como _POST_, no parâmetro `Dto dto` deve ser adicionado a anotação `@RequestBody` para indicar o corpo da
-requisição, a função também irá chamar o método da interface _Service_ para usar como argumento e um `ResponseEntity<>`
-poderá ser adicionado para indicar o _body_ e retornar o status como _CREATE_.
-
-```
-// Exemplo da função save na classe Controller
-    @PostMapping("/save")
-    public ResponseEntity<CvDto> saveCv(@RequestBody CvDto dto) {
-        CvDto add = cvServiceImpl.saveCv(dto);
-        return new ResponseEntity<>(add, HttpStatus.CREATED);
-    }
-```
+| Tipo de Camada da Função    | Declaração                                                | Anotações    |
+|-----------------------------|-----------------------------------------------------------|--------------|
+| [Save Service]()            | `Dto saveEntity (Dto dto);`                               |              |
+| [Save ServiceImpl]()        | `Dto saveEntity (Dto dto){}`                              | @Override    |
+| [Save Controller]()         | `ResponseEntity<Dto> saveEntity (@RequestBody Dto dto){}` | @PostMapping |
 
 <br/>
 
-- ##### Update
+#### Update
 
-| Tipo de Classe ou Interface | Declaração                                                                                       | Anotações                                     |
-|-----------------------------|--------------------------------------------------------------------------------------------------|-----------------------------------------------|
-| [Interface Repository]()    | `Page <EntityClass> findEntities (Pageable pageable, String atr);`                               | @Query                                        | 
-| [Interface Service]()       | `Page <DtoClass> findEntities (Pageable pageable, String atr);`                                  |                                               |
-| [Classe ServiceImpl]()      | `Page <DtoClass> findEntities (Pageable pageable, String atr){}`                                 | @Override<br/>@Transactional(readOnly = true) |
-| [Classe Controller]()       | `Page <DtoClass> findEntities (Pageable pageable, @RequestParams(defaultValue="") String atr){}` | @GetMapping                                   |
-
-
-A função _update_ em uma interface _Service_ terá como tipo e como parâmetro uma classe _Dto_.
-
-```
-// Exemplo da função save na interface Service 
-    CvDto updateCv(CvDto dto);
-```
-
-A função _update_ em uma classe _ServiceImpl_ será implementada de sua interface _Service_ correspondente através da
-anotação `@Override`, e receberá os métodos _setters_ de uma respectiva classe _Entity_ com os métodos _
-getters_ de uma classe _Dto_ correspondente como argumento.
-
-```
-// Exemplo da função update na classe ServiceImpl 
-    @Override
-    public CvDto updateCv(CvDto dto) {
-        Cv edit = cvRepository.findById(dto.getId()).orElseThrow();
-        edit.setId(edit.getId());
-        edit.setName(dto.getName());
-        edit.setJobTitle(dto.getJobTitle());
-        edit.setImage(dto.getImage());
-        edit.setPhone(dto.getPhone());
-        edit.setEmail(dto.getEmail());
-        edit.setLocation(dto.getLocation());
-
-        return new CvDto(cvRepository.save(edit));
-    }
-```
-
-A função _update_ em uma classe _Controller_ deverá conter a anotação `@PutMapping` com o atributo _name_ para mapear a
-solicitação como _PUT_, no parâmetro `Dto dto` deve ser adicionado a anotação `@RequestBody` para indicar o corpo da
-requisição, a função também irá chamar o método da interface _Service_ para usar como argumento e um `ResponseEntity<>`
-poderá ser adicionado para indicar o _body_ e retornar o status como _OK_.
-
-```
-// Exemplo da função save na classe Controller
-    @PutMapping("/update")
-    public ResponseEntity<CvDto> updateCv(@RequestBody CvDto dto) {
-        CvDto edit = cvServiceImpl.updateCv(dto);
-        return new ResponseEntity<>(edit, HttpStatus.OK);
-    }
-```
-
-- ##### Delete
-
-| Tipo de Classe ou Interface | Declaração                                                                                       | Anotações                                     |
-|-----------------------------|--------------------------------------------------------------------------------------------------|-----------------------------------------------|
-| [Interface Repository]()    | `Page <EntityClass> findEntities (Pageable pageable, String atr);`                               | @Query                                        | 
-| [Interface Service]()       | `Page <DtoClass> findEntities (Pageable pageable, String atr);`                                  |                                               |
-| [Classe ServiceImpl]()      | `Page <DtoClass> findEntities (Pageable pageable, String atr){}`                                 | @Override<br/>@Transactional(readOnly = true) |
-| [Classe Controller]()       | `Page <DtoClass> findEntities (Pageable pageable, @RequestParams(defaultValue="") String atr){}` | @GetMapping                                   |
-
-
-O procedimento _delete_ em uma interface _Service_ será do tipo _void_ e terá um parâmetro de busca que será
-um `Long id`.
-
-```
-// Exemplo do procedimento delete interface Service 
-    void deleteCv(Long id);
-```
-
-O procedimento _delete_ em uma classe _ServiceImpl será implementado de sua interface _Service_ através da
-anotação `@Override` e terá como argumento o método _deleteById_ da interface _Repository_.
-
-```
-// Exemplo do procedimento delete na classe ServiceImpl
-    @Override
-    public void deleteCv(Long id) {
-        this.cvRepository.deleteById(id);
-    }
-```
-
-A função _delete_ em uma classe _Controller_ deverá conter a anotação `@DeleteMapping` com o atributo _name_ para mapear
-a solicitação como _DELETE_ e também a anotação `@ResponseStatus` que irá mostrar o status da requisição, no
-parâmetro `Long id` deve ser adicionado a anotação `@PathVariable` para incluir o _id_
-diretamente na solicitação, a função também irá chamar o método da interface _Service_ para usar como argumento.
-
-```
-// Exemplo do procedimento delete na classe Controller
-    @DeleteMapping("/delete/{id}")
-    @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void deleteCv(@PathVariable Long id) {
-        this.cvServiceImpl.deleteCv(id);
-    }
-```
+| Tipo de Camada da Função | Declaração                                                  | Anotações   |
+|--------------------------|-------------------------------------------------------------|-------------|
+| [Update Service]()       | `Dto updateEntity (Dto dto);`                               |             |
+| [Update ServiceImpl]()   | `Dto updateEntity (Dto dto){}`                              | @Override   |
+| [Update Controller]()    | `ResponseEntity<Dto> updateEntity (@RequestBody Dto dto){}` | @PutMapping |
 
 <br/>
 
-### H2 Database e Postman
+#### Delete
 
-- #### Manipulação de dados com H2
+| Tipo de Camada da Função | Declaração                                    | Anotações                          |
+|--------------------------|-----------------------------------------------|------------------------------------|
+| [Delete - Service]()     | `void deleteEntity (Dto dto);`                |                                    |
+| [Delete - ServiceImpl]() | `void deleteEntity (Dto dto){}`               | @Override                          |
+| [Delete - Controller]()  | `void deleteEntity (@PathVariable Long id){}` | @DeleteMapping<br/>@ResponseStatus |
 
-    * visualizar e manipular dados presentes nos _scripts_
+<br/>
+
+### Teste de Dados
+
+#### Teste com H2 Database
+
+* visualizar e manipular dados presentes nos _scripts_
 do arquivo `application-test.properties` 
-    * interface gráfica no navegador a url: `http://localhost:8080/h2-console`
+* interface gráfica no navegador a url: `http://localhost:8080/h2-console`
 
-    * ![H2 Login](https://github.com/Henri-BS/pasifcode-docs/base-project/blob/main/images/h2-login.png)
-    * instrução do tipo `SELECT` e visualizar os registros de uma tabela
-    * ![H2 Select](https://github.com/Henri-BS/pasifcode-docs/base-project/blob/main/images/h2-select.png)
-    * criação de um novo registro através do comando `INSERT INTO`, ao inserir um
+![H2 Login](https://github.com/Henri-BS/pasifcode-docs/base-project/blob/main/images/h2-login.png)
+
+* instrução do tipo `SELECT` e visualizar os registros de uma tabela
+
+![H2 Select](https://github.com/Henri-BS/pasifcode-docs/base-project/blob/main/images/h2-select.png)
+
+* criação de um novo registro através do comando `INSERT INTO`, ao inserir um
 novo registro o banco de dados informará sobre a condição da inserção com uma mensagem.
-    * ![H2 Insert](https://github.com/Henri-BS/pasifcode-docs/base-project/blob/main/images/h2-insert.png)
+![H2 Insert](https://github.com/Henri-BS/pasifcode-docs/base-project/blob/main/images/h2-insert.png)
 
-- #### Teste de Requisições
+#### Teste de requisições com Postman
 
-    * plaraforma de API Postman para o teste as requisições
-    * requições organizadas em coleções e pastas
+* plaraforma de API Postman para o teste as requisições
+ * requições organizadas em coleções e pastas
 
 ![Postman Folder](https://github.com/Henri-BS/pasifcode-docs/base-project/blob/main/images/postman-folder.png)
 
