@@ -180,7 +180,7 @@ e para instalar as bibliotecas do Frontend.
 
     * configurações de segurança do Spring
     * anotações `@Configuration` e `@EnableWebSecurity`
-    * método `configure` para a proteção dos _endpoints_ com HTTP básico
+    * método `filterChain` para a proteção dos _endpoints_ com HTTP básico
     * método `corsConfigurationSource` para configurar o CORS padrão do Spring
 
 ![Security Config](https://github.com/Henri-BS/pasifcode-docs/base-project/blob/main/images/security-config.png)
