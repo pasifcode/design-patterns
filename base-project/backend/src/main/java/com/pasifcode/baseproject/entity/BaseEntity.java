@@ -1,7 +1,9 @@
-package com.pasifcode.baseproject.entities;
+package com.pasifcode.baseproject.entity;
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.springframework.data.annotation.CreatedBy;
 import org.springframework.data.annotation.CreatedDate;
@@ -13,6 +15,8 @@ import java.time.LocalDate;
 
 @Getter
 @Setter
+@NoArgsConstructor
+@AllArgsConstructor
 @MappedSuperclass
 public abstract class BaseEntity implements Serializable {
 
@@ -30,7 +34,7 @@ public abstract class BaseEntity implements Serializable {
 
     @LastModifiedDate
     @Column(name = "last_modified_date")
-    private String lastModifiedDate;
+    private LocalDate lastModifiedDate;
 
     @LastModifiedBy
     @Column(name = "last_modified_by")
