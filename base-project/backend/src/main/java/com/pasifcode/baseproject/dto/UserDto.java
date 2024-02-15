@@ -3,12 +3,16 @@ package com.pasifcode.baseproject.dto;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.pasifcode.baseproject.entity.User;
 import lombok.Data;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import java.io.Serial;
 import java.io.Serializable;
 import java.time.LocalDate;
 
-@Data
+
+@Getter
+@NoArgsConstructor
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class UserDto implements Serializable {
 
