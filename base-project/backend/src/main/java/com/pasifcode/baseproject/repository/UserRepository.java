@@ -10,6 +10,6 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface UserRepository extends JpaRepository<User, Long> {
     @Query("SELECT obj FROM User obj WHERE UPPER(obj.username)" +
-            " LIKE UPPER(?1) ORDER BY obj.username")
+            " LIKE UPPER(CONCAT('%', ?1, '%')) ORDER BY obj.username")
     Page<User> findUsers(String username, Pageable pageable);
 }

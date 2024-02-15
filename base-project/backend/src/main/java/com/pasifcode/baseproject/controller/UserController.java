@@ -17,7 +17,7 @@ public class UserController {
     private UserService userService;
 
     @GetMapping("/page")
-    ResponseEntity<Page<UserDto>> findUsers(String username, Pageable pageable) {
+    ResponseEntity<Page<UserDto>> findUsers(@RequestParam(defaultValue = "") String username, Pageable pageable) {
         Page<UserDto> find = userService.findUsers(username, pageable);
         return ResponseEntity.ok(find);
     }

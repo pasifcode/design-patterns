@@ -12,6 +12,7 @@
     * [Aplication Test Properties](#application-properties)
     * [Hierarqueria de Pastas do Backend](#hierarquia-de-pastas-do-backend)
 - [Estrutura do Frontend](#estrutura-do-frontend)
+    * [VS Code](#vs-code)
     * [ReactJs](#reactjs)
     * [CSS](#css)
     * [Hierarqueria de Pastas do Frontend](#hierarquia-de-pastas-do-fronten)
@@ -90,7 +91,7 @@ deesenvolvimento de componentes, páginas e estilização no Frontend com React.
 
 ### Application Properties
 
-- adicionar propriedade de ativar perfil
+* o arquivo `application.properties` adicionar propriedade para ativar um perfil
 
 ```
 spring.profiles.active=test
@@ -99,7 +100,7 @@ spring.jpa.open-in-view=false
 
 **Outros arquivos com o formato _properties_ irão representar perfis específicos como é o caso do `application-test.properties` e `application-dev.properties`**
 
-* arquivo `application-test.properties` possui as propriedades do banco de dados em memória
+* o arquivo `application-test.properties` possui as propriedades do banco de dados em memória
 
 ```
 spring.datasource.url=jdbc:h2:mem:testdb
@@ -130,7 +131,7 @@ spring.jpa.properties.hibernate.format_sql=true
 | Requisições              | [Axios](https://axios-http.com/docs/intro)                         |
 | Roteamento               | [React Router](https://create-react-app.dev/docs/adding-a-router/) |
 
-### IntelliJ
+### VS Code
 
 - codificação da camada frontend
 
@@ -149,7 +150,7 @@ spring.jpa.properties.hibernate.format_sql=true
 - nomear o app para 'frontend'
 - adicionar a propriedade ``"baseUrl": "./src"`` em _tsconfig.json_
 
-A tabela com sequência de comandos no terminal [Git Bash](https://git-scm.com/download/win). para criar o projeto React
+Tabela com sequência de comandos no terminal [Git Bash](https://git-scm.com/download/win). para criar o projeto React
 e para instalar as bibliotecas do Frontend.
 
 | Ação                                                | Comando                                              |
@@ -266,70 +267,56 @@ As funções e procedimentos serão definidas em 4 camadas diferentes: _Reposito
 _Controller_. O processo de construção das principais funções CRUD utilizadas no projeto será abordado com alguns
 exemplos.
 
-#### FindAll(Page)
+#### FindAll
 Funções do tipo _findAll_ irão retornar uma coleção de objetos  
 
-| Tipo de Classe ou Interface   | Declaração                                                                                       | Anotações                                     | Retorno                         |
-|-------------------------------|--------------------------------------------------------------------------------------------------|-----------------------------------------------|---------------------------------|
-| [FindAll(Page) Repository]()  | `Page <EntityClass> findEntities (Pageable pageable, String atr);`                               | @Query                                        |                                 |       
-| [FindAll(Page) Service]()     | `Page <DtoClass> findEntities (Pageable pageable, String atr);`                                  |                                               |                                 |
-| [FindAll(Page) ServiceImpl]() | `Page <DtoClass> findEntities (Pageable pageable, String atr){}`                                 | @Override<br/>@Transactional(readOnly = true) | return find.map(CvDto::new);    |
-| [FindAll(Page) Controller]()  | `Page <DtoClass> findEntities (Pageable pageable, @RequestParams(defaultValue="") String atr){}` | @GetMapping                                   | return ResponseEntity.ok(page); |
-
-<br/>
-
-#### FindAll(List)
-
-| Tipo de Camada da Função       | Declaração                           | Anotações                                     |
-|--------------------------------|--------------------------------------|-----------------------------------------------|
-| [FindAll(List) Service]()      | `List<DtoClass> findEntities ();`    |                                               |
-| [FindAll(List) ServiceImpl]()  | `List<DtoClass> findEntities (){}`   | @Override<br/>@Transactional(readOnly = true) |
-| [FindAll(List) Controller]()   | `List<DtoClass> findEntities (){}`   | @GetMapping                                   |
+| Tipo de Classe ou Interface                                                                                                                                                                                                | Declaração                                                                                                 | Anotações                                     | Retorno                         |
+|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|------------------------------------------------------------------------------------------------------------|-----------------------------------------------|---------------------------------|
+| [FindAll(Page) - Repository](https://github.com/Henri-BS/pasifcode-docs/blob/3ffb118cf3d034ad38482b3fd4b0391717816307/base-project/backend/src/main/java/com/pasifcode/baseproject/repository/UserRepository.java#L14)     | `Page<Entity> findEntities (Pageable pageable, String atr);`                                               | @Query                                        |                                 |       
+| [FindAll(Page) - Service](https://github.com/Henri-BS/pasifcode-docs/blob/3ffb118cf3d034ad38482b3fd4b0391717816307/base-project/backend/src/main/java/com/pasifcode/baseproject/service/interf/UserService.java#L8)        | `Page<Dto> findEntities (Pageable pageable, String atr);`                                                  |                                               |                                 |
+| [FindAll(Page) - ServiceImpl](https://github.com/Henri-BS/pasifcode-docs/blob/3ffb118cf3d034ad38482b3fd4b0391717816307/base-project/backend/src/main/java/com/pasifcode/baseproject/service/impl/UserServiceImpl.java#L22) | `Page<Dto> findEntities (Pageable pageable, String atr){}`                                                 | @Override<br/>@Transactional(readOnly = true) | return find.map(CvDto::new);    |
+| [FindAll(Page) - Controller](https://github.com/Henri-BS/pasifcode-docs/blob/main/base-project/backend/src/main/java/com/pasifcode/baseproject/controller/UserController.java#L20)                                         | `ResponseEntity<Page<Dto>> findEntities (Pageable pageable, @RequestParams(defaultValue="") String atr){}` | @GetMapping                                   | return ResponseEntity.ok(page); |
 
 <br/>
 
 #### FindById
 
-| Tipo de Camada da Função | Declaração                                            | Anotações                                     |
-|--------------------------|-------------------------------------------------------|-----------------------------------------------|
-| [FindById Service]()     | `DtoClass findEntityById (Long id);`                  |                                               |
-| [FindById ServiceImpl]() | `DtoClass findEntityById (Long id){}`                 | @Override<br/>@Transactional(readOnly = true) |
-| [FindById Controller]()  | `DtoClass findEntityById (@PathVariable Long id){}`   | @GetMapping                                   |
+| Tipo de Camada da Função                                                                                                                                                                                              | Declaração                                                      | Anotações                                     |
+|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|-----------------------------------------------------------------|-----------------------------------------------|
+| [FindById - Service](https://github.com/Henri-BS/pasifcode-docs/blob/3ffb118cf3d034ad38482b3fd4b0391717816307/base-project/backend/src/main/java/com/pasifcode/baseproject/service/interf/UserService.java#L10)       | `Dto findEntityById (Long id);`                                 |                                               |
+| [FindById - ServiceImpl](https://github.com/Henri-BS/pasifcode-docs/blob/3ffb118cf3d034ad38482b3fd4b0391717816307/base-project/backend/src/main/java/com/pasifcode/baseproject/service/impl/UserServiceImpl.java#L29) | `Dto findEntityById (Long id){}`                                | @Override<br/>@Transactional(readOnly = true) |
+| [FindById - Controller](https://github.com/Henri-BS/pasifcode-docs/blob/main/base-project/backend/src/main/java/com/pasifcode/baseproject/controller/UserController.java#L26)                                         | `ResponseEntity<Dto> findEntityById (@PathVariable Long id){}`  | @GetMapping                                   |
 
 
 <br/>
 
 #### Save
 
-A função _save_ em uma classe do tipo _ServiceImpl_ será implementada de sua interface _Service_ através da
-anotação `@Override`, e criará uma nova instância com os métodos _setters_ de uma respectiva classe _Entity_ junto com
-os métodos _getters_ de uma classe _Dto_ correspondente como argumento.
-
-| Tipo de Camada da Função    | Declaração                                                | Anotações    |
-|-----------------------------|-----------------------------------------------------------|--------------|
-| [Save Service]()            | `Dto saveEntity (Dto dto);`                               |              |
-| [Save ServiceImpl]()        | `Dto saveEntity (Dto dto){}`                              | @Override    |
-| [Save Controller]()         | `ResponseEntity<Dto> saveEntity (@RequestBody Dto dto){}` | @PostMapping |
+| Tipo de Camada da Função                                                                                                                                                                                          | Declaração                                                    | Anotações    |
+|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|---------------------------------------------------------------|--------------|
+| [Save - Service](https://github.com/Henri-BS/pasifcode-docs/blob/3ffb118cf3d034ad38482b3fd4b0391717816307/base-project/backend/src/main/java/com/pasifcode/baseproject/service/interf/UserService.java#L12)       | `Dto saveEntity (Dto dto);`                                   |              |
+| [Save - ServiceImpl](https://github.com/Henri-BS/pasifcode-docs/blob/3ffb118cf3d034ad38482b3fd4b0391717816307/base-project/backend/src/main/java/com/pasifcode/baseproject/service/impl/UserServiceImpl.java#L35) | `Dto saveEntity (Dto dto){}`                                  | @Override    |
+| [Save - Controller](https://github.com/Henri-BS/pasifcode-docs/blob/main/base-project/backend/src/main/java/com/pasifcode/baseproject/controller/UserController.java#L32)                                         | `ResponseEntity<Dto> saveEntity (@RequestBody Dto dto){}`     | @PostMapping |
 
 <br/>
 
 #### Update
 
-| Tipo de Camada da Função | Declaração                                                  | Anotações   |
-|--------------------------|-------------------------------------------------------------|-------------|
-| [Update Service]()       | `Dto updateEntity (Dto dto);`                               |             |
-| [Update ServiceImpl]()   | `Dto updateEntity (Dto dto){}`                              | @Override   |
-| [Update Controller]()    | `ResponseEntity<Dto> updateEntity (@RequestBody Dto dto){}` | @PutMapping |
+| Tipo de Camada da Função                                                                                                                                                                                            | Declaração                                                  | Anotações   |
+|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|-------------------------------------------------------------|-------------|
+| [Update - Service](https://github.com/Henri-BS/pasifcode-docs/blob/3ffb118cf3d034ad38482b3fd4b0391717816307/base-project/backend/src/main/java/com/pasifcode/baseproject/service/interf/UserService.java#L14)       | `Dto updateEntity (Dto dto);`                               |             |
+| [Update - ServiceImpl](https://github.com/Henri-BS/pasifcode-docs/blob/3ffb118cf3d034ad38482b3fd4b0391717816307/base-project/backend/src/main/java/com/pasifcode/baseproject/service/impl/UserServiceImpl.java#L44) | `Dto updateEntity (Dto dto){}`                              | @Override   |
+| [Update - Controller](https://github.com/Henri-BS/pasifcode-docs/blob/main/base-project/backend/src/main/java/com/pasifcode/baseproject/controller/UserController.java#L38)                                         | `ResponseEntity<Dto> updateEntity (@RequestBody Dto dto){}` | @PutMapping |
 
 <br/>
 
 #### Delete
 
-| Tipo de Camada da Função | Declaração                                    | Anotações                          |
-|--------------------------|-----------------------------------------------|------------------------------------|
-| [Delete - Service]()     | `void deleteEntity (Dto dto);`                |                                    |
-| [Delete - ServiceImpl]() | `void deleteEntity (Dto dto){}`               | @Override                          |
-| [Delete - Controller]()  | `void deleteEntity (@PathVariable Long id){}` | @DeleteMapping<br/>@ResponseStatus |
+| Tipo de Camada da Função                                                                                                                                                                                            | Declaração                                    | Anotações                          |
+|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|-----------------------------------------------|------------------------------------|
+| [Delete - Service](https://github.com/Henri-BS/pasifcode-docs/blob/3ffb118cf3d034ad38482b3fd4b0391717816307/base-project/backend/src/main/java/com/pasifcode/baseproject/service/interf/UserService.java#L16)       | `void deleteEntity (Long id);`                |                                    |
+| [Delete - ServiceImpl](https://github.com/Henri-BS/pasifcode-docs/blob/3ffb118cf3d034ad38482b3fd4b0391717816307/base-project/backend/src/main/java/com/pasifcode/baseproject/service/impl/UserServiceImpl.java#L54) | `void deleteEntity (Long id){}`               | @Override                          |
+| [Delete - Controller](https://github.com/Henri-BS/pasifcode-docs/blob/main/base-project/backend/src/main/java/com/pasifcode/baseproject/controller/UserController.java#L45)                                         | `void deleteEntity (@PathVariable Long id){}` | @DeleteMapping<br/>@ResponseStatus |
 
 <br/>
 
@@ -337,8 +324,7 @@ os métodos _getters_ de uma classe _Dto_ correspondente como argumento.
 
 #### Teste com H2 Database
 
-* visualizar e manipular dados presentes nos _scripts_
-do arquivo `application-test.properties` 
+* visualizar e manipular dados presentes nos _scripts_ do arquivo `application-test.properties` 
 * interface gráfica no navegador a url: `http://localhost:8080/h2-console`
 
 ![H2 Login](https://github.com/Henri-BS/pasifcode-docs/base-project/blob/main/images/h2-login.png)
@@ -358,17 +344,18 @@ novo registro o banco de dados informará sobre a condição da inserção com u
 
 ![Postman Folder](https://github.com/Henri-BS/pasifcode-docs/base-project/blob/main/images/postman-folder.png)
 
-Para testar uma requisição será necessário selecionar o tipo e adicionar a URL, numa requisição do tipo _GET_ deve-se
-adicionar a URL que corresponde a operação criada no Backend e mapeada através da camada de _Controller_, ou seja,
-deverá ser adicionado o valor atributo _name_ contida na anotação do tipo _Mapping_ da função, caso necessário também
-pode-se incluir parâmetros de busca na url. Feito isso, o postman retornará o resultado em formato JSON, uma requisição
-do tipo _DELETE_ segue o mesmo processo, mas retornar apenas o _status_. Abaixo um exemplo de uma requisição para buscar
-todos currículos.
+**requisições do tipo _GET_ ou _DELETE_**
+* adicionar a URL que corresponde a operação criada no Backend e mapeada através da camada de _Controller_
+* incluir parâmetros de busca na url caso necessário. 
+* postman retornará o resultado em formato JSON
 
 ![Postman FindAll Function](https://github.com/Henri-BS/pasifcode-docs/base-project/blob/main/images/postman-all.png)
 
-* em requisições do tipo _POST_ ou _PUT_ seleciona-se a opção _Body_ no menu opções 
-* tipo de texto _raw_ e o formato JSON 
+**requisições do tipo _POST_ ou _PUT_**
+* segue o mesmo processo de url e parâmetros das requisições _GET_ e _DELETE_
+* selecionar a opção _Body_ no menu opções 
+* incluir o tipo de texto _raw_ e o formato JSON
+* adicionar em formato JSON os atributos referentes ao objeto 
 
 ![Postman Save Function](https://github.com/Henri-BS/pasifcode-docs/base-project/blob/main/images/postman-save.png)
 
