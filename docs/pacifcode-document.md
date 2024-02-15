@@ -5,17 +5,17 @@
 ## Sumário
 
 - [Introdução](#introdução)
-- [Estrutura do Backend](#estrutura-do-backend)
+- [Configuração do Backend](#configuração-do-backend)
     * [Spring Initializr](#spring-initializr)
     * [IntelliJ](#intellij)
     * [Aplication Properties](#application-properties)
     * [Aplication Test Properties](#application-properties)
-    * [Hierarqueria de Pastas do Backend](#hierarquia-de-pastas-do-backend)
-- [Estrutura do Frontend](#estrutura-do-frontend)
+    * [Estrutura do Backend](#estrutura-do-backend)
+- [Configuração do Frontend](#configuração-do-frontend)
     * [VS Code](#vs-code)
     * [ReactJs](#reactjs)
     * [CSS](#css)
-    * [Hierarqueria de Pastas do Frontend](#hierarquia-de-pastas-do-fronten)
+    * [Estrutura do Frontend](#estrutura-do-frontend)
 - [Programação Backend](#programação-backend)
     * [Classes e Interfaces](#classes-e-interfaces)
         - [SecurityConfig](#security-config)
@@ -53,21 +53,21 @@ organização Pasifcode. No decorrer do texto serão apresentadas as configuraç
 padrões para o desenvolvimento de camadas, classes, interfaces e funções no Backend com Spring, e também o
 deesenvolvimento de componentes, páginas e estilização no Frontend com React.
 
-## [Estrutura do Backend](https://github.com/Henri-BS/gerenciador-curriculo/tree/main/backend)
+## [Configuração do Backend](https://github.com/Henri-BS/gerenciador-curriculo/tree/main/backend)
 
-| Ferramentas do Backend         | Nome                                                                                  |
-|--------------------------------|---------------------------------------------------------------------------------------|
-| Linguagem de Programação       | [Java](https://docs.oracle.com/en/java/javase/17/)                                    |
-| IDE                            | [IntelliJ Idea](https://www.jetbrains.com/idea/)                                      |
-| Build                          | [Maven](https://maven.apache.org/)                                                    |
-| Framework                      | [Spring Boot](https://spring.io/projects/spring-boot)                                 |
-| Persistência                   | [Spring Data Jpa](https://spring.io/projects/spring-data-jpa)                         |
-| Ferramentas Web                | [Spring Web](https://docs.spring.io/spring-boot/docs/current/reference/html/web.html) |
-| Segurança                      | [Spring Security](https://spring.io/projects/spring-security)                         |
-| Banco de Dados em Memória      | [H2 Database](https://h2database.com/html/main.html)                                  |
-| Banco de Dados SQL             | [PostgreSQL]()                                                                        |
-| Automatização de Código        | [Lombok]()                                                                            |
-| Teste de Requisições           | [Postman]()                                                                           |
+| Ferramentas do Backend         | Nome                                                                                                            |
+|--------------------------------|-----------------------------------------------------------------------------------------------------------------|
+| Linguagem de Programação       | [Java](https://docs.oracle.com/en/java/javase/17/)                                                              |
+| IDE                            | [IntelliJ Idea](https://www.jetbrains.com/idea/)                                                                |
+| Build                          | [Maven](https://maven.apache.org/)                                                                              |
+| Framework                      | [Spring Boot](https://spring.io/projects/spring-boot)                                                           |
+| Persistência                   | [Spring Data Jpa](https://spring.io/projects/spring-data-jpa)                                                   |
+| Ferramentas Web                | [Spring Web](https://docs.spring.io/spring-boot/docs/current/reference/html/web.html)                           |
+| Segurança                      | [Spring Security](https://spring.io/projects/spring-security)                                                   |
+| Banco de Dados em Memória      | [H2 Database](https://h2database.com/html/main.html)                                                            |
+| Banco de Dados SQL             | [PostgreSQL](https://www.postgresql.org/)                                                                       |
+| Automatização de Código        | [Lombok](https://projectlombok.org/)                                                                            |
+| Teste de Requisições           | [Postman](https://www.postman.com/)                                                                             |
 
 ### Spring Initializr
 
@@ -114,11 +114,11 @@ spring.jpa.show-sql=true
 spring.jpa.properties.hibernate.format_sql=true
 ```
 
-### Hierarquia de pastas do backend
+### Estrutura do Backend
 
-![Backend Folders](https://github.com/Henri-BS/pasifcode-docs/base-project/blob/main/images/backend-folders.png)
+![Backend Folders](https://github.com/Henri-BS/pasifcode-docs/base-project/blob/main/docs/images/backend-folders.png)
 
-## [Estrutura do Frontend](https://github.com/Henri-BS/pasifcode-docs/base-project/tree/main/frontend)
+## [Configuração do Frontend](https://github.com/Henri-BS/pasifcode-docs/base-project/tree/main/frontend)
 
 | Ferramentas do Frontend  | Nome                                                               |
 |--------------------------|--------------------------------------------------------------------|
@@ -169,7 +169,7 @@ e para instalar as bibliotecas do Frontend.
 - inserir _imports_ dos arquivos CSS no arquivo _index.tsx_
 - inserir _imports_ do Bootstrap no CSS
 
-### Hierarquia de pastas do Frontend
+### Estrutura do Frontend
 
 ![Frontend Folders](https://github.com/Henri-BS/pasifcode-docs/base-project/blob/main/images/frontend-folders.png)
 
@@ -195,11 +195,11 @@ e para instalar as bibliotecas do Frontend.
     * atributos `createdDate` para a data de criação e `lastModifiedDate` para a data de atualização da Entidade
     * atributos `createdBy` para o criador original e `lastModifiedBy` para o
 
-![Base Entity](https://github.com/Henri-BS/pasifcode-docs/base-project/blob/main/images/base-entity.png)
+![Base Entity](https://github.com/Henri-BS/pasifcode-docs/base-project/blob/main/docs/images/base-entity.png)
 
 <br/>
 
-- #### [Entity](https://github.com/Henri-BS/pasifcode-docs/base-project/tree/main/backend/src/main/java/com/pasifcode/baseproject/entities)
+- #### [Entity](https://github.com/Henri-BS/pasifcode-docs/base-project/tree/main/backend/src/main/java/com/pasifcode/baseproject/entity)
 
     * classe correlacionada a uma tabela no banco de dados
     * estende a classe _BaseEntity_
@@ -207,7 +207,7 @@ e para instalar as bibliotecas do Frontend.
     * anotação `@Table(name = "tb_name")` para relacionar e nomear uma tabela.
     * `@Column` para personalizar as características dos atributos
 
-![Entity](https://github.com/HenriBS/pasifcode-docs/base-project/blob/main/images/entity.png)
+![Entity](https://github.com/HenriBS/pasifcode-docs/base-project/blob/main/docs/images/entity.png)
 
 <br/>
 
@@ -219,45 +219,45 @@ e para instalar as bibliotecas do Frontend.
     * anotação `@JsonIncluse` para ocultar dados nulos na requisição Json
     * construtor com os atibutos da classe _DTO_ recebendo os métodos _get_ da classe _Entity_ correspondente
 
-![DTO](https://github.com/Henri-BS/pasifcode-docs/base-project/blob/main/images/dto.png)
+![DTO](https://github.com/Henri-BS/pasifcode-docs/base-project/blob/main/docs/images/dto.png)
 
 <br/>
 
-- #### [Repository](https://github.com/Henri-BS/pasifcode-docs/base-project/tree/main/backend/src/main/java/com/pasifcode/baseproject/repositories)
+- #### [Repository](https://github.com/Henri-BS/pasifcode-docs/base-project/tree/main/backend/src/main/java/com/pasifcode/baseproject/repository)
 
     * anotação `@Repository` para definir como _Repository_
     * estende a interface `JpaRepository<Entity, Long>` para receber os métodos da JPA.
 
-![Repository](https://github.com/Henri-BS/pasifcode-docs/base-project/blob/main/images/repository.png)
+![Repository](https://github.com/Henri-BS/pasifcode-docs/base-project/blob/main/docs/images/repository.png)
 
 <br/>
 
-- #### [Service](https://github.com/Henri-BS/pasifcode-docs/base-project/tree/main/backend/src/main/java/com/pasifcode/baseproject/services/interf)
+- #### [Service](https://github.com/Henri-BS/pasifcode-docs/base-project/tree/main/backend/src/main/java/com/pasifcode/baseproject/service/interf)
 
     * camada para declarar funções da lógica de negócios
 
-![Service](https://github.com/Henri-BS/pasifcode-docs/base-project/blob/main/images/service.png)
+![Service](https://github.com/Henri-BS/pasifcode-docs/base-project/blob/main/docs/images/service.png)
 
 <br/>
 
-- #### [ServiceImpl](https://github.com/Henri-BS/pasifcode-docs/base-project/tree/main/backend/src/main/java/com/pasifcode/baseproject/services/impl)
+- #### [ServiceImpl](https://github.com/Henri-BS/pasifcode-docs/base-project/tree/main/backend/src/main/java/com/pasifcode/baseproject/service/impl)
 
     * camada de implementação dos métodos das suas respectivas interfaces
     * anotação `@Service` para definir como _Service_
     * anotação `@Transacitional` para declarar a semântica de transação
 
-![ServiceImpl](https://github.com/Henri-BS/pasifcode-docs/base-project/blob/main/images/service-impl.png)
+![ServiceImpl](https://github.com/Henri-BS/pasifcode-docs/base-project/blob/main/docs/images/service-impl.png)
 
 <br/>
 
-- #### [Controller](https://github.com/Henri-BS/gerenciador-curriculo/tree/main/backend/src/main/java/com/altercode/gerenciadorcurriculo/controllers)
+- #### [Controller](https://github.com/Henri-BS/gerenciador-curriculo/tree/main/backend/src/main/java/com/altercode/gerenciadorcurriculo/controller)
 
     * controlador da aplicação vom as nuances de persistência e o mapeamento de solicitações da Web
     * anotação `@RestContoller` para definir a classe como controlador
     * anotação `@RequestMapping` para mapear as solicitações
     * atributo do tipo interface `Service` para a chamada dos métodos definidos na camada `Service`.
 
-![ServiceImpl](https://github.com/Henri-BS/pasifcode-docs/base-project/blob/main/images/controller.png)
+![ServiceImpl](https://github.com/Henri-BS/pasifcode-docs/base-project/blob/main/docs/images/controller.png)
 
 <br/>
 
@@ -268,7 +268,11 @@ _Controller_. O processo de construção das principais funções CRUD utilizada
 exemplos.
 
 #### FindAll
-Funções do tipo _findAll_ irão retornar uma coleção de objetos  
+* retornam uma coleção de objetos
+* tipo `List<E>` para listas comuns 
+* tipo `Page<T>` para listas paginadas e parâmetro `Pageable pageable` possui métodos de paginação  
+---
+**Função _findAll_ do tipo Page em cada camada**
 
 | Tipo de Classe ou Interface                                                                                                                                                                                                | Declaração                                                                                                 | Anotações                                     | Retorno                         |
 |----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|------------------------------------------------------------------------------------------------------------|-----------------------------------------------|---------------------------------|
@@ -327,29 +331,27 @@ Funções do tipo _findAll_ irão retornar uma coleção de objetos
 * visualizar e manipular dados presentes nos _scripts_ do arquivo `application-test.properties` 
 * interface gráfica no navegador a url: `http://localhost:8080/h2-console`
 
-![H2 Login](https://github.com/Henri-BS/pasifcode-docs/base-project/blob/main/images/h2-login.png)
+![H2 Login](https://github.com/Henri-BS/pasifcode-docs/base-project/blob/main/docs/images/h2-login.png)
 
 * instrução do tipo `SELECT` e visualizar os registros de uma tabela
 
-![H2 Select](https://github.com/Henri-BS/pasifcode-docs/base-project/blob/main/images/h2-select.png)
+![H2 Select](https://github.com/Henri-BS/pasifcode-docs/base-project/blob/main/docs/images/h2-select.png)
 
 * criação de um novo registro através do comando `INSERT INTO`, ao inserir um
 novo registro o banco de dados informará sobre a condição da inserção com uma mensagem.
-![H2 Insert](https://github.com/Henri-BS/pasifcode-docs/base-project/blob/main/images/h2-insert.png)
+![H2 Insert](https://github.com/Henri-BS/pasifcode-docs/base-project/blob/main/docs/images/h2-insert.png)
 
 #### Teste de requisições com Postman
 
 * plaraforma de API Postman para o teste as requisições
  * requições organizadas em coleções e pastas
-
-![Postman Folder](https://github.com/Henri-BS/pasifcode-docs/base-project/blob/main/images/postman-folder.png)
-
+ 
 **requisições do tipo _GET_ ou _DELETE_**
 * adicionar a URL que corresponde a operação criada no Backend e mapeada através da camada de _Controller_
 * incluir parâmetros de busca na url caso necessário. 
 * postman retornará o resultado em formato JSON
 
-![Postman FindAll Function](https://github.com/Henri-BS/pasifcode-docs/base-project/blob/main/images/postman-all.png)
+![Postman FindAll Function](https://github.com/Henri-BS/pasifcode-docs/base-project/blob/main/docs/images/postman-all.png)
 
 **requisições do tipo _POST_ ou _PUT_**
 * segue o mesmo processo de url e parâmetros das requisições _GET_ e _DELETE_
@@ -357,7 +359,7 @@ novo registro o banco de dados informará sobre a condição da inserção com u
 * incluir o tipo de texto _raw_ e o formato JSON
 * adicionar em formato JSON os atributos referentes ao objeto 
 
-![Postman Save Function](https://github.com/Henri-BS/pasifcode-docs/base-project/blob/main/images/postman-save.png)
+![Postman Save Function](https://github.com/Henri-BS/pasifcode-docs/base-project/blob/main/docs/images/postman-save.png)
 
 ## Programação Frontend
 
