@@ -8,7 +8,7 @@
 - [Configuração do Backend](#configuração-do-backend)
     * [Spring Initializr](#spring-initializr)
     * [IntelliJ](#intellij)
-    * [Aplication Properties](#application-properties)
+    * [Resources](#resources)
     * [Aplication Test Properties](#application-properties)
     * [Estrutura do Backend](#estrutura-do-backend)
 - [Configuração do Frontend](#configuração-do-frontend)
@@ -89,18 +89,23 @@ deesenvolvimento de componentes, páginas e estilização no Frontend com React.
 | [JPA Buddy](https://plugins.jetbrains.com/plugin/15075-jpa-buddy)      |
 | [Wakatime](https://plugins.jetbrains.com/plugin/7425-wakatime)         |
 
-### Application Properties
+### [Resources](https://github.com/Henri-BS/pasifcode-docs/tree/main/base-project/backend/src/main/resources)
 
-* o arquivo `application.properties` adicionar propriedade para ativar um perfil
+* arquivos do formato _properties_ que irão representar os perfis
+* arquivo import.sql qu irá conter os scripts do banco de dados em memória 
+
+**application.properties** 
+* cria propriedade para ativar um perfil
 
 ```
 spring.profiles.active=test
 spring.jpa.open-in-view=false
 ```
 
-**Outros arquivos com o formato _properties_ irão representar perfis específicos como é o caso do `application-test.properties` e `application-dev.properties`**
+<br/>
 
-* o arquivo `application-test.properties` possui as propriedades do banco de dados em memória
+**application-test.properties** 
+* possui as propriedades do banco de dados em memória
 
 ```
 spring.datasource.url=jdbc:h2:mem:testdb
@@ -114,9 +119,28 @@ spring.jpa.show-sql=true
 spring.jpa.properties.hibernate.format_sql=true
 ```
 
+<br/>
+
+**application-dev.properties**
+* possui as propriedades do sistema banco de dados SQL
+
+```
+#spring.jpa.properties.javax.persistence.schema-generation.create-source=metadata
+#spring.jpa.properties.javax.persistence.schema-generation.scripts.action=create
+#spring.jpa.properties.javax.persistence.schema-generation.scripts.create-target=create.sql
+#spring.jpa.properties.hibernate.hbm2ddl.delimiter=;
+
+spring.datasource.url=jdbc:postgresql://localhost:5432/base-project
+spring.datasource.username=postgres
+spring.datasource.password=password
+
+spring.jpa.properties.hibernate.jdbc.lob.non_contextual_creation=true
+spring.jpa.hibernate.ddl-auto=none
+```
+
 ### Estrutura do Backend
 
-![Backend Folders](https://github.com/Henri-BS/pasifcode-docs/base-project/blob/main/docs/images/backend-folders.png)
+![Backend Folders](https://github.com/Henri-BS/pasifcode-docs/blob/main/docs/images/backend-folders.png)
 
 ## [Configuração do Frontend](https://github.com/Henri-BS/pasifcode-docs/base-project/tree/main/frontend)
 
@@ -171,7 +195,7 @@ e para instalar as bibliotecas do Frontend.
 
 ### Estrutura do Frontend
 
-![Frontend Folders](https://github.com/Henri-BS/pasifcode-docs/base-project/blob/main/images/frontend-folders.png)
+![Frontend Folders](https://github.com/Henri-BS/pasifcode-docs/blob/main/docs/images/frontend-folders.png)
 
 ## Programação Backend
 
@@ -184,7 +208,7 @@ e para instalar as bibliotecas do Frontend.
     * método `filterChain` para a proteção dos _endpoints_ com HTTP básico
     * método `corsConfigurationSource` para configurar o CORS padrão do Spring
 
-![Security Config](https://github.com/Henri-BS/pasifcode-docs/base-project/blob/main/images/security-config.png)
+![Security Config](https://github.com/Henri-BS/pasifcode-docs/base-project/blob/main/docs/images/security-config.png)
 
 <br/>
 
@@ -195,7 +219,7 @@ e para instalar as bibliotecas do Frontend.
     * atributos `createdDate` para a data de criação e `lastModifiedDate` para a data de atualização da Entidade
     * atributos `createdBy` para o criador original e `lastModifiedBy` para o
 
-![Base Entity](https://github.com/Henri-BS/pasifcode-docs/base-project/blob/main/docs/images/base-entity.png)
+![Base Entity](https://github.com/Henri-BS/pasifcode-docs/blob/main/docs/images/base-entity.png)
 
 <br/>
 
@@ -207,7 +231,16 @@ e para instalar as bibliotecas do Frontend.
     * anotação `@Table(name = "tb_name")` para relacionar e nomear uma tabela.
     * `@Column` para personalizar as características dos atributos
 
-![Entity](https://github.com/HenriBS/pasifcode-docs/base-project/blob/main/docs/images/entity.png)
+![Entity](https://github.com/HenriBS/pasifcode-docs/blob/main/docs/images/entity.png)
+
+<br/>
+
+- #### [Repository](https://github.com/Henri-BS/pasifcode-docs/base-project/tree/main/backend/src/main/java/com/pasifcode/baseproject/repository)
+
+    * anotação `@Repository` para definir como _Repository_
+    * estende a interface `JpaRepository<Entity, Long>` para receber os métodos da JPA.
+
+![Repository](https://github.com/Henri-BS/pasifcode-docs/blob/main/docs/images/repository.png)
 
 <br/>
 
@@ -219,24 +252,15 @@ e para instalar as bibliotecas do Frontend.
     * anotação `@JsonIncluse` para ocultar dados nulos na requisição Json
     * construtor com os atibutos da classe _DTO_ recebendo os métodos _get_ da classe _Entity_ correspondente
 
-![DTO](https://github.com/Henri-BS/pasifcode-docs/base-project/blob/main/docs/images/dto.png)
-
-<br/>
-
-- #### [Repository](https://github.com/Henri-BS/pasifcode-docs/base-project/tree/main/backend/src/main/java/com/pasifcode/baseproject/repository)
-
-    * anotação `@Repository` para definir como _Repository_
-    * estende a interface `JpaRepository<Entity, Long>` para receber os métodos da JPA.
-
-![Repository](https://github.com/Henri-BS/pasifcode-docs/base-project/blob/main/docs/images/repository.png)
+![DTO](https://github.com/Henri-BS/pasifcode-docs/blob/main/docs/images/dto.png)
 
 <br/>
 
 - #### [Service](https://github.com/Henri-BS/pasifcode-docs/base-project/tree/main/backend/src/main/java/com/pasifcode/baseproject/service/interf)
 
-    * camada para declarar funções da lógica de negócios
+    * camada para declararação de funções de lógica de negócios
 
-![Service](https://github.com/Henri-BS/pasifcode-docs/base-project/blob/main/docs/images/service.png)
+![Service](https://github.com/Henri-BS/pasifcode-docs/blob/main/docs/images/service.png)
 
 <br/>
 
@@ -246,7 +270,7 @@ e para instalar as bibliotecas do Frontend.
     * anotação `@Service` para definir como _Service_
     * anotação `@Transacitional` para declarar a semântica de transação
 
-![ServiceImpl](https://github.com/Henri-BS/pasifcode-docs/base-project/blob/main/docs/images/service-impl.png)
+![ServiceImpl](https://github.com/Henri-BS/pasifcode-docs/blob/main/docs/images/service-impl.png)
 
 <br/>
 
@@ -257,7 +281,7 @@ e para instalar as bibliotecas do Frontend.
     * anotação `@RequestMapping` para mapear as solicitações
     * atributo do tipo interface `Service` para a chamada dos métodos definidos na camada `Service`.
 
-![ServiceImpl](https://github.com/Henri-BS/pasifcode-docs/base-project/blob/main/docs/images/controller.png)
+![ServiceImpl](https://github.com/Henri-BS/pasifcode-docs/blob/main/docs/images/controller.png)
 
 <br/>
 
@@ -331,15 +355,15 @@ exemplos.
 * visualizar e manipular dados presentes nos _scripts_ do arquivo `application-test.properties` 
 * interface gráfica no navegador a url: `http://localhost:8080/h2-console`
 
-![H2 Login](https://github.com/Henri-BS/pasifcode-docs/base-project/blob/main/docs/images/h2-login.png)
+![H2 Login](https://github.com/Henri-BS/pasifcode-docs/blob/main/docs/images/h2-login.png)
 
 * instrução do tipo `SELECT` e visualizar os registros de uma tabela
 
-![H2 Select](https://github.com/Henri-BS/pasifcode-docs/base-project/blob/main/docs/images/h2-select.png)
+![H2 Select](https://github.com/Henri-BS/pasifcode-docs/blob/main/docs/images/h2-select.png)
 
 * criação de um novo registro através do comando `INSERT INTO`, ao inserir um
 novo registro o banco de dados informará sobre a condição da inserção com uma mensagem.
-![H2 Insert](https://github.com/Henri-BS/pasifcode-docs/base-project/blob/main/docs/images/h2-insert.png)
+![H2 Insert](https://github.com/Henri-BS/pasifcode-docs/blob/main/docs/images/h2-insert.png)
 
 #### Teste de requisições com Postman
 
@@ -351,7 +375,7 @@ novo registro o banco de dados informará sobre a condição da inserção com u
 * incluir parâmetros de busca na url caso necessário. 
 * postman retornará o resultado em formato JSON
 
-![Postman FindAll Function](https://github.com/Henri-BS/pasifcode-docs/base-project/blob/main/docs/images/postman-all.png)
+![Postman FindAll Function](https://github.com/Henri-BS/pasifcode-docs/blob/main/docs/images/postman-all.png)
 
 **requisições do tipo _POST_ ou _PUT_**
 * segue o mesmo processo de url e parâmetros das requisições _GET_ e _DELETE_
@@ -359,7 +383,7 @@ novo registro o banco de dados informará sobre a condição da inserção com u
 * incluir o tipo de texto _raw_ e o formato JSON
 * adicionar em formato JSON os atributos referentes ao objeto 
 
-![Postman Save Function](https://github.com/Henri-BS/pasifcode-docs/base-project/blob/main/docs/images/postman-save.png)
+![Postman Save Function](https://github.com/Henri-BS/pasifcode-docs/blob/main/docs/images/postman-save.png)
 
 ## Programação Frontend
 
