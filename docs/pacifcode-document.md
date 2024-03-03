@@ -201,41 +201,42 @@ e para instalar as bibliotecas do Frontend.
 
 ### Classes e Interfaces
 
-- #### [SecurityConfig](https://github.com/Henri-BS/pasifcode-docs/base-project/tree/main/backend/src/main/java/com/pasifcode/baseproject/config/SecurityConfig.java)
+#### [SecurityConfig](https://github.com/Henri-BS/pasifcode-docs/base-project/tree/main/backend/src/main/java/com/pasifcode/baseproject/config/SecurityConfig.java)
 
-    * configurações de segurança do Spring
-    * anotações `@Configuration` e `@EnableWebSecurity`
-    * método `filterChain` para a proteção dos _endpoints_ com HTTP básico
-    * método `corsConfigurationSource` para configurar o CORS padrão do Spring
+**configurações de segurança do Spring**
+* anotações `@Configuration` e `@EnableWebSecurity`
+* método `filterChain` para a proteção dos _endpoints_ com HTTP básico
+* método `corsConfigurationSource` para configurar o CORS padrão do Spring
 
-![Security Config](https://github.com/Henri-BS/pasifcode-docs/base-project/blob/main/docs/images/security-config.png)
+![Security Config](https://github.com/Henri-BS/pasifcode-docs/blob/main/docs/images/security-config.png)
 
 <br/>
 
-- #### [Base Entity](https://github.com/Henri-BS/pasifcode-docs/base-project/tree/main/backend/src/main/java/com/pasifcode/baseproject/entities/BaseEntity.java)
+#### [Base Entity](https://github.com/Henri-BS/pasifcode-docs/base-project/tree/main/backend/src/main/java/com/pasifcode/baseproject/entities/BaseEntity.java)
 
-    * classe abstrata com as propriedades básicas de uma Entidade correlacionada ao banco de dados
-    * atributo _id_ com as anotações `@Id` e `@GeneratedValue`
-    * atributos `createdDate` para a data de criação e `lastModifiedDate` para a data de atualização da Entidade
-    * atributos `createdBy` para o criador original e `lastModifiedBy` para o
+**classe abstrata com as propriedades básicas de uma Entidade correlacionada ao banco de dados**
+* atributo _id_ com as anotações `@Id` e `@GeneratedValue`
+* atributos `createdDate` para a data de criação e `lastModifiedDate` para a data de atualização da Entidade
+* atributos `createdBy` para o criador original e `lastModifiedBy` para o
 
 ![Base Entity](https://github.com/Henri-BS/pasifcode-docs/blob/main/docs/images/base-entity.png)
 
 <br/>
 
-- #### [Entity](https://github.com/Henri-BS/pasifcode-docs/base-project/tree/main/backend/src/main/java/com/pasifcode/baseproject/entity)
+#### [Entity](https://github.com/Henri-BS/pasifcode-docs/base-project/tree/main/backend/src/main/java/com/pasifcode/baseproject/entity)
 
-    * classe correlacionada a uma tabela no banco de dados
-    * estende a classe _BaseEntity_
-    * anotação `@Entity` para indicar entidade
-    * anotação `@Table(name = "tb_name")` para relacionar e nomear uma tabela.
-    * `@Column` para personalizar as características dos atributos
+**classe correlacionada a uma tabela no banco de dados através da ORM**
+* estende a classe _BaseEntity_
+* anotação `@Entity` para indicar entidade
+* anotação `@Table(name = "tb_name")` para relacionar e nomear uma tabela.
+* `@Column` para personalizar as características dos atributos
 
-![Entity](https://github.com/HenriBS/pasifcode-docs/blob/main/docs/images/entity.png)
+![Entity](https://github.com/Henri-BS/pasifcode-docs/blob/main/docs/images/entity.png)
 
 <br/>
 
-- #### [Repository](https://github.com/Henri-BS/pasifcode-docs/base-project/tree/main/backend/src/main/java/com/pasifcode/baseproject/repository)
+#### [Repository](https://github.com/Henri-BS/pasifcode-docs/base-project/tree/main/backend/src/main/java/com/pasifcode/baseproject/repository)
+**mediação entre o domínio e as camadas de mapeamento de dados**
 
     * anotação `@Repository` para definir como _Repository_
     * estende a interface `JpaRepository<Entity, Long>` para receber os métodos da JPA.
@@ -244,42 +245,44 @@ e para instalar as bibliotecas do Frontend.
 
 <br/>
 
-- #### [DTO](https://github.com/Henri-BS/pasifcode-docs/base-project/tree/main/backend/src/main/java/com/pasifcode/baseproject/dto)
+#### [DTO](https://github.com/Henri-BS/pasifcode-docs/base-project/tree/main/backend/src/main/java/com/pasifcode/baseproject/dto)
 
-    * transferir os dados entre os processos reduzindo o número de transações
-    * implementa a interface _Serializable_
-    * atibuto `serialVersionUID` para definir a versão e a anotação `@Serial` será inclusa no atributo de versão
-    * anotação `@JsonIncluse` para ocultar dados nulos na requisição Json
-    * construtor com os atibutos da classe _DTO_ recebendo os métodos _get_ da classe _Entity_ correspondente
+**transferir os dados entre os processos reduzindo o número de transações**
+
+* anotação `@JsonInclude` para ocultar dados nulos na requisição Json
+* anotações `@Getter` e `@NoArgsContructor` 
+* implementa a interface _Serializable_
+* atibuto `serialVersionUID` para definir a versão e a anotação `@Serial` será inclusa no atributo de versão
+* construtor com os atibutos da classe _DTO_ recebendo os métodos _get_ da classe _Entity_ correspondente
 
 ![DTO](https://github.com/Henri-BS/pasifcode-docs/blob/main/docs/images/dto.png)
 
 <br/>
 
-- #### [Service](https://github.com/Henri-BS/pasifcode-docs/base-project/tree/main/backend/src/main/java/com/pasifcode/baseproject/service/interf)
+#### [Service](https://github.com/Henri-BS/pasifcode-docs/base-project/tree/main/backend/src/main/java/com/pasifcode/baseproject/service/interf)
 
-    * camada para declararação de funções de lógica de negócios
+**camada para declararação de funções de lógica de negócios**
 
 ![Service](https://github.com/Henri-BS/pasifcode-docs/blob/main/docs/images/service.png)
 
 <br/>
 
-- #### [ServiceImpl](https://github.com/Henri-BS/pasifcode-docs/base-project/tree/main/backend/src/main/java/com/pasifcode/baseproject/service/impl)
+#### [ServiceImpl](https://github.com/Henri-BS/pasifcode-docs/base-project/tree/main/backend/src/main/java/com/pasifcode/baseproject/service/impl)
 
-    * camada de implementação dos métodos das suas respectivas interfaces
-    * anotação `@Service` para definir como _Service_
-    * anotação `@Transacitional` para declarar a semântica de transação
+* camada de implementação dos métodos das suas respectivas interfaces
+* anotação `@Service` para definir como _Service_
+* anotação `@Transacitional` para declarar a semântica de transação
 
 ![ServiceImpl](https://github.com/Henri-BS/pasifcode-docs/blob/main/docs/images/service-impl.png)
 
 <br/>
 
-- #### [Controller](https://github.com/Henri-BS/gerenciador-curriculo/tree/main/backend/src/main/java/com/altercode/gerenciadorcurriculo/controller)
+#### [Controller](https://github.com/Henri-BS/gerenciador-curriculo/tree/main/backend/src/main/java/com/altercode/gerenciadorcurriculo/controller)
 
-    * controlador da aplicação vom as nuances de persistência e o mapeamento de solicitações da Web
-    * anotação `@RestContoller` para definir a classe como controlador
-    * anotação `@RequestMapping` para mapear as solicitações
-    * atributo do tipo interface `Service` para a chamada dos métodos definidos na camada `Service`.
+* controlador da aplicação vom as nuances de persistência e o mapeamento de solicitações da Web
+* anotação `@RestContoller` para definir a classe como controlador
+* anotação `@RequestMapping` para mapear as solicitações
+* atributo do tipo interface `Service` para a chamada dos métodos definidos na camada `Service`.
 
 ![ServiceImpl](https://github.com/Henri-BS/pasifcode-docs/blob/main/docs/images/controller.png)
 

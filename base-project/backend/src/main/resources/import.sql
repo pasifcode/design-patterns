@@ -1,4 +1,6 @@
-INSERT INTO tb_user (email, username, password) VALUES ('jack@gmail.com', 'Jack', 'jack123');
-INSERT INTO tb_user (email, username, password) VALUES ('ryan@gmail.com', 'Ryan', 'ryan123');
-INSERT INTO tb_user (email, username, password) VALUES ('francis@gmail.com', 'Francis', 'francis123');
-INSERT INTO tb_user (email, username, password) VALUES ('Anny@gmail.com', 'Anny', 'anny123');
+INSERT INTO tb_departament (name, description) VALUES ('departamento 1', 'descrição do departamento 1');
+INSERT INTO tb_departament (name, description) VALUES ('departamento 2', 'descrição do departamento 2');
+INSERT INTO tb_people (name, age, departament_id) VALUES ('Jack', 27, 1);
+INSERT INTO tb_people (name, age, departament_id) VALUES ('Ryan', 17, 2);
+INSERT INTO tb_people (name, age) VALUES ('Francis', 32);
+INSERT INTO tb_people (name, age) VALUES ('Anna', 19);
