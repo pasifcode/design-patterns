@@ -19,8 +19,8 @@ public class PeopleServiceImpl implements PeopleService {
 
     @Override
     @Transactional(readOnly = true)
-    public Page<PeopleDto> findPeople(String username, Pageable pageable) {
-        Page<People> find = peopleRepository.findPeople(username, pageable);
+    public Page<PeopleDto> findPeople(String name, Pageable pageable) {
+        Page<People> find = peopleRepository.findPeople(name, pageable);
         return find.map(PeopleDto::new);
     }
 
@@ -34,7 +34,7 @@ public class PeopleServiceImpl implements PeopleService {
     @Override
     public PeopleDto savePeople(PeopleDto dto) {
         People add = new People();
-        add.setName(dto.getFirstName());
+        add.setName(dto.getName());
         add.setAge(dto.getAge());
         return new PeopleDto(peopleRepository.saveAndFlush(add));
     }
@@ -43,7 +43,7 @@ public class PeopleServiceImpl implements PeopleService {
     public PeopleDto updatePeople(PeopleDto dto) {
         People edit = peopleRepository.findById(dto.getId()).orElseThrow();
         edit.setId(edit.getId());
-        edit.setName(dto.getFirstName());
+        edit.setName(dto.getName());
         edit.setAge(dto.getAge());
         return new PeopleDto(peopleRepository.save(edit));
     }

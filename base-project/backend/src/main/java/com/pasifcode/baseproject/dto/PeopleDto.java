@@ -17,12 +17,12 @@ public class PeopleDto implements Serializable {
     private static final long serialVersionUID = 1L;
 
     private Long id;
-    private String firstName;
+    private String name;
     private Integer age;
 
     public PeopleDto(People entity) {
         id = entity.getId();
-        firstName = entity.getName();
+        name = entity.getName();
         age = entity.getAge();
     }
 }
