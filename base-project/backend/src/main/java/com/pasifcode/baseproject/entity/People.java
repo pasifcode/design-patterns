@@ -8,9 +8,15 @@ import java.time.Instant;
 @Getter
 @Setter
 @NoArgsConstructor
+@AllArgsConstructor
 @Entity
 @Table(name = "tb_people")
-public class People extends BaseEntity {
+public class People {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "people_id")
+    private Long id;
 
     @Column(name = "name", nullable = false, length = 80)
     private String name;
@@ -22,11 +28,7 @@ public class People extends BaseEntity {
     @JoinColumn(name = "departament_id")
     private Departament departament;
 
-    public People(Long id, Instant createdDate, String createdBy, Instant lastModifiedDate, String lastModifiedBy, String name, Integer age) {
-        super(id, createdDate, createdBy, lastModifiedDate, lastModifiedBy);
-        this.name = name;
-        this.age = age;
-    }
+
 }
 
 

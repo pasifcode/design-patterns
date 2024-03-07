@@ -210,29 +210,30 @@ e para instalar as bibliotecas do Frontend.
 
 ![Security Config](https://github.com/Henri-BS/pasifcode-docs/blob/main/docs/images/security-config.png)
 
-<br/>
-
-#### [Base Entity](https://github.com/Henri-BS/pasifcode-docs/base-project/tree/main/backend/src/main/java/com/pasifcode/baseproject/entities/BaseEntity.java)
-
-**classe abstrata com as propriedades básicas de uma Entidade correlacionada ao banco de dados**
-* atributo _id_ com as anotações `@Id` e `@GeneratedValue`
-* atributos `createdDate` para a data de criação e `lastModifiedDate` para a data de atualização da Entidade
-* atributos `createdBy` para o criador original e `lastModifiedBy` para o
-
-![Base Entity](https://github.com/Henri-BS/pasifcode-docs/blob/main/docs/images/base-entity.png)
 
 <br/>
 
 #### [Entity](https://github.com/Henri-BS/pasifcode-docs/base-project/tree/main/backend/src/main/java/com/pasifcode/baseproject/entity)
 
-**classe correlacionada a uma tabela no banco de dados através da ORM**
-* estende a classe _BaseEntity_
+**classe de entidade básica**
 * anotação `@Entity` para indicar entidade
+* atributo _id_ com as anotações `@Id` e `@GeneratedValue`
 * anotação `@Table(name = "tb_name")` para relacionar e nomear uma tabela.
 * `@Column` para personalizar as características dos atributos
 
 ![Entity](https://github.com/Henri-BS/pasifcode-docs/blob/main/docs/images/entity.png)
 
+<br/>
+
+#### [Base Entity](https://github.com/Henri-BS/pasifcode-docs/base-project/tree/main/backend/src/main/java/com/pasifcode/baseproject/entities/BaseEntity.java)
+
+**classe de entidade estendendo uma classe BaseEntity**
+* atributo _id_ com as anotações `@Id` e `@GeneratedValue`
+* atributos `createdDate` para a data de criação e `lastModifiedDate` para a data de atualização da Entidade
+* atributos `createdBy` para o criador original e `lastModifiedBy` para o
+
+![Base Entity](https://github.com/Henri-BS/pasifcode-docs/blob/main/docs/images/base-entity.png)
+![Base Entity Sub](https://github.com/Henri-BS/pasifcode-docs/blob/main/docs/images/base-entity-sub-class.png)
 <br/>
 
 #### [Repository](https://github.com/Henri-BS/pasifcode-docs/base-project/tree/main/backend/src/main/java/com/pasifcode/baseproject/repository)
