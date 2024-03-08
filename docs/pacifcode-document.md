@@ -1,4 +1,4 @@
-# Documentação de Padrões Spring React
+# Documentação de Padrões de Projeto
 
 > Pasifcode
 
@@ -19,7 +19,6 @@
 - [Programação Backend](#programação-backend)
     * [Classes e Interfaces](#classes-e-interfaces)
         - [SecurityConfig](#security-config)
-        - [BaseEntity](#base-entity)
         - [Entity](#entity)
         - [DTO](#dto)
         - [Repository](#repository)
@@ -203,7 +202,7 @@ e para instalar as bibliotecas do Frontend.
 
 #### [SecurityConfig](https://github.com/Henri-BS/pasifcode-docs/base-project/tree/main/backend/src/main/java/com/pasifcode/baseproject/config/SecurityConfig.java)
 
-**configurações de segurança do Spring**
+**Configuração básica de segurança do Spring para o acesso às requisições**
 * anotações `@Configuration` e `@EnableWebSecurity`
 * método `filterChain` para a proteção dos _endpoints_ com HTTP básico
 * método `corsConfigurationSource` para configurar o CORS padrão do Spring
@@ -215,7 +214,7 @@ e para instalar as bibliotecas do Frontend.
 
 #### [Entity](https://github.com/Henri-BS/pasifcode-docs/base-project/tree/main/backend/src/main/java/com/pasifcode/baseproject/entity)
 
-**classe de entidade básica**
+**A entidade possuirá uma conexão com uma tabela no banco de dados através da ORM**
 * anotação `@Entity` para indicar entidade
 * atributo _id_ com as anotações `@Id` e `@GeneratedValue`
 * anotação `@Table(name = "tb_name")` para relacionar e nomear uma tabela.
@@ -225,22 +224,10 @@ e para instalar as bibliotecas do Frontend.
 
 <br/>
 
-#### [Base Entity](https://github.com/Henri-BS/pasifcode-docs/base-project/tree/main/backend/src/main/java/com/pasifcode/baseproject/entities/BaseEntity.java)
-
-**classe de entidade estendendo uma classe BaseEntity**
-* atributo _id_ com as anotações `@Id` e `@GeneratedValue`
-* atributos `createdDate` para a data de criação e `lastModifiedDate` para a data de atualização da Entidade
-* atributos `createdBy` para o criador original e `lastModifiedBy` para o
-
-![Base Entity](https://github.com/Henri-BS/pasifcode-docs/blob/main/docs/images/base-entity.png)
-![Base Entity Sub](https://github.com/Henri-BS/pasifcode-docs/blob/main/docs/images/base-entity-sub-class.png)
-<br/>
-
 #### [Repository](https://github.com/Henri-BS/pasifcode-docs/base-project/tree/main/backend/src/main/java/com/pasifcode/baseproject/repository)
-**mediação entre o domínio e as camadas de mapeamento de dados**
-
-    * anotação `@Repository` para definir como _Repository_
-    * estende a interface `JpaRepository<Entity, Long>` para receber os métodos da JPA.
+**O reporitório irá entre o domínio e as camadas de mapeamento de dados**
+* anotação `@Repository` para definir como _Repository_
+* estende a interface `JpaRepository<Entity, Long>` para receber os métodos da JPA.
 
 ![Repository](https://github.com/Henri-BS/pasifcode-docs/blob/main/docs/images/repository.png)
 
@@ -248,8 +235,7 @@ e para instalar as bibliotecas do Frontend.
 
 #### [DTO](https://github.com/Henri-BS/pasifcode-docs/base-project/tree/main/backend/src/main/java/com/pasifcode/baseproject/dto)
 
-**transferir os dados entre os processos reduzindo o número de transações**
-
+**Realiza a transferência os dados entre os processos reduzindo o número de transações**
 * anotação `@JsonInclude` para ocultar dados nulos na requisição Json
 * anotações `@Getter` e `@NoArgsContructor` 
 * implementa a interface _Serializable_
@@ -262,7 +248,7 @@ e para instalar as bibliotecas do Frontend.
 
 #### [Service](https://github.com/Henri-BS/pasifcode-docs/base-project/tree/main/backend/src/main/java/com/pasifcode/baseproject/service/interf)
 
-**camada para declararação de funções de lógica de negócios**
+**Recebe a declararação de funções de lógica de negócios**
 
 ![Service](https://github.com/Henri-BS/pasifcode-docs/blob/main/docs/images/service.png)
 
@@ -270,7 +256,7 @@ e para instalar as bibliotecas do Frontend.
 
 #### [ServiceImpl](https://github.com/Henri-BS/pasifcode-docs/base-project/tree/main/backend/src/main/java/com/pasifcode/baseproject/service/impl)
 
-* camada de implementação dos métodos das suas respectivas interfaces
+**Implementa os métodos das suas respectivas interfaces do tipo Service**
 * anotação `@Service` para definir como _Service_
 * anotação `@Transacitional` para declarar a semântica de transação
 
@@ -280,7 +266,7 @@ e para instalar as bibliotecas do Frontend.
 
 #### [Controller](https://github.com/Henri-BS/gerenciador-curriculo/tree/main/backend/src/main/java/com/altercode/gerenciadorcurriculo/controller)
 
-* controlador da aplicação vom as nuances de persistência e o mapeamento de solicitações da Web
+**Controlador da aplicação com as nuances de persistência e o mapeamento de solicitações da Web**
 * anotação `@RestContoller` para definir a classe como controlador
 * anotação `@RequestMapping` para mapear as solicitações
 * atributo do tipo interface `Service` para a chamada dos métodos definidos na camada `Service`.
@@ -374,14 +360,14 @@ novo registro o banco de dados informará sobre a condição da inserção com u
 * plaraforma de API Postman para o teste as requisições
  * requições organizadas em coleções e pastas
  
-**requisições do tipo _GET_ ou _DELETE_**
+**Requisições do tipo _GET_ ou _DELETE_**
 * adicionar a URL que corresponde a operação criada no Backend e mapeada através da camada de _Controller_
 * incluir parâmetros de busca na url caso necessário. 
 * postman retornará o resultado em formato JSON
 
 ![Postman FindAll Function](https://github.com/Henri-BS/pasifcode-docs/blob/main/docs/images/postman-all.png)
 
-**requisições do tipo _POST_ ou _PUT_**
+**Requisições do tipo _POST_ ou _PUT_**
 * segue o mesmo processo de url e parâmetros das requisições _GET_ e _DELETE_
 * selecionar a opção _Body_ no menu opções 
 * incluir o tipo de texto _raw_ e o formato JSON
@@ -393,7 +379,7 @@ novo registro o banco de dados informará sobre a condição da inserção com u
 
 ### [Requests](https://github.com/Henri-BS/pasifcode-docs/base-project/blob/main/frontend/src/utils/requests.tsx)
 
-**o componente request permite que a camada de Frontend possa encontrar a camada de Backend através do arquivo _requests.ts_**, 
+**O componente request permite que a camada de Frontend possa encontrar a camada de Backend através do arquivo _requests.ts_**, 
 * criar caminho para o Backend chamado `BASE_URL` 
 * incluir a url do localhost 
 * incluir operador de coalescência nula para indicar outra localidade 
