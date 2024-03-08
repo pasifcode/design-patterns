@@ -19,8 +19,8 @@ public class PeopleServiceImpl implements PeopleService {
 
     @Override
     @Transactional(readOnly = true)
-    public Page<PeopleDto> findPeople(String name, Pageable pageable) {
-        Page<People> find = peopleRepository.findPeople(name, pageable);
+    public Page<PeopleDto> findAllPeople(String name, Pageable pageable) {
+        Page<People> find = peopleRepository.findAllPeople(name, pageable);
         return find.map(PeopleDto::new);
     }
 

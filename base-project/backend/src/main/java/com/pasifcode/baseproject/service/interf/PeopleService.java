@@ -5,7 +5,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
 public interface PeopleService {
-    Page<PeopleDto> findPeople(String name, Pageable pageable);
+    Page<PeopleDto> findAllPeople(String name, Pageable pageable);
 
     PeopleDto findPeopleById(Long id);
 

@@ -11,6 +11,6 @@ import org.springframework.stereotype.Repository;
 public interface PeopleRepository extends JpaRepository<People, Long> {
     @Query("SELECT obj FROM People obj WHERE UPPER(obj.name)" +
             " LIKE UPPER(CONCAT('%', ?1, '%')) ORDER BY obj.name")
-    Page<People> findPeople(String name, Pageable pageable);
+    Page<People> findAllPeople(String name, Pageable pageable);
 }
 

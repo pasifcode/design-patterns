@@ -3,8 +3,6 @@ package com.pasifcode.baseproject.entity;
 import jakarta.persistence.*;
 import lombok.*;
 
-import java.time.Instant;
-
 @Getter
 @Setter
 @NoArgsConstructor
@@ -27,8 +25,6 @@ public class People {
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "departament_id")
     private Departament departament;
-
-
 }
 
 
