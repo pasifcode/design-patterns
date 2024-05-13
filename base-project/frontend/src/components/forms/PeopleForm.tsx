@@ -27,7 +27,7 @@ export function PeopleAddForm() {
             }
         };
         axios(config).then(response => {
-            navigate("/");
+            navigate(0);
         })
     }
 

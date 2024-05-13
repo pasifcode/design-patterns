@@ -111,8 +111,8 @@ export function DeptRelationAddForm({ id: deptId }: Props) {
         axios.get(`${BASE_URL}/dept/${deptId}`)
             .then((response) => {
                 setDept(response.data);
-            })
-    }, [deptId])
+            });
+    }, [deptId]);
 
     const navigate = useNavigate();
 

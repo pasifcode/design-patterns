@@ -53,7 +53,8 @@ public class PeopleServiceImpl implements PeopleService {
         add.setAge(dto.getAge());
         add.setImage(dto.getImage());
         add.setDept(dept);
-        return new PeopleDto(peopleRepository.saveAndFlush(add));    }
+        return new PeopleDto(peopleRepository.saveAndFlush(add));
+    }
 
     @Override
     public PeopleDto updatePeople(PeopleDto dto) {

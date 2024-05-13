@@ -32,7 +32,7 @@ export function PeopleList() {
             <div className="container">
                 <nav className="navbar row m-0">
                     <div className="col-12 col-md-4 col-xl-4 mb-2" >
-                        <button data-bs-target="#addPeopleModal" data-bs-toggle="modal" className="btn btn-success"><i className="fa fa-plus" />Adicionar Pessoa</button>
+                        <button data-bs-target="#addPeopleModal" data-bs-toggle="modal" className="btn btn-success">Adicionar Pessoa</button>
                     </div>
                     <div className="col-12 col-md-4 col-xl-3 mt-2" >
                         <Pagination page={peoplePage} onPageChange={handlePageChange} />
@@ -128,7 +128,6 @@ export function PeopleListByDept({id: deptId}: Props) {
                 <div className="card-sm-box ">
                 <div className="py-3  d-flex justify-content-between">
                     <h4 className="card-title">Pessoas Relacionadas</h4>
-                    <button className="btn btn-success">A</button>
                 </div>
                 {peoplePage.empty ? <h5>Nenhum Item Adicionado</h5> :
                     <div className="row">

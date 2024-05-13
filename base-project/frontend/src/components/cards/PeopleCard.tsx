@@ -39,7 +39,7 @@ export function PeopleLgCard({ id: peopleId }: Props) {
     const deletePeople = () => {
         axios.delete(`${BASE_URL}/people/delete/${peopleId}`)
             .then((response) => {
-                navigate("/");
+                navigate("/people-list");
             })
     }
 

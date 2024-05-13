@@ -4,11 +4,14 @@ import { DeptPage } from "types/dept";
 import { BASE_URL } from "utils/requests";
 
 export function DeptDatalist() {
+    const [deptPage, setDeptPage] = useState<DeptPage>({
+        content: [],
+        number: 0
+    })
     const [value, setValue] = useState("");
-    const [deptPage, setDeptPage] = useState<DeptPage>({ content: [], number: 0 })
     useEffect(() => {
         axios.get(`${BASE_URL}/dept/page?name=${value}`)
-            .then((response) => {
+            .then(response => {
                 setDeptPage(response.data);
             });
     }, [value]);
@@ -16,14 +19,14 @@ export function DeptDatalist() {
     return (
         <div className="form-group">
             <label htmlFor="dept">Departamento: </label>
-            <input type="text" list="deptList" value={value}
-                onChange={(e) => setValue(e.target.value)} id="dept"
-                className="form-control" placeholder="busque pelo departamento para adicionar" />
+            <input id="dept" type="text" list="deptList" 
+            value={value} onChange={(e) => setValue(e.target.value)} 
+            className="form-control" placeholder="busque pelo departamento" />
             <datalist id="deptList" >
                 {deptPage.content?.filter((dept) =>
-                    dept.name.toUpperCase().includes(value.toLocaleUpperCase()))
+                    dept.description.toLowerCase().includes(value.toLocaleUpperCase().toLocaleLowerCase()))
                     .map((dept) => (
-                        <option id="value" key={dept.id} value={dept.name}>
+                        <option id="value" key={dept.id} value={dept.id.toString()}>
                             {dept.name}
                         </option>
                     ))}
