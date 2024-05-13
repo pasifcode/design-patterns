@@ -22,9 +22,12 @@ public class People {
     @Column(name = "age")
     private Integer age;
 
+    @Column(name = "image")
+    private String image;
+
     @ManyToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "departament_id")
-    private Departament departament;
+    @JoinColumn(name = "dept_id")
+    private Dept dept;
 }
 
 

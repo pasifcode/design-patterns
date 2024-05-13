@@ -1,6 +1,7 @@
 package com.pasifcode.baseproject.controller;
 
 import com.pasifcode.baseproject.dto.PeopleDto;
+import com.pasifcode.baseproject.entity.Dept;
 import com.pasifcode.baseproject.service.interf.PeopleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -10,6 +11,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
+@CrossOrigin("http://localhost:3000/")
 @RequestMapping("/people")
 public class PeopleController {
 
@@ -23,8 +25,14 @@ public class PeopleController {
     }
 
     @GetMapping("/{id}")
-    ResponseEntity<PeopleDto> findPeopleById(@PathVariable Long id) {
+    ResponseEntity<PeopleDto> findPeopleByDept(@PathVariable Long id) {
         PeopleDto find = peopleService.findPeopleById(id);
+        return ResponseEntity.ok(find);
+    }
+
+    @GetMapping("/find-by-dept/{dept}")
+    ResponseEntity<Page<PeopleDto>> findPeopleByDept(@PathVariable Dept dept, Pageable pageable) {
+        Page<PeopleDto> find = peopleService.findPeopleByDept(dept, pageable);
         return ResponseEntity.ok(find);
     }
 

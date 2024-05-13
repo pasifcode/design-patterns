@@ -14,11 +14,11 @@ import java.util.Set;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name = "tb_departament")
-public class Departament {
+@Table(name = "tb_dept")
+public class Dept {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "departament_id")
+    @Column(name = "dept_id")
     private Long id;
 
     @Column(name="name", length = 60, unique = true)
@@ -27,7 +27,12 @@ public class Departament {
     @Column(name="description", columnDefinition = "TEXT")
     private String description;
 
-    @OneToMany(mappedBy = "departament")
+    @OneToMany(mappedBy = "dept")
     private Set<People> people = new HashSet<>();
 
+    @OneToMany(mappedBy = "relatingDept")
+    private Set<DeptRelation> deptsFrom = new HashSet<>();
+
+    @OneToMany(mappedBy = "relatedDept")
+    private Set<DeptRelation> deptsTo = new HashSet<>();
 }

@@ -1,6 +1,12 @@
-INSERT INTO tb_departament (name, description) VALUES ('departamento 1', 'descrição do departamento 1');
-INSERT INTO tb_departament (name, description) VALUES ('departamento 2', 'descrição do departamento 2');
-INSERT INTO tb_people (name, age, departament_id) VALUES ('Jack', 27, 1);
-INSERT INTO tb_people (name, age, departament_id) VALUES ('Ryan', 17, 2);
-INSERT INTO tb_people (name, age) VALUES ('Francis', 32);
-INSERT INTO tb_people (name, age) VALUES ('Anna', 19);
+INSERT INTO tb_dept (name, description) VALUES ('departamento 1', 'descrição do departamento 1');
+INSERT INTO tb_dept (name, description) VALUES ('departamento 2', 'descrição do departamento 2');
+INSERT INTO tb_dept (name, description) VALUES ('departamento 3', 'descrição do departamento 3');
+INSERT INTO tb_dept (name, description) VALUES ('departamento 4', 'descrição do departamento 4');
+INSERT INTO tb_dept_relation (relating_dept, related_dept) VALUES (1, 2);
+INSERT INTO tb_dept_relation (relating_dept, related_dept) VALUES (1, 3);
+INSERT INTO tb_dept_relation (relating_dept, related_dept) VALUES (2, 1);
+INSERT INTO tb_dept_relation (relating_dept, related_dept) VALUES (2, 3);
+INSERT INTO tb_people (name, age, image, dept_id) VALUES ('Jack', 27, 'https://cdn1.iconfinder.com/data/icons/diversity-avatars-volume-01-v2/64/hipster-man-white-512.png', 1);
+INSERT INTO tb_people (name, age, image, dept_id) VALUES ('Ryan', 17, 'https://cdn2.iconfinder.com/data/icons/diversity-avatars-volume-09/64/avatar-boler-suit-african-512.png', 2);
+INSERT INTO tb_people (name, age, image, dept_id) VALUES ('Francis', 32, 'https://cdn2.iconfinder.com/data/icons/diversity-v2-0-volume-01/64/accountant-asian-female-512.png', 1);
+INSERT INTO tb_people (name, age, image, dept_id) VALUES ('Anna', 19, 'https://cdn2.iconfinder.com/data/icons/diversity-v2-0-volume-01/64/artist-asian-female-512.png', 3);

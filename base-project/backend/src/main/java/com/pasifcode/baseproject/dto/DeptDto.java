@@ -1,33 +1,27 @@
 package com.pasifcode.baseproject.dto;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
-import com.pasifcode.baseproject.entity.People;
+import com.pasifcode.baseproject.entity.Dept;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import java.io.Serial;
 import java.io.Serializable;
 
-@Getter
 @NoArgsConstructor
+@Getter
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class PeopleDto implements Serializable {
-
+public class DeptDto implements Serializable {
     @Serial
-    private static final long serialVersionUID = 1L;
+    private final static long serialVersionUID = 1L;
 
     private Long id;
     private String name;
-    private Integer age;
-    private String image;
-    private Long deptId;
-    
+    private String description;
 
-    public PeopleDto(People entity) {
+    public DeptDto(Dept entity) {
         id = entity.getId();
         name = entity.getName();
-        age = entity.getAge();
-        image = entity.getImage();
-        deptId = entity.getDept().getId();
+        description = entity.getDescription();
     }
 }
