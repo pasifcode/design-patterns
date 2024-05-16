@@ -46,7 +46,7 @@ public class PeopleServiceImpl implements PeopleService {
 
     @Override
     public PeopleDto savePeople(PeopleDto dto) {
-        Dept dept = deptRepository.findById(dto.getDeptId()).orElseThrow();
+        Dept dept = deptRepository.findByName(dto.getDeptName());
 
         People add = new People();
         add.setName(dto.getName());
@@ -59,7 +59,7 @@ public class PeopleServiceImpl implements PeopleService {
     @Override
     public PeopleDto updatePeople(PeopleDto dto) {
         People edit = peopleRepository.findById(dto.getId()).orElseThrow();
-        Dept dept = deptRepository.findById(dto.getDeptId()).orElseThrow();
+        Dept dept = deptRepository.findByName(dto.getDeptName());
 
         edit.setId(edit.getId());
         edit.setName(dto.getName());

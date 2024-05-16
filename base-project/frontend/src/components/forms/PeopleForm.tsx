@@ -13,7 +13,7 @@ export function PeopleAddForm() {
         const name = (event.target as any).name.value;
         const image = (event.target as any).image.value;
         const age = (event.target as any).age.value;
-        const dept = (event.target as any).dept.value;
+        const deptName = (event.target as any).deptName.value;
 
         const config: AxiosRequestConfig = {
             baseURL: BASE_URL,
@@ -23,7 +23,7 @@ export function PeopleAddForm() {
                 name: name,
                 image: image,
                 age: age,
-                deptId: dept
+                deptName: deptName
             }
         };
         axios(config).then(response => {
@@ -71,7 +71,7 @@ export function PeopleEditForm({ id: peopleId }: Props) {
         const name = (event.target as any).name.value;
         const image = (event.target as any).image.value;
         const age = (event.target as any).age.value;
-        const dept = (event.target as any).dept.value;
+        const deptName = (event.target as any).deptName.value;
 
         const config: AxiosRequestConfig = {
             baseURL: BASE_URL,
@@ -82,7 +82,7 @@ export function PeopleEditForm({ id: peopleId }: Props) {
                 name: name,
                 image: image,
                 age: age,
-                deptId: dept
+                deptName: deptName
             }
         };
         axios(config).then(response => {

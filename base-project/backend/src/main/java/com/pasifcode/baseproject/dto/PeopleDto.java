@@ -21,6 +21,7 @@ public class PeopleDto implements Serializable {
     private Integer age;
     private String image;
     private Long deptId;
+    private String deptName;
     
 
     public PeopleDto(People entity) {
@@ -29,5 +30,6 @@ public class PeopleDto implements Serializable {
         age = entity.getAge();
         image = entity.getImage();
         deptId = entity.getDept().getId();
+        deptName = entity.getDept().getName();
     }
 }

@@ -1,12 +1,14 @@
 package com.pasifcode.baseproject.dto;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.pasifcode.baseproject.entity.Dept;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import java.io.Serial;
 import java.io.Serializable;
+import java.util.UUID;
 
 @NoArgsConstructor
 @Getter

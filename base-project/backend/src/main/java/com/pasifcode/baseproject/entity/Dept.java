@@ -35,4 +35,6 @@ public class Dept {
 
     @OneToMany(mappedBy = "relatedDept")
     private Set<DeptRelation> deptsTo = new HashSet<>();
+
+
 }

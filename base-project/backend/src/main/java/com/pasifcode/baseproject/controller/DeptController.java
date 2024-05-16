@@ -29,6 +29,7 @@ public class DeptController {
         return ResponseEntity.ok(find);
     }
 
+
     @PostMapping("/save")
     ResponseEntity<DeptDto> saveDept(@RequestBody DeptDto dto) {
         DeptDto add = deptService.saveDept(dto);

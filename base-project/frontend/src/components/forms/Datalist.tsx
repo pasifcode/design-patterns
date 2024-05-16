@@ -4,11 +4,9 @@ import { DeptPage } from "types/dept";
 import { BASE_URL } from "utils/requests";
 
 export function DeptDatalist() {
-    const [deptPage, setDeptPage] = useState<DeptPage>({
-        content: [],
-        number: 0
-    })
+    const [deptPage, setDeptPage] = useState<DeptPage>({ content: [], number: 0 })
     const [value, setValue] = useState("");
+
     useEffect(() => {
         axios.get(`${BASE_URL}/dept/page?name=${value}`)
             .then(response => {
@@ -16,17 +14,26 @@ export function DeptDatalist() {
             });
     }, [value]);
 
+    const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+        setValue(event.target.value);
+    };
+
     return (
         <div className="form-group">
-            <label htmlFor="dept">Departamento: </label>
-            <input id="dept" type="text" list="deptList" 
-            value={value} onChange={(e) => setValue(e.target.value)} 
-            className="form-control" placeholder="busque pelo departamento" />
+            <label htmlFor="deptName">Departamento: </label>
+            <input
+                id="deptName"
+                list="deptList"
+                value={value}
+                onChange={handleChange}
+                className="form-control"
+                placeholder="busque pelo departamento"
+            />
             <datalist id="deptList" >
                 {deptPage.content?.filter((dept) =>
-                    dept.description.toLowerCase().includes(value.toLocaleUpperCase().toLocaleLowerCase()))
+                    dept.name.toLowerCase().includes(value.toLocaleLowerCase()))
                     .map((dept) => (
-                        <option id="value" key={dept.id} value={dept.id.toString()}>
+                        <option id="value" key={dept.id} value={dept.name} >
                             {dept.name}
                         </option>
                     ))}

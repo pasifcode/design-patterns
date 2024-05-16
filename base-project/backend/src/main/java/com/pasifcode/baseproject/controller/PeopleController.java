@@ -50,7 +50,7 @@ public class PeopleController {
 
     @DeleteMapping("/delete/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    void deletePeople(Long id) {
+    void deletePeople(@PathVariable Long id) {
         this.peopleService.deletePeople(id);
     }
 }

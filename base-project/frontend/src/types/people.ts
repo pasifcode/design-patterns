@@ -1,9 +1,12 @@
+import { Dept } from "./dept";
+
 export type People = {
     id: number;
     name: string;
     age: number;
     image: string;
-    deptId: number;
+    deptId: Dept;
+    deptName: string;
 }
 
 export type PeoplePage = {

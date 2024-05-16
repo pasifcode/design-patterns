@@ -104,20 +104,20 @@ export function DeptEditForm({ id: deptId }: Props) {
     );
 }
 
-export function DeptRelationAddForm({ id: deptId }: Props) {
+export function DeptRelationAddForm({ id: relatingDeptId }: Props) {
 
     const [dept, setDept] = useState<Dept>();
     useEffect(() => {
-        axios.get(`${BASE_URL}/dept/${deptId}`)
+        axios.get(`${BASE_URL}/dept/${relatingDeptId}`)
             .then((response) => {
                 setDept(response.data);
             });
-    }, [deptId]);
+    }, [relatingDeptId]);
 
     const navigate = useNavigate();
 
     const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-        const relatedDeptId = (event.target as any).relatedDeptId.value;
+        const deptName = (event.target as any).deptName.value;
         const description = (event.target as any).description.value;
 
 
@@ -126,8 +126,8 @@ export function DeptRelationAddForm({ id: deptId }: Props) {
             method: "POST",
             url: "/dept-relation/save",
             data: {
-                relatingDeptId: deptId,
-                relatedDeptId: relatedDeptId,
+                relatingDeptId: relatingDeptId,
+                relatedDeptId: deptName,
                 description: description
             }
         };
