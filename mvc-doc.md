@@ -264,7 +264,7 @@ e para instalar as bibliotecas do Frontend.
 
 <br/>
 
-#### [Controller](https://github.com/Henri-BS/gerenciador-curriculo/tree/main/backend/src/main/java/com/altercode/gerenciadorcurriculo/controller)
+#### [Controller](https://github.com/Henri-BS/pasifcode-docs/base-project/tree/main/backend/src/main/java/com/altercode/gerenciadorcurriculo/controller)
 
 **Controlador da aplicação com as nuances de persistência e o mapeamento de solicitações da Web**
 * anotação `@RestContoller` para definir a classe como controlador
