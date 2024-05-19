@@ -54,7 +54,10 @@ export function PeopleLgCard({ id: peopleId }: Props) {
                         <div className="card-body">
                             <h5 className="card-title">{people?.name}</h5>
                             <p className="card-text">{people?.age}</p>
-                            <p className="card-text"><small className="text-muted">Last updated 3 mins ago</small></p>
+                            <p className="card-text">Departamento: 
+                                <Link to={`/dept/${people?.deptId}`} className="text-decoration-none">{people?.deptName}</Link>
+                            </p>
+
                         </div>
                     </div>
                 </div>

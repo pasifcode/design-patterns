@@ -10,8 +10,7 @@ export function PeopleProfile() {
     return (
         <>
             <div className="container">
-                <PeopleLgCard id={`${params.peopleId}`} />
-                
+                <PeopleLgCard id={`${params.peopleId}`} />               
             </div>
         </>
     );

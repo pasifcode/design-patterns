@@ -16,6 +16,6 @@ public interface DeptRepository extends JpaRepository<Dept, Long> {
             " LIKE UPPER(CONCAT('%', ?1, '%')) ORDER BY obj.name")
     Page<Dept> findAllDepts(String name, Pageable pageable);
 
-    Dept findByName(String deptName);
+    Dept findByName(String name);
 }
 
