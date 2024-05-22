@@ -1,72 +1,27 @@
-# Documentação de Padrões de Projeto
+# Documentação de Padrão de Projeto MVC
 
 > Pasifcode
 
-## Sumário
 
-- [Introdução](#introdução)
-- [Configuração do Backend](#configuração-do-backend)
-    * [Spring Initializr](#spring-initializr)
-    * [IntelliJ](#intellij)
-    * [Resources](#resources)
-    * [Aplication Test Properties](#application-properties)
-    * [Estrutura do Backend](#estrutura-do-backend)
-- [Configuração do Frontend](#configuração-do-frontend)
-    * [VS Code](#vs-code)
-    * [ReactJs](#reactjs)
-    * [CSS](#css)
-    * [Estrutura do Frontend](#estrutura-do-frontend)
-- [Programação Backend](#programação-backend)
-    * [Classes e Interfaces](#classes-e-interfaces)
-        - [SecurityConfig](#security-config)
-        - [Entity](#entity)
-        - [DTO](#dto)
-        - [Repository](#repository)
-        - [Sevice e ServiceImpl](#service-e-serviceimpl)
-        - [Controller](#controller)
-    * [Funções e Procedimentos](#funções-e-procedimentos)
-        - [FindAll](#findall)
-        - [FindById](#findbyid)
-        - [Save](#save)
-        - [Update](#update)
-        - [Delete](#delete)
-* [Teste de dados](#teste-de-dados)
-    - [Teste com H2 Database](#teste-com-h2-database)
-    - [Teste de Requisições com Postman](#teste-de-requisições-com-postman)
-- [Programação Frontend](#programação-frontend)
-    * [Requests](#requests)
-    * [Types](#types)
-    * [Componentes](#componetes)
-        - [Card](#card)
-        - [Form](#form)
-        - [Pagination](#pagination)
-    * [Páginas e Rotas](#páginas-e-rotas)
-        - [List](#list)
-        - [Profile](#profile)
-        - [Routes](#routes)
-
-## Introdução
-
-Este documento se refere aos padrões que serão estabelecidos para o desenvolvimento de projetos Spring React da
-organização Pasifcode. No decorrer do texto serão apresentadas as configurações básicas para a criação do projeto, os
+Este documento é um guia que visa demonstrar como será feito o uso do padrão de projeto MVC utilizando a Stack Spring React para o desenvolvimento de projetos do grupo Pasifcode. No texto serão apresentadas as configurações básicas para a criação do projeto, os
 padrões para o desenvolvimento de camadas, classes, interfaces e funções no Backend com Spring, e também o
-deesenvolvimento de componentes, páginas e estilização no Frontend com React.
+desenvolvimento de componentes, páginas e estilização no Frontend com React.
 
-## [Configuração do Backend](https://github.com/Henri-BS/gerenciador-curriculo/tree/main/backend)
+## [Configuração do Backend](https://github.com/pacifcode/design-patterns/tree/main/mvc-base-project/backend)
 
-| Ferramentas do Backend         | Nome                                                                                                            |
-|--------------------------------|-----------------------------------------------------------------------------------------------------------------|
-| Linguagem de Programação       | [Java](https://docs.oracle.com/en/java/javase/17/)                                                              |
-| IDE                            | [IntelliJ Idea](https://www.jetbrains.com/idea/)                                                                |
-| Build                          | [Maven](https://maven.apache.org/)                                                                              |
-| Framework                      | [Spring Boot](https://spring.io/projects/spring-boot)                                                           |
-| Persistência                   | [Spring Data Jpa](https://spring.io/projects/spring-data-jpa)                                                   |
-| Ferramentas Web                | [Spring Web](https://docs.spring.io/spring-boot/docs/current/reference/html/web.html)                           |
-| Segurança                      | [Spring Security](https://spring.io/projects/spring-security)                                                   |
-| Banco de Dados em Memória      | [H2 Database](https://h2database.com/html/main.html)                                                            |
-| Banco de Dados SQL             | [PostgreSQL](https://www.postgresql.org/)                                                                       |
-| Automatização de Código        | [Lombok](https://projectlombok.org/)                                                                            |
-| Teste de Requisições           | [Postman](https://www.postman.com/)                                                                             |
+| Ferramentas do Backend    | Nome                                                                                  |
+| ------------------------- | ------------------------------------------------------------------------------------- |
+| Linguagem de Programação  | [Java](https://docs.oracle.com/en/java/javase/17/)                                    |
+| IDE                       | [IntelliJ Idea](https://www.jetbrains.com/idea/)                                      |
+| Build                     | [Maven](https://maven.apache.org/)                                                    |
+| Framework                 | [Spring Boot](https://spring.io/projects/spring-boot)                                 |
+| Persistência              | [Spring Data Jpa](https://spring.io/projects/spring-data-jpa)                         |
+| Ferramentas Web           | [Spring Web](https://docs.spring.io/spring-boot/docs/current/reference/html/web.html) |
+| Segurança                 | [Spring Security](https://spring.io/projects/spring-security)                         |
+| Banco de Dados em Memória | [H2 Database](https://h2database.com/html/main.html)                                  |
+| Banco de Dados SQL        | [PostgreSQL](https://www.postgresql.org/)                                             |
+| Automatização de Código   | [Lombok](https://projectlombok.org/)                                                  |
+| Teste de Requisições      | [Postman](https://www.postman.com/)                                                   |
 
 ### Spring Initializr
 
@@ -158,13 +113,13 @@ spring.jpa.hibernate.ddl-auto=none
 
 - codificação da camada frontend
 
-| Plugins Recomendados                                                                                     |
-|----------------------------------------------------------------------------------------------------------|
-| [Prettier - Code formatter](https://marketplace.visualstudio.com/items?itemName=esbenp.prettier-vscode)  |
-| [Code Runner](https://marketplace.visualstudio.com/items?itemName=formulahendry.code-runner)             |
-| [JSX HTML <tags/>](https://marketplace.visualstudio.com/items?itemName=angelorafael.jsx-html-tags)       |
-| [Git History](https://marketplace.visualstudio.com/items?itemName=donjayamanne.githistory)               |
-| [Wakatime](https://marketplace.visualstudio.com/items?itemName=WakaTime.vscode-wakatime)                 |
+| Plugins Recomendados                                                                                    |
+| ------------------------------------------------------------------------------------------------------- |
+| [Prettier - Code formatter](https://marketplace.visualstudio.com/items?itemName=esbenp.prettier-vscode) |
+| [Code Runner](https://marketplace.visualstudio.com/items?itemName=formulahendry.code-runner)            |
+| [JSX HTML <tags/>](https://marketplace.visualstudio.com/items?itemName=angelorafael.jsx-html-tags)      |
+| [Git History](https://marketplace.visualstudio.com/items?itemName=donjayamanne.githistory)              |
+| [Wakatime](https://marketplace.visualstudio.com/items?itemName=WakaTime.vscode-wakatime)                |
 
 ### ReactJs
 
@@ -176,15 +131,15 @@ spring.jpa.hibernate.ddl-auto=none
 Tabela com sequência de comandos no terminal [Git Bash](https://git-scm.com/download/win). para criar o projeto React
 e para instalar as bibliotecas do Frontend.
 
-| Ação                                                | Comando                                              |
-|-----------------------------------------------------|------------------------------------------------------|
-| Instalação do yarn                                  | npm install --global yarn                            |
-| Cria projeto ReactJs com TypeScript                 | yarn create react-app frontend --template typescript |
-| Acessa a pasta frontend                             | cd frontend                                          |
-| Adiciona react router para roteamento de página     | yarn add react-router-dom                            |
-| Adiciona axios como biblioteca de requisições HTTP  | yarn add axios                                       |
-| Adiciona bootstrap como biblioteca de estilização   | yarn add bootstrap                                   |
-| Adiciona moment como biblioteca de datas            | yarn add moment                                      |
+| Ação                                               | Comando                                              |
+| -------------------------------------------------- | ---------------------------------------------------- |
+| Instalação do yarn                                 | npm install --global yarn                            |
+| Cria projeto ReactJs com TypeScript                | yarn create react-app frontend --template typescript |
+| Acessa a pasta frontend                            | cd frontend                                          |
+| Adiciona react router para roteamento de página    | yarn add react-router-dom                            |
+| Adiciona axios como biblioteca de requisições HTTP | yarn add axios                                       |
+| Adiciona bootstrap como biblioteca de estilização  | yarn add bootstrap                                   |
+| Adiciona moment como biblioteca de datas           | yarn add moment                                      |
 
 ### [CSS](https://github.com/Henri-BS/pasifcode-docs/base-project/tree/main/frontend/src/assets/css)
 
@@ -196,7 +151,7 @@ e para instalar as bibliotecas do Frontend.
 
 ![Frontend Folders](https://github.com/Henri-BS/pasifcode-docs/blob/main/docs/images/frontend-folders.png)
 
-## Programação Backend
+# Programação Backend
 
 ### Classes e Interfaces
 
@@ -220,7 +175,7 @@ e para instalar as bibliotecas do Frontend.
 * anotação `@Table(name = "tb_name")` para relacionar e nomear uma tabela.
 * `@Column` para personalizar as características dos atributos
 
-![Entity](https://github.com/Henri-BS/pasifcode-docs/blob/main/docs/images/entity.png)
+![Entity](https://github.com/pacificode/design-patterns/mcv-spring-react/blob/main/docs/images/entity.png)
 
 <br/>
 
@@ -375,7 +330,7 @@ novo registro o banco de dados informará sobre a condição da inserção com u
 
 ![Postman Save Function](https://github.com/Henri-BS/pasifcode-docs/blob/main/docs/images/postman-save.png)
 
-## Programação Frontend
+# Programação Frontend
 
 ### [Requests](https://github.com/Henri-BS/pasifcode-docs/base-project/blob/main/frontend/src/utils/requests.tsx)
 
