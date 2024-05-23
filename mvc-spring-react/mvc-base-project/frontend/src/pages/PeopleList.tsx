@@ -3,8 +3,6 @@ import { PeopleMdCard, PeopleSmCard } from "components/cards/PeopleCard";
 import { PeopleAddForm } from "components/forms/PeopleForm";
 import Pagination from "components/shared/Pagination";
 import { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
-import { Props } from "types/main";
 import { PeoplePage } from "types/people";
 import { BASE_URL } from "utils/requests";
 
@@ -74,70 +72,6 @@ export function PeopleList() {
                         <div className="modal-body"><PeopleAddForm /></div>
                     </div>
                 </div>
-            </div>
-        </>
-    );
-}
-
-export function PeopleHomeList() {
-
-    const [peoplePage, setPeoplePage] = useState<PeoplePage>({
-        content: [],
-        number: 0
-    });
-    useEffect(() => {
-        axios.get(`${BASE_URL}/people/page?size=10`)
-            .then((response) => {
-                setPeoplePage(response.data);
-            });
-    }, []);
-
-    return (
-        <>
-                <div className="card-sm-box ">
-                    <div className="p-2 d-flex justify-content-between">
-                        <h4 className="card-title">Pessoas</h4>
-                        <Link to={"/people-list"}>Ver lista</Link>
-                    </div>
-                    <div className="row">
-                        {peoplePage.content?.map(x => (
-                            <div key={x.id} className="col-12 mb-2">
-                                <PeopleSmCard people={x} />
-                            </div>
-                        ))}
-                    </div>
-            </div>
-        </>
-    );
-}
-
-export function PeopleListByDept({id: deptId}: Props) {
-    const [peoplePage, setPeoplePage] = useState<PeoplePage>({
-        content: [],
-        number: 0
-    });
-    useEffect(() => {
-        axios.get(`${BASE_URL}/people/find-by-dept/${deptId}?size=10`)
-            .then((response) => {
-                setPeoplePage(response.data);
-            });
-    }, [deptId]);
-
-    return (
-        <>
-                <div className="card-sm-box ">
-                <div className="py-3  d-flex justify-content-between">
-                    <h4 className="card-title">Pessoas Relacionadas</h4>
-                </div>
-                {peoplePage.empty ? <h5>Nenhum Item Adicionado</h5> :
-                    <div className="row">
-                        {peoplePage.content?.map(x => (
-                            <div key={x.id} className="col-12 mb-2">
-                                <PeopleSmCard people={x} />
-                            </div>
-                        ))}
-                    </div>
-                }
             </div>
         </>
     );

@@ -1,11 +1,37 @@
-INSERT INTO tb_dept (name, description) VALUES ('departamento 1', 'descrição do departamento 1');
-INSERT INTO tb_dept (name, description) VALUES ('departamento 2', 'descrição do departamento 2');
-INSERT INTO tb_dept (name, description) VALUES ('departamento 3', 'descrição do departamento 3');
-INSERT INTO tb_dept (name, description) VALUES ('departamento 4', 'descrição do departamento 4');
-INSERT INTO tb_dept_relation (relating_dept, related_dept) VALUES (1, 2);
-INSERT INTO tb_dept_relation (relating_dept, related_dept) VALUES (1, 3);
-INSERT INTO tb_dept_relation (relating_dept, related_dept) VALUES (2, 1);
-INSERT INTO tb_dept_relation (relating_dept, related_dept) VALUES (2, 3);
+INSERT INTO tb_dept (name, description) VALUES ('Departamento 1', 'Descrição detalhada sobre as atividades que são exercidas e as pessoas que correspondem ao departamento 1');
+INSERT INTO tb_dept (name, description) VALUES ('Departamento 1.1', 'Descrição detalhada sobre as atividades que são exercidas e as pessoas que correspondem ao Departamento 1.1');
+INSERT INTO tb_dept (name, description) VALUES ('Departamento 1.2', 'Descrição detalhada sobre as atividades que são exercidas e as pessoas que correspondem ao Departamento 1.2');
+
+INSERT INTO tb_dept (name, description) VALUES ('Departamento 2', 'Descrição detalhada sobre as atividades que são exercidas e as pessoas que correspondem ao Departamento 2');
+INSERT INTO tb_dept (name, description) VALUES ('Departamento 2.1', 'Descrição detalhada sobre as atividades que são exercidas e as pessoas que correspondem ao Departamento 2.1');
+INSERT INTO tb_dept (name, description) VALUES ('Departamento 2.2', 'Descrição detalhada sobre as atividades que são exercidas e as pessoas que correspondem ao Departamento 2.2');
+
+INSERT INTO tb_dept (name, description) VALUES ('Departamento 3', 'Descrição detalhada sobre as atividades que são exercidas e as pessoas que correspondem ao Departamento 3');
+INSERT INTO tb_dept (name, description) VALUES ('Departamento 3.1', 'Descrição detalhada sobre as atividades que são exercidas e as pessoas que correspondem ao Departamento 3.1');
+INSERT INTO tb_dept (name, description) VALUES ('Departamento 3.1.1', 'Descrição detalhada sobre as atividades que são exercidas e as pessoas que correspondem ao Departamento 3.1.1');
+INSERT INTO tb_dept (name, description) VALUES ('Departamento 3.1.2', 'Descrição detalhada sobre as atividades que são exercidas e as pessoas que correspondem ao Departamento 3.1.2');
+INSERT INTO tb_dept (name, description) VALUES ('Departamento 3.2', 'Descrição detalhada sobre as atividades que são exercidas e as pessoas que correspondem ao Departamento 3.2');
+INSERT INTO tb_dept (name, description) VALUES ('Departamento 3.2.1', 'Descrição detalhada sobre as atividades que são exercidas e as pessoas que correspondem ao Departamento 3.2.1');
+INSERT INTO tb_dept (name, description) VALUES ('Departamento 3.2.2', 'Descrição detalhada sobre as atividades que são exercidas e as pessoas que correspondem ao Departamento 3.2.2');
+
+INSERT INTO tb_dept (name, description) VALUES ('Departamento 4', 'Descrição detalhada sobre as atividades que são exercidas e as pessoas que correspondem ao 4');
+INSERT INTO tb_dept (name, description) VALUES ('Departamento 4.1', 'Descrição detalhada sobre as atividades que são exercidas e as pessoas que correspondem ao Departamento 4.1');
+INSERT INTO tb_dept (name, description) VALUES ('Departamento 4.1.1', 'Descrição detalhada sobre as atividades que são exercidas e as pessoas que correspondem ao Departamento 4.1.1');
+INSERT INTO tb_dept (name, description) VALUES ('Departamento 4.1.2', 'Descrição detalhada sobre as atividades que são exercidas e as pessoas que correspondem ao Departamento 4.1.2);
+INSERT INTO tb_dept (name, description) VALUES ('Departamento 4.2', 'Descrição detalhada sobre as atividades que são exercidas e as pessoas que correspondem ao Departamento 4.2');
+INSERT INTO tb_dept (name, description) VALUES ('Departamento 4.2.1', 'Descrição detalhada sobre as atividades que são exercidas e as pessoas que correspondem ao Departamento 4.2.1');
+INSERT INTO tb_dept (name, description) VALUES ('Departamento 4.2.2', 'Descrição detalhada sobre as atividades que são exercidas e as pessoas que correspondem ao Departamento 4.2.2);
+
+
+INSERT INTO tb_dept_relation (relating_dept, related_dept, description) VALUES (1, 2, 'O Departamento 1 é o departamento que supervisiona o departamento 1.1');
+INSERT INTO tb_dept_relation (relating_dept, related_dept, description) VALUES (2, 1, 'O Departamento 1.1 é um subdepartamento supervisionado pelo departamento 1');
+INSERT INTO tb_dept_relation (relating_dept, related_dept, description) VALUES (1, 3, 'O Departamento 1 é o departamento que supervisiona o departamento 1.2');
+INSERT INTO tb_dept_relation (relating_dept, related_dept, description) VALUES (3, 1, 'O Departamento 1.2 é um subdepartamento supervisionado pelo departamento 1');
+INSERT INTO tb_dept_relation (relating_dept, related_dept, description) VALUES (4, 5, 'O Departamento 1 é o departamento que supervisiona o departamento 2.1');
+INSERT INTO tb_dept_relation (relating_dept, related_dept, description) VALUES (5, 4, 'O Departamento 2.1 é um subdepartamento supervisionado pelo departamento 2');
+INSERT INTO tb_dept_relation (relating_dept, related_dept, description) VALUES (4, 6, 'O Departamento 1 é o departamento que supervisiona o departamento 2.2');
+INSERT INTO tb_dept_relation (relating_dept, related_dept, description) VALUES (6, 4, 'O Departamento 2.2 é um subdepartamento supervisionado pelo departamento 2');
+
 INSERT INTO tb_people (name, age, image, dept_id) VALUES ('Jack', 27, 'https://cdn1.iconfinder.com/data/icons/diversity-avatars-volume-01-v2/64/hipster-man-white-512.png', 1);
 INSERT INTO tb_people (name, age, image, dept_id) VALUES ('Ryan', 18, 'https://cdn2.iconfinder.com/data/icons/diversity-avatars-volume-09/64/avatar-boler-suit-african-512.png', 2);
 INSERT INTO tb_people (name, age, image, dept_id) VALUES ('Francis', 32, 'https://cdn2.iconfinder.com/data/icons/diversity-v2-0-volume-01/64/accountant-asian-female-512.png', 1);

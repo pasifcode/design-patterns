@@ -54,7 +54,7 @@ export function PeopleLgCard({ id: peopleId }: Props) {
                         <div className="card-body">
                             <h5 className="card-title">{people?.name}</h5>
                             <p className="card-text">{people?.age}</p>
-                            <p className="card-text">Departamento: 
+                            <p className="card-text">Departamento:
                                 <Link to={`/dept/${people?.deptId}`} className="text-decoration-none">{people?.deptName}</Link>
                             </p>
 
@@ -75,9 +75,6 @@ export function PeopleLgCard({ id: peopleId }: Props) {
                     <div className="modal-content">
                         <div className="modal-header">
                             <label className="modal-title">Editar</label>
-                            <button className="close" data-bs-dismiss="modal" aria-label="Close">
-                                <span aria-hidden="true"><i className="fa fa-times" /></span>
-                            </button>
                         </div>
                         <div className="modal-body"><PeopleEditForm id={`${params.peopleId}`} /></div>
                     </div>
@@ -89,11 +86,9 @@ export function PeopleLgCard({ id: peopleId }: Props) {
                     <div className="modal-content">
                         <div className="modal-header">
                             <label className="modal-title">Deseja deletar este pessoa ?</label>
-                            <button className="close" data-bs-dismiss="modal" aria-label="Close">
-                                <span aria-hidden="true"><i className="fa fa-times" /></span>
-                            </button>
                         </div>
                         <div className="modal-footer">
+                            <button type="button" className="text-close" data-bs-dismiss="modal">cancelar</button>
                             <button onClick={() => deletePeople()} data-bs-dismiss="modal" className="btn btn-danger" >Deletar</button>
                         </div>
                     </div>
@@ -104,7 +99,6 @@ export function PeopleLgCard({ id: peopleId }: Props) {
 }
 
 export function PeopleSmCard({ people }: PeopleProps) {
-    const params = useParams();
 
     return (
         <>

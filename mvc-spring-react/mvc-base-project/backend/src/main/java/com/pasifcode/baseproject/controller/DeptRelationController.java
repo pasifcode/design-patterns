@@ -11,7 +11,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@CrossOrigin("http://localhost:3000/")
 @RequestMapping("/dept-relation")
 public class DeptRelationController {
 
@@ -29,6 +28,13 @@ public class DeptRelationController {
         DeptRelationDto add = deptRelationService.saveDeptRelation(dto);
         return new ResponseEntity<>(add, HttpStatus.CREATED);
     }
+
+    @PutMapping("/update")
+    ResponseEntity<DeptRelationDto> updateDeptRelation(@RequestBody DeptRelationDto dto) {
+        DeptRelationDto edit = deptRelationService.updateDeptRelation(dto);
+        return new ResponseEntity<>(edit, HttpStatus.CREATED);
+    }
+
 
     @DeleteMapping("/delete/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)

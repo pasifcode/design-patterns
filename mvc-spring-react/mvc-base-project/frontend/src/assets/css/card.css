@@ -11,12 +11,12 @@
 }
 .card-sm-box {
     max-width: 30em;
+    min-height: 62em;
     border: 1px solid #ccc;
     border-radius: 8px;
     padding: 16px; 
     box-shadow: 4px 2px 12px 0px rgba(33, 4, 87, 0.4);   
-    
-
+    overflow-y: scroll;
 }
 .card-sm-container {
     color: #000;

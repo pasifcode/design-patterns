@@ -151,3 +151,47 @@ export function DeptRelationAddForm({ id: relatingDeptId }: Props) {
         </form>
     );
 }
+
+export function DeptRelationEditForm({ id: deptId }: Props) {
+
+    const [dept, setDept] = useState<Dept>();
+    useEffect(() => {
+        axios.get(`${BASE_URL}/dept/${deptId}`)
+            .then((response) => {
+                setDept(response.data);
+            });
+    }, [deptId]);
+
+    const navigate = useNavigate();
+
+    const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+        const description = (event.target as any).description.value;
+
+        const config: AxiosRequestConfig = {
+            baseURL: BASE_URL,
+            method: "PUT",
+            url: "/dept-relation/update",
+            data: {
+                id: deptId,
+                description: description
+            }
+        };
+        axios(config).then(response => {
+            navigate(0);
+        })
+    }
+
+    return (
+        <form className=" form-container" onSubmit={handleSubmit}>
+            <div className="form-group">
+                <label htmlFor="description">Descrição: </label>
+                <input className="form-control" id="description" />
+            </div>
+
+            <div className="modal-footer">
+                <button type="button" className="text-close" data-bs-dismiss="modal">cancelar</button>
+                <button type="submit" className="btn btn-success">Editar</button>
+            </div>
+        </form>
+    );
+}

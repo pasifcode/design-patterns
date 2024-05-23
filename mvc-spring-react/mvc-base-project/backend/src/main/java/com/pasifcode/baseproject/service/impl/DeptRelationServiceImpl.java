@@ -32,29 +32,32 @@ public class DeptRelationServiceImpl implements DeptRelationService {
     @Override
     public DeptRelationDto saveDeptRelation(DeptRelationDto dto) {
         Dept relatingDept = deptRepository.findById(dto.getRelatingDeptId()).orElseThrow();
-        Dept relatedDept = deptRepository.findById(dto.getRelatedDeptId()).orElseThrow();
+        Dept relatedDept = deptRepository.findByName(dto.getRelatedDeptName());
 
         DeptRelation add = new DeptRelation();
         DeptRelation add2 = new DeptRelation();
-        if (relatingDept != add.getRelatingDept() && relatedDept != add.getRelatedDept()) {
-        if (relatingDept != relatedDept) {
+            if (relatingDept != relatedDept) {
                 add.setRelatingDept(relatingDept);
                 add.setRelatedDept(relatedDept);
                 add.setDescription(dto.getDescription());
                 deptRelationRepository.saveAndFlush(add);
 
-                DeptRelation deptRelation = deptRelationRepository.findById(add.getId()).orElseThrow();
-                add2.setRelatingDept(deptRelation.getRelatedDept());
-                add2.setRelatedDept(deptRelation.getRelatingDept());
+                DeptRelation deptRelationReverse = deptRelationRepository.findById(add.getId()).orElseThrow();
+                add2.setRelatingDept(deptRelationReverse.getRelatedDept());
+                add2.setRelatedDept(deptRelationReverse.getRelatingDept());
                 add2.setDescription(add.getDescription());
                 deptRelationRepository.saveAndFlush(add2);
-            } else {
-            System.out.println("Um departamento não pode se relacionar consigo mesmo " +
-                    "e um relacionamento entre dois departamentos não pode se repitir ");
-        }
-        }
-
+            }
         return new DeptRelationDto(add);
+    }
+
+    @Override
+    public DeptRelationDto updateDeptRelation(DeptRelationDto dto) {
+            DeptRelation edit = deptRelationRepository.findById(dto.getId()).orElseThrow();
+            edit.setId(edit.getId());
+            edit.setDescription(dto.getDescription());
+
+        return new DeptRelationDto(deptRelationRepository.save(edit));
     }
 
     @Override

@@ -59,7 +59,7 @@ spring.jpa.open-in-view=false
 <br/>
 
 **application-test.properties** 
-* possui as propriedades do banco de dados em memória
+* perfil que contém as propriedades do banco de dados em memória
 
 ```
 spring.datasource.url=jdbc:h2:mem:testdb
@@ -76,7 +76,7 @@ spring.jpa.properties.hibernate.format_sql=true
 <br/>
 
 **application-dev.properties**
-* possui as propriedades do sistema banco de dados SQL
+* perfil que contém as propriedades do sistema banco de dados SQL
 
 ```
 #spring.jpa.properties.javax.persistence.schema-generation.create-source=metadata
@@ -159,7 +159,7 @@ e para instalar as bibliotecas do Frontend.
 
 **Configuração básica de segurança do Spring para o acesso às requisições**
 * anotações `@Configuration` e `@EnableWebSecurity`
-* método `filterChain` para a proteção dos _endpoints_ com HTTP básico
+* método `securityFilterChain` para a proteção dos _endpoints_ com HTTP básico e para a configuração do H2 Database
 * método `corsConfigurationSource` para configurar o CORS padrão do Spring
 
 ![Security Config](https://github.com/Henri-BS/pasifcode-docs/blob/main/docs/images/security-config.png)

@@ -11,5 +11,7 @@ public interface DeptRelationService {
 
     DeptRelationDto saveDeptRelation(DeptRelationDto dto);
 
+    DeptRelationDto updateDeptRelation(DeptRelationDto dto);
+
     void deleteDeptRelation(Long id);
 }

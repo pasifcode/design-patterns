@@ -1,5 +1,5 @@
 import axios from "axios";
-import { DeptEditForm } from "components/forms/DeptForm";
+import { DeptEditForm, DeptRelationEditForm } from "components/forms/DeptForm";
 import { PeopleEditForm } from "components/forms/PeopleForm";
 import Footer from "components/shared/Footer";
 import { useState, useEffect } from "react";
@@ -56,7 +56,7 @@ export function DeptLgCard({ id: deptId }: Props) {
                     </div>
                 </div>
             </div>
-            <nav className="d-flex justify-content-start">
+            <nav className="d-flex justify-content-start mb-4">
                 <button className="btn btn-primary" data-bs-target="#deptEditModal" data-bs-toggle="modal">
                     Editar
                 </button>
@@ -69,9 +69,6 @@ export function DeptLgCard({ id: deptId }: Props) {
                     <div className="modal-content">
                         <div className="modal-header">
                             <label className="modal-title">Editar</label>
-                            <button className="close" data-bs-dismiss="modal" aria-label="Close">
-                                <span aria-hidden="true"><i className="fa fa-times" /></span>
-                            </button>
                         </div>
                         <div className="modal-body"><DeptEditForm id={`${params.deptId}`} /></div>
                     </div>
@@ -83,11 +80,9 @@ export function DeptLgCard({ id: deptId }: Props) {
                     <div className="modal-content">
                         <div className="modal-header">
                             <label className="modal-title">Deseja deletar este departamento ?</label>
-                            <button className="close" data-bs-dismiss="modal" aria-label="Close">
-                                <span aria-hidden="true"><i className="fa fa-times" /></span>
-                            </button>
                         </div>
                         <div className="modal-footer">
+                            <button type="button" className="text-close" data-bs-dismiss="modal">cancelar</button>
                             <button onClick={() => deleteDept()} data-bs-dismiss="modal" className="btn btn-danger" >Deletar</button>
                         </div>
                     </div>
@@ -116,16 +111,70 @@ export function DeptSmCard({ dept }: DeptProps) {
 
 export function DeptRelationSmCard({ deptRelation }: DeptRelationProps) {
 
+    const navigate = useNavigate();
+    const params = useParams();
+    const deleteDeptRelation = () => {
+        axios.delete(`${BASE_URL}/dept-relation/delete/${deptRelation.id}`)
+            .then((response) => {
+                navigate(0);
+            })
+    }
+
     return (
         <>
-            <Link to={`/dept/${deptRelation.relatedDeptId}`}>
+            <div className="card-title" data-bs-toggle="modal" data-bs-target="#deptRelationProfileModal" data-bs-dismiss="modal">
                 <div className="card-sm-container">
                     <div className="card-body">
                         <h5>{deptRelation.relatedDeptName}</h5>
                         <p>{deptRelation.description}</p>
                     </div>
                 </div>
-            </Link>
+            </div>
+
+            <div className="modal fade" id="deptRelationProfileModal" role={"dialog"}>
+                <div className="modal-dialog" role={"document"}>
+                    <div className="modal-content">
+                        <div className="modal-header">
+                            <label className="modal-title">Derpartamento Relacionado</label>
+                        </div>
+                        <div className="modal-body">
+                            <Link to={`/dept/${deptRelation.relatedDeptId}`}>
+                                <h5>{deptRelation.relatedDeptName}</h5>
+                            </Link>
+                            <h6>{deptRelation.description}</h6>
+                        </div>
+                        <div className="modal-footer">
+                            <button className="btn btn-primary" data-bs-toggle="modal" data-bs-target="#deptRelationEditModal" data-bs-dismiss="modal">Editar</button>
+                            <button className="btn btn-danger" data-bs-toggle="modal" data-bs-target="#deptRelationDeleteModal" data-bs-dismiss="modal">Deletar</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div className="modal fade" id="deptRelationEditModal" role={"dialog"}>
+                <div className="modal-dialog" role={"document"}>
+                    <div className="modal-content">
+                        <div className="modal-header">
+                            <label className="modal-title">Editar</label>
+                        </div>
+                        <div className="modal-body"><DeptRelationEditForm id={`${params.deptId}`} /></div>
+                    </div>
+                </div>
+            </div>
+
+            <div className="modal fade" id="deptRelationDeleteModal" role={"dialog"}>
+                <div className="modal-dialog" role={"document"}>
+                    <div className="modal-content">
+                        <div className="modal-header">
+                            <label className="modal-title">Deseja deletar está relação entre departamentos ?</label>
+                        </div>
+                        <div className="modal-footer">
+                            <button type="button" className="text-close" data-bs-dismiss="modal">cancelar</button>
+                            <button onClick={() => deleteDeptRelation()} data-bs-dismiss="modal" className="btn btn-danger" >Deletar</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </>
     );
 }
