@@ -6,7 +6,10 @@ Este documento é um guia que visa demonstrar como será feito o uso do padrão 
 padrões para o desenvolvimento de camadas, classes, interfaces e funções no Backend com Spring, e também o
 desenvolvimento de componentes, páginas e estilização no Frontend com React.
 
-## [Configuração do Backend](https://github.com/pacifcode/design-patterns/tree/main/mvc-base-project/backend)
+Código Fonte 
+
+
+## [Configuração do Backend](https://github.com/pasifcode/design-patterns/tree/main/mvc-base-project/backend)
 
 
 | Ferramentas do Backend    | Nome                                                          |
@@ -41,7 +44,7 @@ desenvolvimento de componentes, páginas e estilização no Frontend com React.
 | [JPA Buddy](https://plugins.jetbrains.com/plugin/15075-jpa-buddy)      |
 | [Wakatime](https://plugins.jetbrains.com/plugin/7425-wakatime)         |
 
-### [Resources](https://github.com/pacifcode/design-patterns/tree/main/mvc-spring-react/mvc-base-project/backend/src/main/resources)
+### [Resources](https://github.com/pasifcode/design-patterns/tree/main/mvc-spring-react/mvc-base-project/backend/src/main/resources)
 
 - pasta que irá conter arquivos do tipo _properties_ que irão representar os perfis e o arquivo import.sql qu irá conter os scripts do banco de dados em memória
 
@@ -98,7 +101,7 @@ spring.jpa.properties.hibernate.jdbc.lob.non_contextual_creation=true
 spring.jpa.hibernate.ddl-auto=none
 ```
 
-## [Configuração do Frontend](https://github.com/pacifcode/design-patterns/tree/main/mvc-spring-react/mvc-base-project/frontend)
+## [Configuração do Frontend](https://github.com/pasifcode/design-patterns/tree/main/mvc-spring-react/mvc-base-project/frontend)
 
 | Ferramentas do Frontend  | Nome                                                               |
 | ------------------------ | ------------------------------------------------------------------ |
@@ -128,7 +131,7 @@ spring.jpa.hibernate.ddl-auto=none
 - download do [Node](https://nodejs.org/en)
 - criação de aplicação ReactJs com TypeScript
 - nomear o app para 'frontend'
-- adicionar a propriedade `"baseUrl": "./src"` em [tsconfig.json](https://github.com/pacifcode/design-patterns/tree/main/mvc-spring-react/mvc-base-project/frontend/tsconfig.json)
+- adicionar a propriedade `"baseUrl": "./src"` em [tsconfig.json](https://github.com/pasifcode/design-patterns/tree/main/mvc-spring-react/mvc-base-project/frontend/tsconfig.json)
 
 Tabela com sequência de comandos no terminal [Git Bash](https://git-scm.com/download/win). Para criar o projeto React e para instalar as bibliotecas básicas do Frontend.
 
@@ -142,19 +145,19 @@ Tabela com sequência de comandos no terminal [Git Bash](https://git-scm.com/dow
 | Adiciona bootstrap como biblioteca de estilização  | yarn add bootstrap                                   |
 | Adiciona moment como biblioteca de datas           | yarn add moment                                      |
 
-### [CSS](https://github.com/pacifcode/design-patterns/blob/main/mvc-spring-react/mvc-base-project/frontend/src/assets/css)
+### [CSS](https://github.com/pasifcode/design-patterns/blob/main/mvc-spring-react/mvc-base-project/frontend/src/assets/css)
 
 - os arquivos CSS devem estar localizados em src > assets > css
-- inserir _imports_ dos arquivos CSS no arquivo [index.tsx](https://github.com/pacifcode/design-patterns/tree/main/mvc-spring-react/mvc-base-project/frontend/src/index.tsx)
+- inserir _imports_ dos arquivos CSS no arquivo [index.tsx](https://github.com/pasifcode/design-patterns/tree/main/mvc-spring-react/mvc-base-project/frontend/src/index.tsx)
 - inserir _imports_ do Bootstrap no CSS
 
 # Programação Backend
 
-O modelo de Backend que será baseado na arquitetura MVC irá conter padrões como Repository e DTO que irão definir algumas classes, interfaces, funções e testes para banco de dados e requisições. Neste documento será usada uma entidade genérica chamada 'People' afim de exemplificar como é feita a codificação básica nas camadas da arquitetura MVC.
+O modelo de Backend que será baseado na arquitetura MVC irá conter padrões como Repository e DTO que irão definir algumas classes, interfaces, funções e testes para banco de dados e requisições. Neste tópico serão usadas entidades genéricas afim de exemplificar como é feita a codificação básica do Backend nas camadas da arquitetura MVC.
 
-### Classes e Interfaces
+## Classes e Interfaces
 
-#### [SecurityConfig](https://github.com/pacifcode/design-patterns/blob/main/mvc-spring-react/mvc-base-project/backend/src/main/java/com/pasifcode/baseproject/config/SecurityConfig.java)
+### [SecurityConfig](https://github.com/pasifcode/design-patterns/blob/main/mvc-spring-react/mvc-base-project/backend/src/main/java/com/pasifcode/baseproject/config/SecurityConfig.java)
 
 **Classe com a configuração básica de segurança do Spring para o acesso às requisições, as permissões para o banco de dados H2 e o CORS**
 
@@ -163,37 +166,37 @@ O modelo de Backend que será baseado na arquitetura MVC irá conter padrões co
 - método `filterChain` para a proteção dos _endpoints_ com HTTP básico e para permitir a configuração do H2 Database
 - método `addCorsMapping` para configurar o CORS padrão para mapeamento e requisições no Spring
 
-![Security Config](https://github.com/pacifcode/design-patterns/blob/main/mvc-spring-react/images/security-config.png)
+![Security Config](https://github.com/pasifcode/design-patterns/blob/main/mvc-spring-react/images/security-config.png)
 
 <br/>
 
-#### [Entity](https://github.com/pacifcode/design-patterns/blob/main/mvc-spring-react/mvc-base-project/backend/src/main/java/com/pasifcode/baseproject/entity)
+### [Entity](https://github.com/pasifcode/design-patterns/blob/main/mvc-spring-react/mvc-base-project/backend/src/main/java/com/pasifcode/baseproject/entity)
 
-**A entidade possuirá uma conexão com uma tabela no banco de dados através da ORM**
+**A classe Entity representa um modelo que possuirá uma conexão com uma tabela no banco de dados através da ORM**
 
 - anotação `@Entity` para indicar entidade
+- anotação `@Table(name = "tb_people")` para relacionar e nomear uma tabela
 - atributo _id_ com as anotações `@Id` e `@GeneratedValue`
-- anotação `@Table(name = "tb_name")` para relacionar e nomear uma tabela.
 - `@Column` para personalizar as características dos atributos
 
-![Entity](https://github.com/pacifcode/design-patterns/blob/main/mvc-spring-react/images/entity.png)
+![Entity](https://github.com/pasifcode/design-patterns/blob/main/mvc-spring-react/images/entity.png)
 
 <br/>
 
-#### [Repository](https://github.com/pacifcode/design-patterns/tree/main/mvc-spring-react/mvc-base-project/backend/src/main/java/com/pasifcode/baseproject/repository)
+### [Repository](https://github.com/pasifcode/design-patterns/tree/main/mvc-spring-react/mvc-base-project/backend/src/main/java/com/pasifcode/baseproject/repository)
 
-**O reporitório irá entre o domínio e as camadas de mapeamento de dados**
+**A interface Repository deve abstrair o acesso a dados de acordo com a sua entidade**
 
 - anotação `@Repository` para definir como _Repository_
 - estende a interface `JpaRepository<Entity, Long>` para receber os métodos da JPA.
 
-![Repository](https://github.com/pacifcode/design-patterns/blob/main/mvc-spring-react/images/repository.png)
+![Repository](https://github.com/pasifcode/design-patterns/blob/main/mvc-spring-react/images/repository.png)
 
 <br/>
 
-#### [DTO](https://github.com/pacifcode/design-patterns/tree/main/mvc-spring-react/mvc-base-project/backend/src/main/java/com/pasifcode/baseproject/dto)
+### [DTO](https://github.com/pasifcode/design-patterns/tree/main/mvc-spring-react/mvc-base-project/backend/src/main/java/com/pasifcode/baseproject/dto)
 
-**Realiza a transferência os dados entre os processos reduzindo o número de transações**
+**A classe DTO realiza a transferência os dados entre entre as camadas reduzindo o número de transações**
 
 - anotação `@JsonInclude` para ocultar dados nulos na requisição Json
 - anotações `@Getter` e `@NoArgsContructor`
@@ -201,109 +204,104 @@ O modelo de Backend que será baseado na arquitetura MVC irá conter padrões co
 - atributo `serialVersionUID` para definir a versão e a anotação `@Serial` será inclusa no atributo de versão
 - construtor com os atibutos da classe _DTO_ recebendo os métodos _get_ da classe _Entity_ correspondente
 
-![DTO](https://github.com/pacifcode/design-patterns/blob/main/mvc-spring-react/images/dto.png)
+![DTO](https://github.com/pasifcode/design-patterns/blob/main/mvc-spring-react/images/dto.png)
 
 <br/>
 
-#### [Service](https://github.com/pacifcode/design-patterns/tree/main/mvc-spring-react/mvc-base-project/backend/src/main/java/com/pasifcode/baseproject/service/interf)
+### [Service](https://github.com/pasifcode/design-patterns/tree/main/mvc-spring-react/mvc-base-project/backend/src/main/java/com/pasifcode/baseproject/service/interf)
 
-**Recebe a declararação de funções de lógica de negócios**
+**A interface Service recebe a declararação de funções de lógica de negócios**
 
-![Service](https://github.com/pacifcode/design-patterns/blob/main/mvc-spring-react/images/service.png)
+![Service](https://github.com/pasifcode/design-patterns/blob/main/mvc-spring-react/images/service.png)
 
 <br/>
 
-#### [ServiceImpl](https://github.com/pacifcode/design-patterns/tree/main/mvc-spring-react/mvc-base-project/backend/src/main/java/com/pasifcode/baseproject/service/impl)
+### [ServiceImpl](https://github.com/pasifcode/design-patterns/tree/main/mvc-spring-react/mvc-base-project/backend/src/main/java/com/pasifcode/baseproject/service/impl)
 
-**Implementa os métodos das suas respectivas interfaces do tipo Service**
+**A classe Controller é usada para implementa os métodos das suas respectivas interfaces do tipo Service**
 
 - anotação `@Service` para definir como _Service_
 - anotação `@Transacitional` para declarar a semântica de transação
 
-![ServiceImpl](https://github.com/pacifcode/design-patterns/blob/main/mvc-spring-react/images/service-impl.png)
+![ServiceImpl](https://github.com/pasifcode/design-patterns/blob/main/mvc-spring-react/images/service-impl.png)
 
 <br/>
 
-#### [Controller](https://github.com/pacifcode/design-patterns/tree/main/mvc-spring-react/mvc-base-project/backend/src/main/java/com/pasifcode/baseproject/controller)
+### [Controller](https://github.com/pasifcode/design-patterns/tree/main/mvc-spring-react/mvc-base-project/backend/src/main/java/com/pasifcode/baseproject/controller)
 
-**Controlador da aplicação com as nuances de persistência e o mapeamento de solicitações da Web**
+**Classe usada como controlador da aplicação com as nuances de persistência e o mapeamento de solicitações da Web**
 
 - anotação `@RestContoller` para definir a classe como controlador
 - anotação `@RequestMapping` para mapear as solicitações
 - atributo do tipo interface `Service` para a chamada dos métodos definidos na camada `Service`.
 
-![Controller](https://github.com/pacifcode/design-patterns/blob/main/mvc-spring-react/images/controller.png)
+![Controller](https://github.com/pasifcode/design-patterns/blob/main/mvc-spring-react/images/controller.png)
 
 <br/>
 
-### Funções e Procedimentos
+## Funções e Procedimentos
 
-As funções e procedimentos serão definidas em 4 camadas diferentes: _Repository_, _Service_, _ServiceImpl_ e
-_Controller_. O processo de construção das principais funções CRUD utilizadas no projeto será abordado com alguns
-exemplos.
+As funções e procedimentos básicas serão baseadas no CRUD (findAll, findById, save, update e delete) e estarão estabelecidas em 4 camadas diferentes: _Repository_, _Service_, _ServiceImpl_ e
+_Controller_. 
 
-#### FindAll
+### FindAll (Page)
 
 - retornam uma coleção de objetos
-- tipo `List<E>` para listas comuns
-- tipo `Page<T>` para listas paginadas e parâmetro `Pageable pageable` possui métodos de paginação
-
----
-
-**Função _findAll_ do tipo Page em cada camada**
+- o tipo `Page<T>` é usado para listas paginadas e o parâmetro `Pageable pageable` possui métodos de paginação (também pode ser utilizado como uma lista comum)
+- um parâmetro pode ser utilizado para realizar buscas e filtragens
 
 | Tipo de Classe ou Interface                                                                                                                                                                                                | Declaração                                                                                                 | Anotações                                     | Retorno                         |
 | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------- | --------------------------------------------- | ------------------------------- |
-| [FindAll(Page) - Repository](https://github.com/pacifcode/design-patterns/blob/960129bb3307fb1fb411ab47c8c61e8a3ac0f7b2/mvc-spring-react/mvc-base-project/backend/src/main/java/com/pasifcode/baseproject/repository/PeopleRepository.java#L15)                                                                                                                                                                                             | `Page<Entity> findEntities (Pageable pageable, String atr);`                                               | @Query                                        |                                 |
-| [FindAll(Page) - Service](https://github.com/Henri-BS/pasifcode-docs/blob/3ffb118cf3d034ad38482b3fd4b0391717816307/base-project/backend/src/main/java/com/pasifcode/baseproject/service/interf/UserService.java#L8)        | `Page<Dto> findEntities (Pageable pageable, String atr)`                                                   |                                               |                                 |
-| [FindAll(Page) - ServiceImpl](https://github.com/Henri-BS/pasifcode-docs/blob/3ffb118cf3d034ad38482b3fd4b0391717816307/base-project/backend/src/main/java/com/pasifcode/baseproject/service/impl/UserServiceImpl.java#L22) | `Page<Dto> findEntities (Pageable pageable, String atr){}`                                                 | @Override<br/>@Transactional(readOnly = true) | return find.map(CvDto::new);    |
+| [FindAll(Page) - Repository](https://github.com/pasifcode/design-patterns/blob/960129bb3307fb1fb411ab47c8c61e8a3ac0f7b2/mvc-spring-react/mvc-base-project/backend/src/main/java/com/pasifcode/baseproject/repository/PeopleRepository.java#L15)                                                                                                                                                                                             | `Page<Entity> findEntities (Pageable pageable, String name);`                                               | @Query                                        |                                 |
+| [FindAll(Page) - Service](https://github.com/pasifcode/design-patterns/blob/960129bb3307fb1fb411ab47c8c61e8a3ac0f7b2/mvc-spring-react/mvc-base-project/backend/src/main/java/com/pasifcode/baseproject/service/interf/PeopleService.java#L10)        | `Page<Dto> findEntities (Pageable pageable, String atr)`                                                   |                                               |                                 |
+| [FindAll(Page) - ServiceImpl](https://github.com/pasifcode/design-patterns/blob/960129bb3307fb1fb411ab47c8c61e8a3ac0f7b2/mvc-spring-react/mvc-base-project/backend/src/main/java/com/pasifcode/baseproject/service/impl/PeopleServiceImpl.java#L28) | `Page<Dto> findEntities (Pageable pageable, String atr){}`                                                 | @Override<br/>@Transactional(readOnly = true) | return find.map(CvDto::new);    |
 | [FindAll(Page) - Controller](https://github.com/Henri-BS/pasifcode-docs/blob/main/base-project/backend/src/main/java/com/pasifcode/baseproject/controller/UserController.java#L20)                                         | `ResponseEntity<Page<Dto>> findEntities (Pageable pageable, @RequestParams(defaultValue="") String atr){}` | @GetMapping                                   | return ResponseEntity.ok(page); |
 
 <br/>
 
-#### FindById
+### FindById
 
 | Tipo de Camada da Função                                                                                                                                                                                              | Declaração                                                     | Anotações                                     |
 | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------- | --------------------------------------------- |
-| [FindById - Service](https://github.com/Henri-BS/pasifcode-docs/blob/3ffb118cf3d034ad38482b3fd4b0391717816307/base-project/backend/src/main/java/com/pasifcode/baseproject/service/interf/UserService.java#L10)       | `Dto findEntityById (Long id);`                                |                                               |
-| [FindById - ServiceImpl](https://github.com/Henri-BS/pasifcode-docs/blob/3ffb118cf3d034ad38482b3fd4b0391717816307/base-project/backend/src/main/java/com/pasifcode/baseproject/service/impl/UserServiceImpl.java#L29) | `Dto findEntityById (Long id){}`                               | @Override<br/>@Transactional(readOnly = true) |
+| [FindById - Service](https://github.com/pasifcode/design-patterns/blob/960129bb3307fb1fb411ab47c8c61e8a3ac0f7b2/mvc-spring-react/mvc-base-project/backend/src/main/java/com/pasifcode/baseproject/service/interf/PeopleService.java#L14)       | `Dto findEntityById (Long id);`                                |                                               |
+| [FindById - ServiceImpl](https://github.com/pasifcode/design-patterns/blob/960129bb3307fb1fb411ab47c8c61e8a3ac0f7b2/mvc-spring-react/mvc-base-project/backend/src/main/java/com/pasifcode/baseproject/service/impl/PeopleServiceImpl.java#L42) | `Dto findEntityById (Long id){}`                               | @Override<br/>@Transactional(readOnly = true) |
 | [FindById - Controller](https://github.com/Henri-BS/pasifcode-docs/blob/main/base-project/backend/src/main/java/com/pasifcode/baseproject/controller/UserController.java#L26)                                         | `ResponseEntity<Dto> findEntityById (@PathVariable Long id){}` | @GetMapping                                   |
 
-<br/>
+---
 
-#### Save
+### Save
 
 | Tipo de Camada da Função                                                                                                                                                                                          | Declaração                                                | Anotações    |
 | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------- | ------------ |
-| [Save - Service](https://github.com/Henri-BS/pasifcode-docs/blob/3ffb118cf3d034ad38482b3fd4b0391717816307/base-project/backend/src/main/java/com/pasifcode/baseproject/service/interf/UserService.java#L12)       | `Dto saveEntity (Dto dto);`                               |              |
-| [Save - ServiceImpl](https://github.com/Henri-BS/pasifcode-docs/blob/3ffb118cf3d034ad38482b3fd4b0391717816307/base-project/backend/src/main/java/com/pasifcode/baseproject/service/impl/UserServiceImpl.java#L35) | `Dto saveEntity (Dto dto){}`                              | @Override    |
+| [Save - Service](https://github.com/pasifcode/design-patterns/blob/960129bb3307fb1fb411ab47c8c61e8a3ac0f7b2/mvc-spring-react/mvc-base-project/backend/src/main/java/com/pasifcode/baseproject/service/interf/PeopleService.java#L16)       | `Dto saveEntity (Dto dto);`                               |              |
+| [Save - ServiceImpl](https://github.com/pasifcode/design-patterns/blob/960129bb3307fb1fb411ab47c8c61e8a3ac0f7b2/mvc-spring-react/mvc-base-project/backend/src/main/java/com/pasifcode/baseproject/service/impl/PeopleServiceImpl.java#L48) | `Dto saveEntity (Dto dto){}`                              | @Override    |
 | [Save - Controller](https://github.com/Henri-BS/pasifcode-docs/blob/main/base-project/backend/src/main/java/com/pasifcode/baseproject/controller/UserController.java#L32)                                         | `ResponseEntity<Dto> saveEntity (@RequestBody Dto dto){}` | @PostMapping |
 
-<br/>
+---
 
-#### Update
+### Update
 
 | Tipo de Camada da Função                                                                                                                                                                                            | Declaração                                                  | Anotações   |
 | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------- | ----------- |
-| [Update - Service](https://github.com/Henri-BS/pasifcode-docs/blob/3ffb118cf3d034ad38482b3fd4b0391717816307/base-project/backend/src/main/java/com/pasifcode/baseproject/service/interf/UserService.java#L14)       | `Dto updateEntity (Dto dto);`                               |             |
-| [Update - ServiceImpl](https://github.com/Henri-BS/pasifcode-docs/blob/3ffb118cf3d034ad38482b3fd4b0391717816307/base-project/backend/src/main/java/com/pasifcode/baseproject/service/impl/UserServiceImpl.java#L44) | `Dto updateEntity (Dto dto){}`                              | @Override   |
+| [Update - Service](https://github.com/pasifcode/design-patterns/blob/960129bb3307fb1fb411ab47c8c61e8a3ac0f7b2/mvc-spring-react/mvc-base-project/backend/src/main/java/com/pasifcode/baseproject/service/interf/PeopleService.java#L18)       | `Dto updateEntity (Dto dto);`                               |             |
+| [Update - ServiceImpl](https://github.com/pasifcode/design-patterns/blob/960129bb3307fb1fb411ab47c8c61e8a3ac0f7b2/mvc-spring-react/mvc-base-project/backend/src/main/java/com/pasifcode/baseproject/service/impl/PeopleServiceImpl.java#L60) | `Dto updateEntity (Dto dto){}`                              | @Override   |
 | [Update - Controller](https://github.com/Henri-BS/pasifcode-docs/blob/main/base-project/backend/src/main/java/com/pasifcode/baseproject/controller/UserController.java#L38)                                         | `ResponseEntity<Dto> updateEntity (@RequestBody Dto dto){}` | @PutMapping |
 
-<br/>
+---
 
-#### Delete
+### Delete
 
 | Tipo de Camada da Função                                                                                                                                                                                            | Declaração                                    | Anotações                          |
 | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------- | ---------------------------------- |
-| [Delete - Service](https://github.com/Henri-BS/pasifcode-docs/blob/3ffb118cf3d034ad38482b3fd4b0391717816307/base-project/backend/src/main/java/com/pasifcode/baseproject/service/interf/UserService.java#L16)       | `void deleteEntity (Long id);`                |                                    |
-| [Delete - ServiceImpl](https://github.com/Henri-BS/pasifcode-docs/blob/3ffb118cf3d034ad38482b3fd4b0391717816307/base-project/backend/src/main/java/com/pasifcode/baseproject/service/impl/UserServiceImpl.java#L54) | `void deleteEntity (Long id){}`               | @Override                          |
+| [Delete - Service](https://github.com/pasifcode/design-patterns/blob/960129bb3307fb1fb411ab47c8c61e8a3ac0f7b2/mvc-spring-react/mvc-base-project/backend/src/main/java/com/pasifcode/baseproject/service/interf/PeopleService.java#L20)       | `void deleteEntity (Long id);`                |                                    |
+| [Delete - ServiceImpl](https://github.com/pasifcode/design-patterns/blob/960129bb3307fb1fb411ab47c8c61e8a3ac0f7b2/mvc-spring-react/mvc-base-project/backend/src/main/java/com/pasifcode/baseproject/service/impl/PeopleServiceImpl.java#L73) | `void deleteEntity (Long id){}`               | @Override                          |
 | [Delete - Controller](https://github.com/Henri-BS/pasifcode-docs/blob/main/base-project/backend/src/main/java/com/pasifcode/baseproject/controller/UserController.java#L45)                                         | `void deleteEntity (@PathVariable Long id){}` | @DeleteMapping<br/>@ResponseStatus |
 
-<br/>
+---
 
-### Teste de Dados
+## Teste de Dados
 
-#### Teste com H2 Database
+### Teste com H2 Database
 
 - visualizar e manipular dados presentes nos _scripts_ do arquivo `application-test.properties`
 - interface gráfica no navegador a url: `http://localhost:8080/h2-console`
@@ -318,7 +316,7 @@ exemplos.
   novo registro o banco de dados informará sobre a condição da inserção com uma mensagem.
   ![H2 Insert](https://github.com/Henri-BS/pasifcode-docs/blob/main/docs/images/h2-insert.png)
 
-#### Teste de requisições com Postman
+### Teste de requisições com Postman
 
 - plaraforma de API Postman para o teste as requisições
 - requições organizadas em coleções e pastas
@@ -342,53 +340,89 @@ exemplos.
 
 # Programação Frontend
 
-### [Requests](https://github.com/Henri-BS/pasifcode-docs/base-project/blob/main/frontend/src/utils/requests.tsx)
+O modelo de Frontend que irá representar a camada visual da arquitetura MVC, o Frontend em React irá conter os componentes em formato _tsx_ e a estilização feita em CSS em conjunto com a biblioteca Bootstrap. O padrão Observer será usado para a construção dos componentes e neste tópico também serão usadas entidades genéricas para exemplificação.
+
+
+## [Requests](https://github.com/pasifcode/design-patterns/tree/main/mvc-spring-react/mvc-base-project/frontend/src/utils/requests.tsx)
 
 **O componente request permite que a camada de Frontend possa encontrar a camada de Backend através do arquivo _requests.ts_**,
 
 - criar caminho para o Backend chamado `BASE_URL`
-- incluir a url do localhost
-- incluir operador de coalescência nula para indicar outra localidade
+- incluir a url do localhost com o backend local
+- incluir operador de coalescência nula para indicar uma variável comoutra localidade em que o Backend de encontra
 
 `export const BASE_URL = process.env.REACT_APP_BACKEND_URL ?? "http://localhost:8080";`
 
-### [Types](https://github.com/Henri-BS/pasifcode-docs/base-project/blob/main/frontend/src/types)
+## [Types](https://github.com/pasifcode/design-patterns/tree/main/mvc-spring-react/mvc-base-project/frontend/src/types)
 
-- incluir _type_ para represetar objetos
-- incluir _type_ para representarem coleções paginadas
-- incluir _type_ para representar parâmetros
+- os _types_ podem representar objetos, coleções paginadas ou parâmetros
 
-<br/>
+## [Componentes](https://github.com/pasifcode/design-patterns/tree/main/mvc-spring-react/mvc-base-project/frontend/src/components)
 
-### Componentes
-
-#### [Card](https://github.com/Henri-BS/pasifcode-docs/base-project/blob/main/frontend/src/components/cards)
+### [Card](https://github.com/pasifcode/design-patterns/tree/main/mvc-spring-react/mvc-base-project/frontend/src/components/cards)
 
 **O componente _card_ será usado como um "cartão" que irá conter informações sobre determinado conteúdo**
 
 - criar modelo de _card_ do Bootstrap ou _cards_ personalizados através do arquivo _card.css_
 - incluir _types_ para receber os dados necessários
 
-<br/>
 
-#### [Form](https://github.com/Henri-BS/pasifcode-docs/base-project/blob/main/frontend/src/components/forms)
+
+### [Form](https://github.com/pasifcode/design-patterns/tree/main/mvc-spring-react/mvc-base-project/frontend/src/components/forms)
 
 **O componente _form_ irá permitir que a submição se dados seja feita**
 
-- criação uma _Arrow Function_ chamada `handleSubmit` que fará evento de submissão no formulário
-- incluir constantes no `handleSubmit` referente a cada atributo da _type_ referenciada
-- criar uma _const_ do tipo `AxiosRequestConfig` para as propriedades requisição sendo elas:
+- declaração uma _Arrow Function_ chamada `handleSubmit` com a propreidade `event: React.FormEvent<HTMLFormElement>` para realizar o evento de submissão no formulário
+```
+const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+  // propriedades, configuração de requisição
+}
+ ```
+<br>
+
+
+- no `handleSubmit` deve ser declarado as variáveis _const_ referentes a cada atributo da _type_ referenciada, afim de criar um evento de inserção de valor nos campos do formulário
+```
+  const name = (event.target as any).name.value;
+  const image = (event.target as any).image.value;
+  const age = (event.target as any).age.value;
+  const deptName = (event.target as any).deptName.value;
+```
+<br>
+
+- uma variável _const_ do tipo `AxiosRequestConfig` para realizar a configuração da requisição através da seguintes propriedades:
   - **baseUrl** que terá a url configurada no arquivo _requests.ts_
   - **method** que definirá o método HTTP usado
   - **url** que será o caminho da função mapeada na
     camada _Controller_
   - **data** que irá corresponder aos dados presentes na _request_.
+```
+        const config: AxiosRequestConfig = {
+            baseURL: BASE_URL,
+            method: "POST",
+            url: "/people/save",
+            data: {
+                name: name,
+                image: image,
+                age: age,
+                deptName: deptName
+            }
+        };
+        axios(config).then(response => {
+            navigate(0);
+        })
+    }
+```
 - chamar do método _axios_ para receber as configurações definidas anteriormente
 - inserir uma constante para navegação de páginas da biblioteca React Routes
 
-<br/>
 
-#### [Pagination](https://github.com/Henri-BS/pasifcode-docs/base-project/blob/main/frontend/src/components/shared/Pagination.tsx)
+
+
+
+
+
+### [Pagination](https://github.com/pasifcode/design-patterns/tree/main/mvc-spring-react/mvc-base-project/frontend/src/components/shared/Pagination.tsx)
 
 - componente criado na pasta de componentes _shared_ com o nome de _pagination.tsx_
 - recebe uma _type_ de Page com um atributo _content_ das listas que serão paginadas
@@ -397,9 +431,9 @@ exemplos.
 
 <br/>
 
-### Páginas e Rotas
+## Páginas e Rotas
 
-#### [List](https://github.com/Henri-BS/pasifcode-docs/base-project/blob/main/frontend/src/pages)
+### [List](https://github.com/pasifcode/design-patterns/tree/main/mvc-spring-react/mvc-base-project/frontend/src/pages)
 
 **implementação de uma lista paginada com um mecanismo de busca**
 
@@ -427,9 +461,8 @@ exemplos.
 
 ![List Reteurn]()
 
-<br/>
 
-#### [Profile](https://github.com/Henri-BS/pasifcode-docs/base-project/blob/main/frontend/src/pages/CvProfile.tsx)
+### [Profile](https://github.com/pasifcode/design-patterns/tree/main/mvc-spring-react/mvc-base-project/frontend/src/pages/PeopleProfile.tsx)
 
 **componente Profile irá agregar outros componentes para criar um perfil específico**
 
@@ -438,7 +471,7 @@ exemplos.
 
 <br/>
 
-#### [Routes](https://github.com/Henri-BS/pasifcode-docs/base-project/blob/main/frontend/src/routes/PageRoutes.tsx)
+### [Routes](https://github.com/pasifcode/design-patterns/tree/main/mvc-spring-react/mvc-base-project/frontend/src/routes/PageRoutes.tsx)
 
 **A interação entre as páginas poderá ser feita através das configurações com o React Routes**
 
