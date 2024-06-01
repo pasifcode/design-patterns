@@ -1,5 +1,3 @@
-import Footer from "components/shared/Footer";
-import Navbar from "components/shared/Navbar";
 import axios from "axios";
 import { DeptSmCard } from "components/cards/DeptCard";
 import { PeopleSmCard } from "components/cards/PeopleCard";

@@ -5,12 +5,11 @@
 Este documento é um guia que visa demonstrar como será feito o uso do padrão de projeto MVC utilizando a Stack Spring React para o desenvolvimento de projetos do grupo Pasifcode. No texto serão apresentadas as configurações básicas para a criação do projeto, os
 padrões para o desenvolvimento de camadas, classes, interfaces e funções no Backend com Spring, e também o
 desenvolvimento de componentes, páginas e estilização no Frontend com React.
+O trecho de código relacionado a cada tópico está linkado nos títulos, mas também é possível acessar o código fonte completo pelo link abaixo.
 
-Código Fonte 
+### Código Fonte: https://github.com/pasifcode/design-patterns/tree/main/mvc-spring-react/mvc-base-project
 
-
-## [Configuração do Backend](https://github.com/pasifcode/design-patterns/tree/main/mvc-base-project/backend)
-
+## [Configuração do Backend](https://github.com/pasifcode/design-patterns/tree/main/mvc-spring-react/mvc-base-project/backend)
 
 | Ferramentas do Backend    | Nome                                                          |
 | ------------------------- | ------------------------------------------------------------- |
@@ -31,7 +30,7 @@ Código Fonte
 - adicionar configurações e dependências necessárias
 - baixar, descompactar e renomear a pasta para 'backend'
 
-![Spring Initializr](https://github.com/Henri-BS/pasifcode-docs/base-project/blob/main/images/spring-init.png)
+![Spring Initializr](https://github.com/pasifcode/design-patterns/blob/main/mvc-spring-react/images/spring-init.png)
 
 ### IntelliJ
 
@@ -242,7 +241,7 @@ O modelo de Backend que será baseado na arquitetura MVC irá conter padrões co
 ## Funções e Procedimentos
 
 As funções e procedimentos básicas serão baseadas no CRUD (findAll, findById, save, update e delete) e estarão estabelecidas em 4 camadas diferentes: _Repository_, _Service_, _ServiceImpl_ e
-_Controller_. 
+_Controller_.
 
 ### FindAll (Page)
 
@@ -250,52 +249,52 @@ _Controller_.
 - o tipo `Page<T>` é usado para listas paginadas e o parâmetro `Pageable pageable` possui métodos de paginação (também pode ser utilizado como uma lista comum)
 - um parâmetro pode ser utilizado para realizar buscas e filtragens
 
-| Tipo de Classe ou Interface                                                                                                                                                                                                | Declaração                                                                                                 | Anotações                                     | Retorno                         |
-| -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------- | --------------------------------------------- | ------------------------------- |
-| [FindAll(Page) - Repository](https://github.com/pasifcode/design-patterns/blob/960129bb3307fb1fb411ab47c8c61e8a3ac0f7b2/mvc-spring-react/mvc-base-project/backend/src/main/java/com/pasifcode/baseproject/repository/PeopleRepository.java#L15)                                                                                                                                                                                             | `Page<Entity> findEntities (Pageable pageable, String name);`                                               | @Query                                        |                                 |
-| [FindAll(Page) - Service](https://github.com/pasifcode/design-patterns/blob/960129bb3307fb1fb411ab47c8c61e8a3ac0f7b2/mvc-spring-react/mvc-base-project/backend/src/main/java/com/pasifcode/baseproject/service/interf/PeopleService.java#L10)        | `Page<Dto> findEntities (Pageable pageable, String atr)`                                                   |                                               |                                 |
+| Tipo de Classe ou Interface                                                                                                                                                                                                                         | Declaração                                                                                                 | Anotações                                     | Retorno                         |
+| --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------- | --------------------------------------------- | ------------------------------- |
+| [FindAll(Page) - Repository](https://github.com/pasifcode/design-patterns/blob/960129bb3307fb1fb411ab47c8c61e8a3ac0f7b2/mvc-spring-react/mvc-base-project/backend/src/main/java/com/pasifcode/baseproject/repository/PeopleRepository.java#L15)     | `Page<Entity> findEntities (Pageable pageable, String name);`                                              | @Query                                        |                                 |
+| [FindAll(Page) - Service](https://github.com/pasifcode/design-patterns/blob/960129bb3307fb1fb411ab47c8c61e8a3ac0f7b2/mvc-spring-react/mvc-base-project/backend/src/main/java/com/pasifcode/baseproject/service/interf/PeopleService.java#L10)       | `Page<Dto> findEntities (Pageable pageable, String atr)`                                                   |                                               |                                 |
 | [FindAll(Page) - ServiceImpl](https://github.com/pasifcode/design-patterns/blob/960129bb3307fb1fb411ab47c8c61e8a3ac0f7b2/mvc-spring-react/mvc-base-project/backend/src/main/java/com/pasifcode/baseproject/service/impl/PeopleServiceImpl.java#L28) | `Page<Dto> findEntities (Pageable pageable, String atr){}`                                                 | @Override<br/>@Transactional(readOnly = true) | return find.map(CvDto::new);    |
-| [FindAll(Page) - Controller](https://github.com/Henri-BS/pasifcode-docs/blob/main/base-project/backend/src/main/java/com/pasifcode/baseproject/controller/UserController.java#L20)                                         | `ResponseEntity<Page<Dto>> findEntities (Pageable pageable, @RequestParams(defaultValue="") String atr){}` | @GetMapping                                   | return ResponseEntity.ok(page); |
+| [FindAll(Page) - Controller](https://github.com/Henri-BS/pasifcode-docs/blob/main/base-project/backend/src/main/java/com/pasifcode/baseproject/controller/UserController.java#L20)                                                                  | `ResponseEntity<Page<Dto>> findEntities (Pageable pageable, @RequestParams(defaultValue="") String atr){}` | @GetMapping                                   | return ResponseEntity.ok(page); |
 
 <br/>
 
 ### FindById
 
-| Tipo de Camada da Função                                                                                                                                                                                              | Declaração                                                     | Anotações                                     |
-| --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------- | --------------------------------------------- |
+| Tipo de Camada da Função                                                                                                                                                                                                                       | Declaração                                                     | Anotações                                     |
+| ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------- | --------------------------------------------- |
 | [FindById - Service](https://github.com/pasifcode/design-patterns/blob/960129bb3307fb1fb411ab47c8c61e8a3ac0f7b2/mvc-spring-react/mvc-base-project/backend/src/main/java/com/pasifcode/baseproject/service/interf/PeopleService.java#L14)       | `Dto findEntityById (Long id);`                                |                                               |
 | [FindById - ServiceImpl](https://github.com/pasifcode/design-patterns/blob/960129bb3307fb1fb411ab47c8c61e8a3ac0f7b2/mvc-spring-react/mvc-base-project/backend/src/main/java/com/pasifcode/baseproject/service/impl/PeopleServiceImpl.java#L42) | `Dto findEntityById (Long id){}`                               | @Override<br/>@Transactional(readOnly = true) |
-| [FindById - Controller](https://github.com/Henri-BS/pasifcode-docs/blob/main/base-project/backend/src/main/java/com/pasifcode/baseproject/controller/UserController.java#L26)                                         | `ResponseEntity<Dto> findEntityById (@PathVariable Long id){}` | @GetMapping                                   |
+| [FindById - Controller](https://github.com/Henri-BS/pasifcode-docs/blob/main/base-project/backend/src/main/java/com/pasifcode/baseproject/controller/UserController.java#L26)                                                                  | `ResponseEntity<Dto> findEntityById (@PathVariable Long id){}` | @GetMapping                                   |
 
 ---
 
 ### Save
 
-| Tipo de Camada da Função                                                                                                                                                                                          | Declaração                                                | Anotações    |
-| ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------- | ------------ |
+| Tipo de Camada da Função                                                                                                                                                                                                                   | Declaração                                                | Anotações    |
+| ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | --------------------------------------------------------- | ------------ |
 | [Save - Service](https://github.com/pasifcode/design-patterns/blob/960129bb3307fb1fb411ab47c8c61e8a3ac0f7b2/mvc-spring-react/mvc-base-project/backend/src/main/java/com/pasifcode/baseproject/service/interf/PeopleService.java#L16)       | `Dto saveEntity (Dto dto);`                               |              |
 | [Save - ServiceImpl](https://github.com/pasifcode/design-patterns/blob/960129bb3307fb1fb411ab47c8c61e8a3ac0f7b2/mvc-spring-react/mvc-base-project/backend/src/main/java/com/pasifcode/baseproject/service/impl/PeopleServiceImpl.java#L48) | `Dto saveEntity (Dto dto){}`                              | @Override    |
-| [Save - Controller](https://github.com/Henri-BS/pasifcode-docs/blob/main/base-project/backend/src/main/java/com/pasifcode/baseproject/controller/UserController.java#L32)                                         | `ResponseEntity<Dto> saveEntity (@RequestBody Dto dto){}` | @PostMapping |
+| [Save - Controller](https://github.com/Henri-BS/pasifcode-docs/blob/main/base-project/backend/src/main/java/com/pasifcode/baseproject/controller/UserController.java#L32)                                                                  | `ResponseEntity<Dto> saveEntity (@RequestBody Dto dto){}` | @PostMapping |
 
 ---
 
 ### Update
 
-| Tipo de Camada da Função                                                                                                                                                                                            | Declaração                                                  | Anotações   |
-| ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------- | ----------- |
+| Tipo de Camada da Função                                                                                                                                                                                                                     | Declaração                                                  | Anotações   |
+| -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------- | ----------- |
 | [Update - Service](https://github.com/pasifcode/design-patterns/blob/960129bb3307fb1fb411ab47c8c61e8a3ac0f7b2/mvc-spring-react/mvc-base-project/backend/src/main/java/com/pasifcode/baseproject/service/interf/PeopleService.java#L18)       | `Dto updateEntity (Dto dto);`                               |             |
 | [Update - ServiceImpl](https://github.com/pasifcode/design-patterns/blob/960129bb3307fb1fb411ab47c8c61e8a3ac0f7b2/mvc-spring-react/mvc-base-project/backend/src/main/java/com/pasifcode/baseproject/service/impl/PeopleServiceImpl.java#L60) | `Dto updateEntity (Dto dto){}`                              | @Override   |
-| [Update - Controller](https://github.com/Henri-BS/pasifcode-docs/blob/main/base-project/backend/src/main/java/com/pasifcode/baseproject/controller/UserController.java#L38)                                         | `ResponseEntity<Dto> updateEntity (@RequestBody Dto dto){}` | @PutMapping |
+| [Update - Controller](https://github.com/Henri-BS/pasifcode-docs/blob/main/base-project/backend/src/main/java/com/pasifcode/baseproject/controller/UserController.java#L38)                                                                  | `ResponseEntity<Dto> updateEntity (@RequestBody Dto dto){}` | @PutMapping |
 
 ---
 
 ### Delete
 
-| Tipo de Camada da Função                                                                                                                                                                                            | Declaração                                    | Anotações                          |
-| ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------- | ---------------------------------- |
+| Tipo de Camada da Função                                                                                                                                                                                                                     | Declaração                                    | Anotações                          |
+| -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------- | ---------------------------------- |
 | [Delete - Service](https://github.com/pasifcode/design-patterns/blob/960129bb3307fb1fb411ab47c8c61e8a3ac0f7b2/mvc-spring-react/mvc-base-project/backend/src/main/java/com/pasifcode/baseproject/service/interf/PeopleService.java#L20)       | `void deleteEntity (Long id);`                |                                    |
 | [Delete - ServiceImpl](https://github.com/pasifcode/design-patterns/blob/960129bb3307fb1fb411ab47c8c61e8a3ac0f7b2/mvc-spring-react/mvc-base-project/backend/src/main/java/com/pasifcode/baseproject/service/impl/PeopleServiceImpl.java#L73) | `void deleteEntity (Long id){}`               | @Override                          |
-| [Delete - Controller](https://github.com/Henri-BS/pasifcode-docs/blob/main/base-project/backend/src/main/java/com/pasifcode/baseproject/controller/UserController.java#L45)                                         | `void deleteEntity (@PathVariable Long id){}` | @DeleteMapping<br/>@ResponseStatus |
+| [Delete - Controller](https://github.com/Henri-BS/pasifcode-docs/blob/main/base-project/backend/src/main/java/com/pasifcode/baseproject/controller/UserController.java#L45)                                                                  | `void deleteEntity (@PathVariable Long id){}` | @DeleteMapping<br/>@ResponseStatus |
 
 ---
 
@@ -342,20 +341,53 @@ _Controller_.
 
 O modelo de Frontend que irá representar a camada visual da arquitetura MVC, o Frontend em React irá conter os componentes em formato _tsx_ e a estilização feita em CSS em conjunto com a biblioteca Bootstrap. O padrão Observer será usado para a construção dos componentes e neste tópico também serão usadas entidades genéricas para exemplificação.
 
-
 ## [Requests](https://github.com/pasifcode/design-patterns/tree/main/mvc-spring-react/mvc-base-project/frontend/src/utils/requests.tsx)
-
-**O componente request permite que a camada de Frontend possa encontrar a camada de Backend através do arquivo _requests.ts_**,
+O componente request permite que a camada de Frontend possa encontrar a camada de Backend através do arquivo _requests.ts_
 
 - criar caminho para o Backend chamado `BASE_URL`
 - incluir a url do localhost com o backend local
 - incluir operador de coalescência nula para indicar uma variável comoutra localidade em que o Backend de encontra
 
-`export const BASE_URL = process.env.REACT_APP_BACKEND_URL ?? "http://localhost:8080";`
-
+```
+// Variável referente a BASE_URL
+export const BASE_URL = process.env.REACT_APP_BACKEND_URL ?? "http://localhost:8080";
+```
 ## [Types](https://github.com/pasifcode/design-patterns/tree/main/mvc-spring-react/mvc-base-project/frontend/src/types)
 
 - os _types_ podem representar objetos, coleções paginadas ou parâmetros
+
+```
+// Type que referencia um objeto
+export type People = {
+    id: number;
+    name: string;
+    age: number;
+    image: string;
+    deptId: Dept;
+    deptName: string;
+}
+
+// Type que representa uma lista paginada de pessoas
+export type PeoplePage = {
+    content?: People[];
+    size?: number;
+    pageNumber?: number;
+    numberOfElements?: number;
+    totalElements?: number;
+    totalPages?: number;
+    number: number;
+    empty?: boolean;
+    first?: boolean;
+    last?: boolean;
+  };
+
+// Type que representa 
+  export type PeopleProps = {
+    people: People;
+  }
+```
+
+<br/>
 
 ## [Componentes](https://github.com/pasifcode/design-patterns/tree/main/mvc-spring-react/mvc-base-project/frontend/src/components)
 
@@ -366,37 +398,58 @@ O modelo de Frontend que irá representar a camada visual da arquitetura MVC, o 
 - criar modelo de _card_ do Bootstrap ou _cards_ personalizados através do arquivo _card.css_
 - incluir _types_ para receber os dados necessários
 
+```
+export function PeopleMdCard({ people }: PeopleProps) {
 
+    return (
+        <>
+            <Link to={`/people/${people.id}`} className="text-decoration-none">
+                <div className="card">
+                    <img src={people.image} className="card-img-top" alt="..." />
+                    <div className="card-body">
+                        <h5 className="card-title">{people.name}</h5>
+                        <p className="card-text">{people.age}</p>
+                    </div>
+                </div>
+            </Link>
+        </>
+    );
+}
+```
 
 ### [Form](https://github.com/pasifcode/design-patterns/tree/main/mvc-spring-react/mvc-base-project/frontend/src/components/forms)
 
 **O componente _form_ irá permitir que a submição se dados seja feita**
 
-- declaração uma _Arrow Function_ chamada `handleSubmit` com a propreidade `event: React.FormEvent<HTMLFormElement>` para realizar o evento de submissão no formulário
-```
-const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-  // propriedades, configuração de requisição
-}
- ```
-<br>
+- Declaração uma variável `const` chamada `handleSubmit` com a propreidade `event: React.FormEvent<HTMLFormElement>` para realizar o evento de submissão no formulário
 
+- No `handleSubmit` deve ser declarado as variáveis _const_ referentes a cada atributo da _type_ referenciada, afim de criar um evento de inserção de valor nos campos do formulário
 
-- no `handleSubmit` deve ser declarado as variáveis _const_ referentes a cada atributo da _type_ referenciada, afim de criar um evento de inserção de valor nos campos do formulário
-```
-  const name = (event.target as any).name.value;
-  const image = (event.target as any).image.value;
-  const age = (event.target as any).age.value;
-  const deptName = (event.target as any).deptName.value;
-```
-<br>
-
-- uma variável _const_ do tipo `AxiosRequestConfig` para realizar a configuração da requisição através da seguintes propriedades:
-  - **baseUrl** que terá a url configurada no arquivo _requests.ts_
-  - **method** que definirá o método HTTP usado
-  - **url** que será o caminho da função mapeada na
+- uma variável _const_ chamada `config: AxiosRequestConfig` para realizar a configuração da requisição através da seguintes propriedades:
+  - **baseUrl:** recebe a BASE*URL configurada no arquivo \_requests.ts*
+  - **method:** define o método HTTP que será usado
+  - **url:** é o caminho da função mapeada na
     camada _Controller_
-  - **data** que irá corresponder aos dados presentes na _request_.
+  - **data:** corresponde aos dados presentes na requisição.
+- o método _axios_ deve ser chamado para receber as configurações definidas anteriormente na _const_ `config`, o método irá retonar a _const_ navigate para a página seguir a rota indicada (o valor '0' retornará a última página navegada)
+
 ```
+// Declaração da função de um formulário para adicionar uma pessoa
+export function PeopleAddForm() {
+
+  // Variável para retornar uma navegação por páginas
+  const navigate = useNavigate();
+
+// Variável handleSubmit para definir a subimissão
+    const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+
+      // Variáveis de evento dos atributos
+        const name = (event.target as any).name.value;
+        const image = (event.target as any).image.value;
+        const age = (event.target as any).age.value;
+        const deptName = (event.target as any).deptName.value;
+
+        // Variável config para definir as configurações de requisição
         const config: AxiosRequestConfig = {
             baseURL: BASE_URL,
             method: "POST",
@@ -408,77 +461,272 @@ const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
                 deptName: deptName
             }
         };
+
+        // Método axios para retornar a navegação de página após a submissão
         axios(config).then(response => {
             navigate(0);
         })
     }
+
+    return (
+        <form className=" form-container" onSubmit={handleSubmit}>
+            <div className="form-group">
+                <label htmlFor="name">Nome Completo: </label>
+                <input type="text" className="form-control" id="name" />
+            </div>
+
+            <div className="form-group">
+                <label htmlFor="image">Imagem: </label>
+                <input type="text" className="form-control" id="image" />
+            </div>
+
+            <div className="form-group">
+                <label htmlFor="age">Idade: </label>
+                <input className="form-control" id="age" />
+            </div>
+                <DeptDatalist />
+            <div className="modal-footer">
+                <button type="button" className="text-close" data-bs-dismiss="modal">cancelar</button>
+                <button type="submit" className="btn btn-success">Adicionar</button>
+            </div>
+        </form>
+    );
+}
 ```
-- chamar do método _axios_ para receber as configurações definidas anteriormente
-- inserir uma constante para navegação de páginas da biblioteca React Routes
-
-
-
-
-
-
 
 ### [Pagination](https://github.com/pasifcode/design-patterns/tree/main/mvc-spring-react/mvc-base-project/frontend/src/components/shared/Pagination.tsx)
 
 - componente criado na pasta de componentes _shared_ com o nome de _pagination.tsx_
-- recebe uma _type_ de Page com um atributo _content_ das listas que serão paginadas
-- recebe um atributo de mudança entre
-  páginas
+- fazer a declaração da _type_ `PageProps` para definir os atributos de paginação
+- adicionar o atributo `page: Page` que contém _contents_ das possíveis listas que serão paginadas
+- adicionar o atributo `onPageChange: Function` para definir a mudança entre páginas.
+
+```
+import { Page } from "types/main";
+
+
+// Declaração da type PageProps com as propriedades para paginação
+type PageProps = {
+    page: Page;
+    onPageChange: Function;
+}
+
+// Declaração da função para paginação
+function Pagination({ page, onPageChange }: PageProps) {
+
+    return (
+        <nav>
+            <ul className="pagination">
+
+                // Funcionalidade para botão de página anterior
+                <li className={`page-item ${page.first ? `disable` : ''}`}>
+                    <button className="page-link" onClick={() => onPageChange(page.number - 1)} aria-label="Previous">
+                        <span aria-hidden="true">&laquo;</span>
+                    </button>
+                </li>
+
+                // Funcionalidade para exibir a página atual e a quantidade total de páginas
+                <li className={"page-item"}>
+                    <span className="page-link no-hover">{page.number + 1} de {page.totalPages} </span>
+                </li>
+
+                // Funcionalidade para botão de página seguinte
+                <li className={`page-item ${page.last ? `disabled` : ''}`}>
+                    <button className="page-link" onClick={() => onPageChange(page.number + 1)} aria-label="Next">
+                        <span aria-hidden="true">&raquo;</span>
+                    </button>
+                </li>
+            </ul>
+        </nav>
+    );
+}
+
+export default Pagination;
+```
 
 <br/>
 
 ## Páginas e Rotas
+As Páginas também são componentes, mas são caracterizadas por representarem um conjunto de componentes apresentados em uma única página e que estão relacionados a uma entidade específica. Já as Rotas são as definições feitas usando o React Router para realizar a transição entre as páginas.
 
-### [List](https://github.com/pasifcode/design-patterns/tree/main/mvc-spring-react/mvc-base-project/frontend/src/pages)
+### [List](https://github.com/pasifcode/design-patterns/tree/main/mvc-spring-react/mvc-base-project/frontend/src/pages/PeopleList.tsx)
 
-**implementação de uma lista paginada com um mecanismo de busca**
+Uma List(lista) representa uma página web contendo a implementação de uma lista paginada com propriedades de comamndo de paginaação e com um mecanismo de busca
 
-- criar uma constante para o número das páginas
-- criar uma constante representará o texto do parâmetro de busca
-- criar uma constante dedicada a _type_ da lista.
+#### Variáveis de busca, número da página e mudança de páginas paginação
+- criar a _const_ `value` representará o texto do parâmetro de busca
+- declarar a variável useState `const[pageNumber, setPageNumber]` para definir o número das páginas
+- criar a _const_ `handlePageChange` para definir as mudanças da página
 
-![List Consts]()
-
+#### Variável useEffect de paginação, lista e busca
+- declarar a variável useState `const[peoplePage, setPeoplePage]` para definir o número das páginas
 - criação um `useEffect` para permitir que o
   componente execute os efeitos necessários para a lista
-- inclusão do método `axios.get().then()` que receberá a `BASE_URL`
-- acrescentar url correspondente a função estabelecida na camada
+- inclusão do método `axios.get().then()` que receberá a `BASE_URL` e acrescentar url correspondente a função estabelecida na camada
   de _Controller_
 - adicionar os parâmetros `pageNumber` e `value`
-- criar uma _const_ chamada `handlePageChange` para definir as mudanças da página
 
-![ListUseEffect]()
-
-- incluir ao `return()` da função um botão para
+#### Retorno do componente de lista
+- incluir funcionalidade com um botão para
   adicionar um novo elemento na lista
-- importar o componente _Pagnation_ para os botões de paginação,
-- o mecanismo de busca e a lista paginada
+- importar o componente _Pagnation_ para os botões de paginação
+- acrescentar o mecanismo de busca e a lista paginada
 - criar o _modal_ do Bootstrap referente a adição de um novo conteúdo.
 
-![List Reteurn]()
+```
+import axios from "axios";
+import { PeopleMdCard } from "components/cards/PeopleCard";
+import { PeopleAddForm } from "components/forms/PeopleForm";
+import Pagination from "components/shared/Pagination";
+import { useEffect, useState } from "react";
+import { PeoplePage } from "types/people";
+import { BASE_URL } from "utils/requests";
 
+
+export function PeopleList() {
+
+    // Variáveis para busca, número de página e mudança de página 
+    const [value, setValue] = useState("");
+    const [pageNumber, setPageNumber] = useState(0);
+    const handlePageChange = (newPageNumber: number) => {
+        setPageNumber(newPageNumber);
+    }
+
+    // Variável para paginação de uma pessoa e useEffect para buscar a página de pessoas
+    const [peoplePage, setPeoplePage] = useState<PeoplePage>({ content: [], number: 0 });
+    useEffect(() => {
+        axios.get(`${BASE_URL}/people/page?page=${pageNumber}&name=${value}&size=20`)
+            .then((response) => {
+                setPeoplePage(response.data);
+            });
+    }, [pageNumber, value]);
+
+    return (
+        <>
+            <div className="container">
+                <nav className="navbar row m-0">                   
+
+                    // Botão para adicionar uma nova pessoa na lista
+                    <div className="col-12 col-md-4 col-xl-4 mb-2" >
+                        <button data-bs-target="#addPeopleModal" data-bs-toggle="modal" className="btn btn-success">Adicionar Pessoa</button>
+                    </div>
+
+                    // Painel com os botões para paginação
+                    <div className="col-12 col-md-4 col-xl-3 mt-2" >
+                        <Pagination page={peoplePage} onPageChange={handlePageChange} />
+                    </div>
+
+                    // Mecanismo de busca para filtar pessoas na lista
+                    <div className="col-12 col-md-4 col-xl-3 mb-2" >
+                        <div className="form-group">
+                            <input
+                                type="text"
+                                id="value"
+                                value={value}
+                                onChange={(e) => setValue(e.target.value)}
+                                className="form-control"
+                                placeholder="buscar pessoas..."
+                            />
+                        </div>
+                    </div>
+                </nav >
+
+                // Lista paginada de pessoas com filtragem 
+                <div className="row">
+                    {peoplePage.content?.filter((x) =>
+                        x.name.toUpperCase().includes(value.toLocaleUpperCase()))
+                        .map(x => (
+                            <div key={x.id} className="col-12 col-md-6 col-xl-3 mb-3">
+                                <PeopleMdCard people={x} />
+                            </div>
+                        ))}
+                </div>
+            </div>
+
+            // Modal(Pop-up) para a adição de uma nova pessoa
+            <div className="modal fade" id="addPeopleModal" role={"dialog"}>
+                <div className="modal-dialog" role={"document"}>
+                    <div className="modal-content">
+                        <div className="modal-header">
+                            <label className="modal-title">Adicionar uma nova pessoa</label>
+                            <button className="close" data-bs-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true"><i className="fa fa-times" /></span>
+                            </button>
+                        </div>
+                        <div className="modal-body"><PeopleAddForm /></div>
+                    </div>
+                </div>
+            </div>
+        </>
+    );
+}
+
+```
 
 ### [Profile](https://github.com/pasifcode/design-patterns/tree/main/mvc-spring-react/mvc-base-project/frontend/src/pages/PeopleProfile.tsx)
 
-**componente Profile irá agregar outros componentes para criar um perfil específico**
+O componente Profile irá agregar outros componentes para criar um perfil específico
 
-- criar uma constante com o `useParams` do React Routes
+- criar uma _const_ `params = useParams()` para indicar um parâmetro de busca
 - inclur o _id_ referente ao objeto do componente como parâmetro
 
-<br/>
+```
+import { useParams } from "react-router-dom";
+import { PeopleLgCard } from "components/cards/PeopleCard";
+
+export function PeopleProfile() {
+
+    const params = useParams();
+
+    return (
+        <>
+            <div className="container">
+                <PeopleLgCard id={`${params.peopleId}`} />               
+            </div>
+        </>
+    );
+}
+```
 
 ### [Routes](https://github.com/pasifcode/design-patterns/tree/main/mvc-spring-react/mvc-base-project/frontend/src/routes/PageRoutes.tsx)
+A interação entre as páginas poderá ser feita através das configurações com o React Routes
 
-**A interação entre as páginas poderá ser feita através das configurações com o React Routes**
-
+#### Navegação entre Rotas
 - incluir as _tags_ `<BrowserRoutes>` e `<Routes>` para agregar todas as rotas
-- incluir a _tag_ `<Route>` para agragrar rotas específicas
-- adicionar url no atributo `path`
-- adicionar o componente no atributo `element`
-- criar sub-rotas interna para relacionar um _path_ a um _id_.
 
+#### Criação de uma Rota
+- incluir a _tag_ `<Route>` para agragrar rotas específicas
+- adicionar url no atributo `path` e o componente no atributo `element`
+- criar sub-rotas interna para relacionar um _path_ a um _id_
+
+```
+function PageRoutes() {
+    return (
+        <BrowserRouter>
+        <Navbar/>
+            <Routes>
+
+                // Rota que leva para a página principal
+                <Route path="/" element={<Home />} />
+
+                // Página com lista de pessoas
+                <Route path="/people-list" element={<PeopleList />} />
+
+                // Página com um perfil específico de uma pessoa
+                <Route path="/people" >
+                    <Route path=":peopleId" element={<PeopleProfile />} />
+                </Route>
+
+                <Route path="/dept-list" element={<DeptList />} />
+                <Route path="/dept" >
+                    <Route path=":deptId" element={<DeptProfile />} />
+                </Route>
+            </Routes>
+            <Footer/>
+        </BrowserRouter>
+    );
+}
+
+export default PageRoutes;
+```
 <br/>

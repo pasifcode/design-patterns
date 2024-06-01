@@ -1,5 +1,5 @@
 import axios from "axios";
-import { PeopleMdCard, PeopleSmCard } from "components/cards/PeopleCard";
+import { PeopleMdCard } from "components/cards/PeopleCard";
 import { PeopleAddForm } from "components/forms/PeopleForm";
 import Pagination from "components/shared/Pagination";
 import { useEffect, useState } from "react";
