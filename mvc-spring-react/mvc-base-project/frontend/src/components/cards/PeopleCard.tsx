@@ -1,6 +1,5 @@
 import axios from "axios";
 import { PeopleEditForm } from "components/forms/PeopleForm";
-import Footer from "components/shared/Footer";
 import { useState, useEffect } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { Props } from "types/main";

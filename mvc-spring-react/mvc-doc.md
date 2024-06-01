@@ -344,6 +344,7 @@ O modelo de Frontend que irá representar a camada visual da arquitetura MVC, o 
 ## [Requests](https://github.com/pasifcode/design-patterns/tree/main/mvc-spring-react/mvc-base-project/frontend/src/utils/requests.tsx)
 O componente request permite que a camada de Frontend possa encontrar a camada de Backend através do arquivo _requests.ts_
 
+#### Base Url
 - criar caminho para o Backend chamado `BASE_URL`
 - incluir a url do localhost com o backend local
 - incluir operador de coalescência nula para indicar uma variável comoutra localidade em que o Backend de encontra
@@ -353,11 +354,10 @@ O componente request permite que a camada de Frontend possa encontrar a camada d
 export const BASE_URL = process.env.REACT_APP_BACKEND_URL ?? "http://localhost:8080";
 ```
 ## [Types](https://github.com/pasifcode/design-patterns/tree/main/mvc-spring-react/mvc-base-project/frontend/src/types)
-
-- os _types_ podem representar objetos, coleções paginadas ou parâmetros
+As _types_ podem representar objetos, coleções paginadas ou parâmetros, elas são implementadas de forma semelhante ao formato JSON e algumas irão corresponder a classes e funções do Backend
 
 ```
-// Type que referencia um objeto
+// Type que representa um objeto
 export type People = {
     id: number;
     name: string;
@@ -367,7 +367,7 @@ export type People = {
     deptName: string;
 }
 
-// Type que representa uma lista paginada de pessoas
+// Type que representa uma lista paginada
 export type PeoplePage = {
     content?: People[];
     size?: number;
@@ -381,10 +381,40 @@ export type PeoplePage = {
     last?: boolean;
   };
 
-// Type que representa 
+// Type que representa um propriedade para parâmetro de um objeto
   export type PeopleProps = {
     people: People;
   }
+```
+
+- o arquivo `main.ts` é responsável por _types_ genéricas 
+- a `type Page` no arquivo `main.ts` é usada para o componente de paginação recebendo as _types_ das listas presentes na aplicação como valor da chave `content`  
+- a `type Props` no arquivo `main.ts` é usada para representa um paramêtro de _id_ em um componente
+
+```
+import { Dept, DeptRelation } from "./dept";
+import { People } from "./people";
+
+
+// Type Page para paginação
+export type Page = {
+  content?: People[] | Dept[] | DeptRelation[];
+  last?: boolean;
+  totalElements?: number;
+  totalPages?: number;
+  size?: number;
+  number: number;
+  first?: boolean;
+  numberOfElements?: number;
+  empty?: boolean;
+  pageNumber?: number;
+};
+
+// Type Props para parâmetros
+export type Props = {
+  id: string;
+};
+
 ```
 
 <br/>
@@ -392,18 +422,27 @@ export type PeoplePage = {
 ## [Componentes](https://github.com/pasifcode/design-patterns/tree/main/mvc-spring-react/mvc-base-project/frontend/src/components)
 
 ### [Card](https://github.com/pasifcode/design-patterns/tree/main/mvc-spring-react/mvc-base-project/frontend/src/components/cards)
+O componente _card_ será usado como um "cartão" que irá conter informações básicas sobre determinado conteúdo, o card pode ser de vários tamanhos e usadas em diferentes contextos, podendo ser tanto para listagens, quanto para um perfil específico
 
-**O componente _card_ será usado como um "cartão" que irá conter informações sobre determinado conteúdo**
+#### Card Médio
+- criar modelo com base no _card_ do Bootstrap e personalizá-lo através do arquivo _card.css_
+- incluir a `type PeopleProps` nos parâmetros do componente para receber os dados necessários
 
-- criar modelo de _card_ do Bootstrap ou _cards_ personalizados através do arquivo _card.css_
-- incluir _types_ para receber os dados necessários
+#### Retorno
+- incluir o `Link` do React Routes para direcionar para a página de perfil correspondente ao link definido no arquivo de rotas
+- criar um elemento para exibir o valores correspondentes as chaves definidas na _type_ referenciada
 
 ```
+
 export function PeopleMdCard({ people }: PeopleProps) {
 
     return (
         <>
+
+            // Link para o perfil correspondente ao card
             <Link to={`/people/${people.id}`} className="text-decoration-none">
+
+            // Elemento pra inserir os dados do card
                 <div className="card">
                     <img src={people.image} className="card-img-top" alt="..." />
                     <div className="card-body">
@@ -418,13 +457,14 @@ export function PeopleMdCard({ people }: PeopleProps) {
 ```
 
 ### [Form](https://github.com/pasifcode/design-patterns/tree/main/mvc-spring-react/mvc-base-project/frontend/src/components/forms)
+O componente _form_ irá permitir que a submissão se dados relacionada deja feita
 
-**O componente _form_ irá permitir que a submição se dados seja feita**
+#### Variável handleSubmit
+- declaração uma variável `const` chamada `handleSubmit` com a propreidade `event: React.FormEvent<HTMLFormElement>` para realizar o evento de submissão no formulário
+- no `handleSubmit` deve ser declarado as variáveis _const_ referentes a cada atributo da _type_ referenciada, afim de criar um evento de inserção de valor nos campos do formulário
 
-- Declaração uma variável `const` chamada `handleSubmit` com a propreidade `event: React.FormEvent<HTMLFormElement>` para realizar o evento de submissão no formulário
 
-- No `handleSubmit` deve ser declarado as variáveis _const_ referentes a cada atributo da _type_ referenciada, afim de criar um evento de inserção de valor nos campos do formulário
-
+#### Variável config no handleSubmit
 - uma variável _const_ chamada `config: AxiosRequestConfig` para realizar a configuração da requisição através da seguintes propriedades:
   - **baseUrl:** recebe a BASE*URL configurada no arquivo \_requests.ts*
   - **method:** define o método HTTP que será usado
@@ -432,6 +472,12 @@ export function PeopleMdCard({ people }: PeopleProps) {
     camada _Controller_
   - **data:** corresponde aos dados presentes na requisição.
 - o método _axios_ deve ser chamado para receber as configurações definidas anteriormente na _const_ `config`, o método irá retonar a _const_ navigate para a página seguir a rota indicada (o valor '0' retornará a última página navegada)
+
+#### Retorno
+- criação de um elemento form com o `onSubmit={handleSubmit}` para definir a funcionalidade de subimissão no elemento
+- inserção dos elementos com campo de label e input com as propriedades de `id` contendo o nome do atributo correspondente
+- inclusão de um datalist para input com umas lista de elementos para selecionar
+- criar um elemnto para os botões de submissão e cancelamento da adição de um novo elemento
 
 ```
 // Declaração da função de um formulário para adicionar uma pessoa
@@ -469,37 +515,55 @@ export function PeopleAddForm() {
     }
 
     return (
+
+        // Elemento com referência do handleSubmit para submissão do formulário 
         <form className=" form-container" onSubmit={handleSubmit}>
+
+            // Elemento que representa o campo para inserção do nome de uma pessoa
             <div className="form-group">
                 <label htmlFor="name">Nome Completo: </label>
                 <input type="text" className="form-control" id="name" />
             </div>
 
+            // Elemento que representa o campo para inserção da imagem de uma pessoa
             <div className="form-group">
                 <label htmlFor="image">Imagem: </label>
                 <input type="text" className="form-control" id="image" />
             </div>
 
+            // Elemento que representa o campo para inserção da idade de uma pessoa
             <div className="form-group">
                 <label htmlFor="age">Idade: </label>
                 <input className="form-control" id="age" />
             </div>
-                <DeptDatalist />
+
+            // Elemento Datalist com a lista de departamentos selecionáveis para uma pessoa 
+            <DeptDatalist />
+
+            // Elemento para os botões de subimissão e cancelamento da adição de uma pessoa
             <div className="modal-footer">
                 <button type="button" className="text-close" data-bs-dismiss="modal">cancelar</button>
                 <button type="submit" className="btn btn-success">Adicionar</button>
             </div>
+
         </form>
     );
 }
 ```
 
 ### [Pagination](https://github.com/pasifcode/design-patterns/tree/main/mvc-spring-react/mvc-base-project/frontend/src/components/shared/Pagination.tsx)
+O componente de Pagination é responsável pelas funcionalidades para página em uma lista de elementos.
 
-- componente criado na pasta de componentes _shared_ com o nome de _pagination.tsx_
+#### Type PageProps
 - fazer a declaração da _type_ `PageProps` para definir os atributos de paginação
 - adicionar o atributo `page: Page` que contém _contents_ das possíveis listas que serão paginadas
-- adicionar o atributo `onPageChange: Function` para definir a mudança entre páginas.
+- adicionar o atributo `onPageChange: Function` para definir a mudança entre páginas
+
+#### Retorno
+- criação de um botão para 'página anterior' através do `OnChangePage` com o método `page.number - 1`
+- criação de um elemento para visualização do número da página atual através do método `page.number + 1` e a visualização do total de páginas através do método `page.totalPages`
+- criação de um botão para 'próxima página' através do `OnChangePage` com o método `page.number + 1`
+
 
 ```
 import { Page } from "types/main";
@@ -518,19 +582,19 @@ function Pagination({ page, onPageChange }: PageProps) {
         <nav>
             <ul className="pagination">
 
-                // Funcionalidade para botão de página anterior
+                // Elemento para botão de página anterior
                 <li className={`page-item ${page.first ? `disable` : ''}`}>
                     <button className="page-link" onClick={() => onPageChange(page.number - 1)} aria-label="Previous">
                         <span aria-hidden="true">&laquo;</span>
                     </button>
                 </li>
 
-                // Funcionalidade para exibir a página atual e a quantidade total de páginas
+                // Elemento para exibir a página atual e a quantidade total de páginas
                 <li className={"page-item"}>
                     <span className="page-link no-hover">{page.number + 1} de {page.totalPages} </span>
                 </li>
 
-                // Funcionalidade para botão de página seguinte
+                // Elemento para botão de página seguinte
                 <li className={`page-item ${page.last ? `disabled` : ''}`}>
                     <button className="page-link" onClick={() => onPageChange(page.number + 1)} aria-label="Next">
                         <span aria-hidden="true">&raquo;</span>
@@ -665,7 +729,7 @@ export function PeopleList() {
 
 ### [Profile](https://github.com/pasifcode/design-patterns/tree/main/mvc-spring-react/mvc-base-project/frontend/src/pages/PeopleProfile.tsx)
 
-O componente Profile irá agregar outros componentes para criar um perfil específico
+O componente Profile irá agregar outros componentes relacionados para criar um perfil específico
 
 - criar uma _const_ `params = useParams()` para indicar um parâmetro de busca
 - inclur o _id_ referente ao objeto do componente como parâmetro
