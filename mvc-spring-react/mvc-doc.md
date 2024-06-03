@@ -157,144 +157,384 @@ O modelo de Backend que será baseado na arquitetura MVC irá conter padrões co
 ## Classes e Interfaces
 
 ### [SecurityConfig](https://github.com/pasifcode/design-patterns/blob/main/mvc-spring-react/mvc-base-project/backend/src/main/java/com/pasifcode/baseproject/config/SecurityConfig.java)
+Classe com a configuração básica de segurança do Spring para o acesso às requisições, as permissões para o banco de dados H2 e o CORS
 
-**Classe com a configuração básica de segurança do Spring para o acesso às requisições, as permissões para o banco de dados H2 e o CORS**
+#### Anotações e Implementações da Classe
+- anotação `@Configuration` para marcar como uma classe de configuração 
+- anotação `@EnableWebSecurity` 
+- implementação da interface `WebMvcConfigurer` para a implementação do procedimento `addCorsMapping`
 
-- anotações `@Configuration` e `@EnableWebSecurity`
-- implementação da interface `WebMvcConfigurer`
-- método `filterChain` para a proteção dos _endpoints_ com HTTP básico e para permitir a configuração do H2 Database
-- método `addCorsMapping` para configurar o CORS padrão para mapeamento e requisições no Spring
+#### Função filterChain
+- implementar a função `SecurityFilterChain filterChain` para a proteção dos _endpoints_ com HTTP básico e para permitir a configuração do H2 Database
+- o parâmetro `HttpSecurity` confugurar a segurança para solicitações HTTP e lançar um `throws Exception`
+- incluir na função o argumento `http.csrf()` para utilizar o `ignoringRequestMacther()` para configurar o acesso ao H2 Console. Também será necessário acrescentar o método `authorizeHttpRequests()` para configurar a permissão do H2 Console e por fim o método `headers()` para a configuração do `FrameOptions`
+- retornar o método `http.buil()`
 
-![Security Config](https://github.com/pasifcode/design-patterns/blob/main/mvc-spring-react/images/security-config.png)
+#### Procedimento addCorsMapping
+- implementar o procedimento `void addCorsMapping` para configurar o CORS padrão para mapeamento e requisições no Spring
+- parâmetro `CorsRegistry registry` para os métodos de configuração do CORS
+- incluir no procesimento o argumento `registry.addMapping()` para definir mapeamento com o nível de acesso. Também deve ser incuído dos argumentos `allowedOrigins()` para definir uma origem, `allowedHeaders()` para definir o header e por fim `allowedMethods()` para definir os tipos de métodos de requisição que serão aceitos
+
+```
+@Configuration
+@EnableWebSecurity
+public class SecurityConfig implements WebMvcConfigurer {
+
+// Função SecurityFilterChain para 
+    @Bean
+    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+        http
+                .csrf(csrf -> csrf
+                        .ignoringRequestMatchers(toH2Console())
+                        .disable()
+                )
+                .authorizeHttpRequests(auth -> auth
+                        .requestMatchers(toH2Console()).permitAll()
+                        .anyRequest().permitAll()
+                )
+                .headers(headers -> headers.frameOptions(HeadersConfigurer.FrameOptionsConfig::disable));
+        return http.build();
+   }
+
+   @Override
+    public void addCorsMappings(CorsRegistry registry) {
+        registry.addMapping("/**")
+                .allowedOrigins("*")
+                .allowedMethods("GET", "POST", "PUT", "DELETE", "PATCH")
+                .allowedHeaders("*");
+    }
+}
+```
 
 <br/>
 
 ### [Entity](https://github.com/pasifcode/design-patterns/blob/main/mvc-spring-react/mvc-base-project/backend/src/main/java/com/pasifcode/baseproject/entity)
+A classe Entity representa um modelo que possuirá uma conexão com uma tabela no banco de dados através da ORM
 
-**A classe Entity representa um modelo que possuirá uma conexão com uma tabela no banco de dados através da ORM**
-
+#### Anotações
+- anotação `@Getter` para adicionar os métodos _getters_ e anotação `@Setter` para adicionar os métodos _setters_ 
+- anotação `@NoArgsConstructor` para adicionar um construtor sem argumentos e anotação `@AllArgsConstructor` para adicionar um construtor com todos os argumentos 
 - anotação `@Entity` para indicar entidade
 - anotação `@Table(name = "tb_people")` para relacionar e nomear uma tabela
-- atributo _id_ com as anotações `@Id` e `@GeneratedValue`
-- `@Column` para personalizar as características dos atributos
 
-![Entity](https://github.com/pasifcode/design-patterns/blob/main/mvc-spring-react/images/entity.png)
+#### Atributos 
+- atributo _id_ com as anotações `@Id` para ter as definições de um _id_ e `@GeneratedValue` para definir a forma que o valores serão gerados
+- a anotação `@Column` pode ser usada para personalizar as características dos atributos
+
+#### Relacionamentos
+- anotações `@ManyToOne` para indicar um relacionamento de muitos objetos da classe para um objeto do atributo indicado e a anotação `@JoinColumn` com o método `name` para indentificar o nome da coluna de relacionamento na classe
+- anotações `@OneToMany` para indicar um relacionamento de um objeto de uma classe para muitos objetos do atributo indicado e com o método `mappedBy` para mapear o atrubuto sendo relacionado
+- anotações `@OneToOne` para indicar um relacionamento de um objeto de uma classe para um objeto do atributo indicado
+
+
+```
+/* Anotações para os métodos get, métodos set,
+construtor sem argumentos, para o construtor com todos argumentos, para definição de entidade e para definição de tabela respectivamente
+*/
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
+@Entity
+@Table(name = "tb_people")
+public class People {
+
+    // Atributo id para identificação da enttidade
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "people_id")
+    private Long id;
+
+    // Atributos personalizados com a anotação @Column
+    @Column(name = "name", nullable = false, length = 80)
+    private String name;
+
+    @Column(name = "age")
+    private Integer age;
+
+    @Column(name = "image")
+    private String image;
+
+    // Relacionamento de muitas pessoas para um departamento
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "dept_id")
+    private Dept dept;
+}
+```
 
 <br/>
 
 ### [Repository](https://github.com/pasifcode/design-patterns/tree/main/mvc-spring-react/mvc-base-project/backend/src/main/java/com/pasifcode/baseproject/repository)
+A interface Repository deve abstrair o acesso a dados de acordo com a sua entidade
 
-**A interface Repository deve abstrair o acesso a dados de acordo com a sua entidade**
-
+#### Anotações e Extesõnes
 - anotação `@Repository` para definir como _Repository_
-- estende a interface `JpaRepository<Entity, Long>` para receber os métodos da JPA.
+- estende a interface `JpaRepository<Entity, Long>` para receber os métodos da JPA
 
-![Repository](https://github.com/pasifcode/design-patterns/blob/main/mvc-spring-react/images/repository.png)
+```
+@Repository
+public interface PeopleRepository extends JpaRepository<People, Long> {
+}
+```
 
 <br/>
 
 ### [DTO](https://github.com/pasifcode/design-patterns/tree/main/mvc-spring-react/mvc-base-project/backend/src/main/java/com/pasifcode/baseproject/dto)
+A classe DTO realiza a transferência os dados entre entre as camadas reduzindo o número de transações
 
-**A classe DTO realiza a transferência os dados entre entre as camadas reduzindo o número de transações**
-
+#### Anotações e Implementações
 - anotação `@JsonInclude` para ocultar dados nulos na requisição Json
-- anotações `@Getter` e `@NoArgsContructor`
-- implementa a interface _Serializable_
+- anotação `@Getter` para adicionar os métodos _getters_
+- anotação `@NoArgsConstructor` para adicionar um construtor sem argumentos
+- implementar a interface _Serializable_ para realiza a serialização
+
+#### Atributos
 - atributo `serialVersionUID` para definir a versão e a anotação `@Serial` será inclusa no atributo de versão
+- atributos correalionados aos atributos da classe _Entity_ e de seus relacionamentos
+
+#### Construtor
 - construtor com os atibutos da classe _DTO_ recebendo os métodos _get_ da classe _Entity_ correspondente
 
-![DTO](https://github.com/pasifcode/design-patterns/blob/main/mvc-spring-react/images/dto.png)
+```
+
+@Getter
+@NoArgsConstructor
+@JsonInclude(JsonInclude.Include.NON_NULL)
+public class PeopleDto implements Serializable {
+
+    @Serial
+    private static final long serialVersionUID = 1L;
+
+    private Long id;
+    private String name;
+    private Integer age;
+    private String image;
+    private Long deptId;
+    private String deptName;
+
+    public PeopleDto(People entity) {
+        id = entity.getId();
+        name = entity.getName();
+        age = entity.getAge();
+        image = entity.getImage();
+        deptId = entity.getDept().getId();
+        deptName = entity.getDept().getName();
+    }
+}
+```
 
 <br/>
 
 ### [Service](https://github.com/pasifcode/design-patterns/tree/main/mvc-spring-react/mvc-base-project/backend/src/main/java/com/pasifcode/baseproject/service/interf)
+A interface Service recebe a declararação de funções de lógica de negócios
 
-**A interface Service recebe a declararação de funções de lógica de negócios**
-
-![Service](https://github.com/pasifcode/design-patterns/blob/main/mvc-spring-react/images/service.png)
-
+#### Exemplo
+```
+public interface PeopleService {
+}
+```
 <br/>
 
 ### [ServiceImpl](https://github.com/pasifcode/design-patterns/tree/main/mvc-spring-react/mvc-base-project/backend/src/main/java/com/pasifcode/baseproject/service/impl)
+A classe Controller é usada para implementa os métodos das suas respectivas interfaces do tipo Service
 
-**A classe Controller é usada para implementa os métodos das suas respectivas interfaces do tipo Service**
-
+#### Anotações
 - anotação `@Service` para definir como _Service_
 - anotação `@Transacitional` para declarar a semântica de transação
 
-![ServiceImpl](https://github.com/pasifcode/design-patterns/blob/main/mvc-spring-react/images/service-impl.png)
+#### Atributos
+- atributo do tipo interface `Repository` para a chamada dos métodos definidos na camada `Repository`, incluir a anotação `@Autowired`
+
+```
+@Service
+@Transactional
+public class PeopleServiceImpl implements PeopleService {
+    
+    @Autowired
+    private PeopleRepository peopleRepository;
+}
+```
 
 <br/>
 
 ### [Controller](https://github.com/pasifcode/design-patterns/tree/main/mvc-spring-react/mvc-base-project/backend/src/main/java/com/pasifcode/baseproject/controller)
+Classe usada como controlador da aplicação com as nuances de persistência e o mapeamento de solicitações da Web
 
-**Classe usada como controlador da aplicação com as nuances de persistência e o mapeamento de solicitações da Web**
-
+#### Anotações
 - anotação `@RestContoller` para definir a classe como controlador
 - anotação `@RequestMapping` para mapear as solicitações
-- atributo do tipo interface `Service` para a chamada dos métodos definidos na camada `Service`.
 
-![Controller](https://github.com/pasifcode/design-patterns/blob/main/mvc-spring-react/images/controller.png)
+#### Atributos
+- atributo do tipo interface `Service` para a chamada dos métodos definidos na camada `Service`, incluir a anotação `@Autowired`
 
+#### Exemplo
+```
+@RestController
+@RequestMapping("/people")
+public class PeopleController {
+
+    @Autowired
+    private PeopleService peopleService;
+}
+```
 <br/>
 
 ## Funções e Procedimentos
-
 As funções e procedimentos básicas serão baseadas no CRUD (findAll, findById, save, update e delete) e estarão estabelecidas em 4 camadas diferentes: _Repository_, _Service_, _ServiceImpl_ e
 _Controller_.
 
 ### FindAll (Page)
+O tipo `Page<T>` é usado para listas paginadas e o parâmetro `Pageable pageable` possui métodos de paginação (também pode ser utilizado como uma lista comum) um parâmetro pode ser utilizado para realizar buscas e filtragens
 
-- retornam uma coleção de objetos
-- o tipo `Page<T>` é usado para listas paginadas e o parâmetro `Pageable pageable` possui métodos de paginação (também pode ser utilizado como uma lista comum)
-- um parâmetro pode ser utilizado para realizar buscas e filtragens
+#### [Repository](https://github.com/pasifcode/design-patterns/blob/960129bb3307fb1fb411ab47c8c61e8a3ac0f7b2/mvc-spring-react/mvc-base-project/backend/src/main/java/com/pasifcode/baseproject/repository/PeopleRepository.java#L15)     
+- parâmetro `String name` para filtrar a lista
+- parâmentro `Pageable pageable` para permitir os métodos de paginação
+- anotação `@Query` para definir as propriedades de lista, de case e de order no SQL
 
-| Tipo de Classe ou Interface                                                                                                                                                                                                                         | Declaração                                                                                                 | Anotações                                     | Retorno                         |
-| --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------- | --------------------------------------------- | ------------------------------- |
-| [FindAll(Page) - Repository](https://github.com/pasifcode/design-patterns/blob/960129bb3307fb1fb411ab47c8c61e8a3ac0f7b2/mvc-spring-react/mvc-base-project/backend/src/main/java/com/pasifcode/baseproject/repository/PeopleRepository.java#L15)     | `Page<Entity> findEntities (Pageable pageable, String name);`                                              | @Query                                        |                                 |
-| [FindAll(Page) - Service](https://github.com/pasifcode/design-patterns/blob/960129bb3307fb1fb411ab47c8c61e8a3ac0f7b2/mvc-spring-react/mvc-base-project/backend/src/main/java/com/pasifcode/baseproject/service/interf/PeopleService.java#L10)       | `Page<Dto> findEntities (Pageable pageable, String atr)`                                                   |                                               |                                 |
-| [FindAll(Page) - ServiceImpl](https://github.com/pasifcode/design-patterns/blob/960129bb3307fb1fb411ab47c8c61e8a3ac0f7b2/mvc-spring-react/mvc-base-project/backend/src/main/java/com/pasifcode/baseproject/service/impl/PeopleServiceImpl.java#L28) | `Page<Dto> findEntities (Pageable pageable, String atr){}`                                                 | @Override<br/>@Transactional(readOnly = true) | return find.map(CvDto::new);    |
-| [FindAll(Page) - Controller](https://github.com/Henri-BS/pasifcode-docs/blob/main/base-project/backend/src/main/java/com/pasifcode/baseproject/controller/UserController.java#L20)                                                                  | `ResponseEntity<Page<Dto>> findEntities (Pageable pageable, @RequestParams(defaultValue="") String atr){}` | @GetMapping                                   | return ResponseEntity.ok(page); |
+
+```
+    // Anotação @Query para o JPQL
+   @Query("SELECT obj FROM People obj WHERE UPPER(obj.name)" +
+            " LIKE UPPER(CONCAT('%', ?1, '%')) ORDER BY obj.name")
+    Page<People> findAllPeople(String name, Pageable pageable);
+
+```
+
+#### [Service](https://github.com/pasifcode/design-patterns/blob/960129bb3307fb1fb411ab47c8c61e8a3ac0f7b2/mvc-spring-react/mvc-base-project/backend/src/main/java/com/pasifcode/baseproject/service/interf/PeopleService.java#L10)                               
+
+- parâmetro `String name` para filtrar a lista
+- parâmentro `Pageable pageable` para permitir os métodos de paginação
+
+```
+    Page<PeopleDto> findAllPeople(String name, Pageable pageable);
+
+```
+
+#### [ServiceImpl](https://github.com/pasifcode/design-patterns/blob/960129bb3307fb1fb411ab47c8c61e8a3ac0f7b2/mvc-spring-react/mvc-base-project/backend/src/main/java/com/pasifcode/baseproject/service/impl/PeopleServiceImpl.java#L28) 
+
+- anotação `@Override` para indicar a implementação com o método da interface
+- anotação `@Transactional(readOnly = true)` para definir a transção como 'somente leitura'
+- parâmetro `String name` para filtrar a lista
+- parâmentro `Pageable pageable` para permitir os métodos de paginação
+- chamar o método `findAll`da camada _Repository_ como argumento
+
+```
+    @Override
+    @Transactional(readOnly = true)
+    public Page<PeopleDto> findAllPeople(String name, Pageable pageable) {
+        Page<People> find = peopleRepository.findAllPeople(name, pageable);
+        return find.map(PeopleDto::new);
+    }
+```
+#### [Controller](https://github.com/pasifcode/design-patterns/blob/6ea4ac8bba4a75f8b4d1e9de9996c1690ce01824/mvc-spring-react/mvc-base-project/backend/src/main/java/com/pasifcode/baseproject/controller/PeopleController.java#L21) 
+
+- acrescentar o `ResponseEntity<>` na declaração para definir os métodos de requisição no retorno
+- anotação `@GetMapping` para mapear a função com a requisição _GET_, acrescentar o valor do método default `name"` para dar a nomenclatura da URL para a requisição da função
+- parâmetro `String name` para filtrar a lista, acrescentar a anotação`@RequestParams` para as definições de parâmetros na requisição e incluir o método `defaultValue=""` 
+- parâmentro `Pageable pageable` para permitir os métodos de paginação
+- chamar o método `findAll`da camada _Service_ como argumento
+
+```
+    @GetMapping("/page")
+    ResponseEntity<Page<PeopleDto>> findAllPeople(@RequestParam(defaultValue = "") String name, Pageable pageable) {
+        Page<PeopleDto> find = peopleService.findAllPeople(name, pageable);
+        return ResponseEntity.ok(find);
+    }
+
+```
 
 <br/>
 
+
 ### FindById
 
-| Tipo de Camada da Função                                                                                                                                                                                                                       | Declaração                                                     | Anotações                                     |
-| ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------- | --------------------------------------------- |
-| [FindById - Service](https://github.com/pasifcode/design-patterns/blob/960129bb3307fb1fb411ab47c8c61e8a3ac0f7b2/mvc-spring-react/mvc-base-project/backend/src/main/java/com/pasifcode/baseproject/service/interf/PeopleService.java#L14)       | `Dto findEntityById (Long id);`                                |                                               |
-| [FindById - ServiceImpl](https://github.com/pasifcode/design-patterns/blob/960129bb3307fb1fb411ab47c8c61e8a3ac0f7b2/mvc-spring-react/mvc-base-project/backend/src/main/java/com/pasifcode/baseproject/service/impl/PeopleServiceImpl.java#L42) | `Dto findEntityById (Long id){}`                               | @Override<br/>@Transactional(readOnly = true) |
-| [FindById - Controller](https://github.com/Henri-BS/pasifcode-docs/blob/main/base-project/backend/src/main/java/com/pasifcode/baseproject/controller/UserController.java#L26)                                                                  | `ResponseEntity<Dto> findEntityById (@PathVariable Long id){}` | @GetMapping                                   |
+#### [Service](https://github.com/pasifcode/design-patterns/blob/960129bb3307fb1fb411ab47c8c61e8a3ac0f7b2/mvc-spring-react/mvc-base-project/backend/src/main/java/com/pasifcode/baseproject/service/interf/PeopleService.java#L14)
+
+- parâmetro `Long id` para encontrar a instância pelo _id_
+
+```
+    Long PeopleDto findPeopleById(String name, Pageable pageable);
+```
+
+#### [ServiceImpl](https://github.com/pasifcode/design-patterns/blob/960129bb3307fb1fb411ab47c8c61e8a3ac0f7b2/mvc-spring-react/mvc-base-project/backend/src/main/java/com/pasifcode/baseproject/service/impl/PeopleServiceImpl.java#L42)
+- anotação `@Override` para indicar a implementação com o método da interface
+- anotação `@Transactional(readOnly = true)` para definir a transção como 'somente leitura'
+- parâmetro `Long id` para encontrar a instância pelo _id_
+- cria uma variável chamando o método `findById`da camada _Repository_ como argumento
+
+```
+    @Override
+    @Transactional(readOnly = true)
+    public Page<PeopleDto> findAllPeople(String name, Pageable pageable) {
+        Page<People> find = peopleRepository.findAllPeople(name, pageable);
+        return find.map(PeopleDto::new);
+    }
+```
+
+#### [Controller](https://github.com/pasifcode/design-patterns/blob/6ea4ac8bba4a75f8b4d1e9de9996c1690ce01824/mvc-spring-react/mvc-base-project/backend/src/main/java/com/pasifcode/baseproject/controller/PeopleController.java#L27)
+
+- acrescentar o `ResponseEntity<>` na declaração para definir os métodos de requisição no retorno
+- anotação `@GetMapping` para mapear a função com a requisição _GET_, acrescentar o valor do método default `name"` para dar a nomenclatura da URL para a requisição da função e incluir a variável `/{id}` no fim da nomenclatura
+- parâmetro `Long id` para filtrar a lista, acrescentar a anotação`@PathVariable` para como uma variável na requisição
+- chamar o método `findById`da camada _Service_ como argumento
 
 ---
 
 ### Save
 
-| Tipo de Camada da Função                                                                                                                                                                                                                   | Declaração                                                | Anotações    |
-| ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | --------------------------------------------------------- | ------------ |
-| [Save - Service](https://github.com/pasifcode/design-patterns/blob/960129bb3307fb1fb411ab47c8c61e8a3ac0f7b2/mvc-spring-react/mvc-base-project/backend/src/main/java/com/pasifcode/baseproject/service/interf/PeopleService.java#L16)       | `Dto saveEntity (Dto dto);`                               |              |
-| [Save - ServiceImpl](https://github.com/pasifcode/design-patterns/blob/960129bb3307fb1fb411ab47c8c61e8a3ac0f7b2/mvc-spring-react/mvc-base-project/backend/src/main/java/com/pasifcode/baseproject/service/impl/PeopleServiceImpl.java#L48) | `Dto saveEntity (Dto dto){}`                              | @Override    |
-| [Save - Controller](https://github.com/Henri-BS/pasifcode-docs/blob/main/base-project/backend/src/main/java/com/pasifcode/baseproject/controller/UserController.java#L32)                                                                  | `ResponseEntity<Dto> saveEntity (@RequestBody Dto dto){}` | @PostMapping |
+#### [Service](https://github.com/pasifcode/design-patterns/blob/960129bb3307fb1fb411ab47c8c61e8a3ac0f7b2/mvc-spring-react/mvc-base-project/backend/src/main/java/com/pasifcode/baseproject/service/interf/PeopleService.java#L16)
+- incluir o parâmetro `PeopleDto dto` para encontrar os métodos da classe _Dto_
+```
+        PeopleDto savePeople(PeopleDto dto);
+```
 
+#### [ServiceImpl](https://github.com/pasifcode/design-patterns/blob/960129bb3307fb1fb411ab47c8c61e8a3ac0f7b2/mvc-spring-react/mvc-base-project/backend/src/main/java/com/pasifcode/baseproject/service/impl/PeopleServiceImpl.java#L48)
+- incluir o parâmetro `PeopleDto dto` para encontrar os métodos da classe _Dto_
+- acrescentar a variável `People add` para adicionar uma nova instância usando o argumento `new People()`
+- acrescentar os métodos _setters_ da variável `add` e passar o métrodos _getters_ da classe `PeopleDto` como argumento se necessário
+- incluir no método setter variávei com um método de busca do _Repository_ de uma classe existente como argumento se necessário
+
+```
+     @Override
+    public PeopleDto savePeople(PeopleDto dto) {
+        Dept dept = deptRepository.findByName(dto.getDeptName());
+
+        People add = new People();
+        add.setName(dto.getName());
+        add.setAge(dto.getAge());
+        add.setImage(dto.getImage());
+        add.setDept(dept);
+        return new PeopleDto(peopleRepository.saveAndFlush(add));
+    }
+```
+
+
+#### [Controller](https://github.com/pasifcode/design-patterns/blob/6ea4ac8bba4a75f8b4d1e9de9996c1690ce01824/mvc-spring-react/mvc-base-project/backend/src/main/java/com/pasifcode/baseproject/controller/PeopleController.java#L39)
+
+
+- acrescentar o `ResponseEntity<>` na declaração para definir os métodos de requisição no retorno
+- anotação `@PostMapping` para mapear a função com a requisição _POST_, acrescentar o valor do método default `name"` para dar a nomenclatura da URL para a requisição da função
+- parâmetro `PeopleDto dto` para filtrar a lista, acrescentar a anotação`@RequestBody` para definir como o corpo da requisição
+- chamar o método `save`da camada _Service_ como argumento
 ---
 
 ### Update
 
-| Tipo de Camada da Função                                                                                                                                                                                                                     | Declaração                                                  | Anotações   |
-| -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------- | ----------- |
-| [Update - Service](https://github.com/pasifcode/design-patterns/blob/960129bb3307fb1fb411ab47c8c61e8a3ac0f7b2/mvc-spring-react/mvc-base-project/backend/src/main/java/com/pasifcode/baseproject/service/interf/PeopleService.java#L18)       | `Dto updateEntity (Dto dto);`                               |             |
-| [Update - ServiceImpl](https://github.com/pasifcode/design-patterns/blob/960129bb3307fb1fb411ab47c8c61e8a3ac0f7b2/mvc-spring-react/mvc-base-project/backend/src/main/java/com/pasifcode/baseproject/service/impl/PeopleServiceImpl.java#L60) | `Dto updateEntity (Dto dto){}`                              | @Override   |
-| [Update - Controller](https://github.com/Henri-BS/pasifcode-docs/blob/main/base-project/backend/src/main/java/com/pasifcode/baseproject/controller/UserController.java#L38)                                                                  | `ResponseEntity<Dto> updateEntity (@RequestBody Dto dto){}` | @PutMapping |
+[Service](https://github.com/pasifcode/design-patterns/blob/960129bb3307fb1fb411ab47c8c61e8a3ac0f7b2/mvc-spring-react/mvc-base-project/backend/src/main/java/com/pasifcode/baseproject/service/interf/PeopleService.java#L18)
+
+[ServiceImpl](https://github.com/pasifcode/design-patterns/blob/960129bb3307fb1fb411ab47c8c61e8a3ac0f7b2/mvc-spring-react/mvc-base-project/backend/src/main/java/com/pasifcode/baseproject/service/impl/PeopleServiceImpl.java#L60) 
+
+[Controller](https://github.com/pasifcode/design-patterns/blob/6ea4ac8bba4a75f8b4d1e9de9996c1690ce01824/mvc-spring-react/mvc-base-project/backend/src/main/java/com/pasifcode/baseproject/controller/PeopleController.java#L45)
 
 ---
 
 ### Delete
 
-| Tipo de Camada da Função                                                                                                                                                                                                                     | Declaração                                    | Anotações                          |
-| -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------- | ---------------------------------- |
-| [Delete - Service](https://github.com/pasifcode/design-patterns/blob/960129bb3307fb1fb411ab47c8c61e8a3ac0f7b2/mvc-spring-react/mvc-base-project/backend/src/main/java/com/pasifcode/baseproject/service/interf/PeopleService.java#L20)       | `void deleteEntity (Long id);`                |                                    |
-| [Delete - ServiceImpl](https://github.com/pasifcode/design-patterns/blob/960129bb3307fb1fb411ab47c8c61e8a3ac0f7b2/mvc-spring-react/mvc-base-project/backend/src/main/java/com/pasifcode/baseproject/service/impl/PeopleServiceImpl.java#L73) | `void deleteEntity (Long id){}`               | @Override                          |
-| [Delete - Controller](https://github.com/Henri-BS/pasifcode-docs/blob/main/base-project/backend/src/main/java/com/pasifcode/baseproject/controller/UserController.java#L45)                                                                  | `void deleteEntity (@PathVariable Long id){}` | @DeleteMapping<br/>@ResponseStatus |
+[Service](https://github.com/pasifcode/design-patterns/blob/960129bb3307fb1fb411ab47c8c61e8a3ac0f7b2/mvc-spring-react/mvc-base-project/backend/src/main/java/com/pasifcode/baseproject/service/interf/PeopleService.java#L20) 
+
+[ServiceImpl](https://github.com/pasifcode/design-patterns/blob/960129bb3307fb1fb411ab47c8c61e8a3ac0f7b2/mvc-spring-react/mvc-base-project/backend/src/main/java/com/pasifcode/baseproject/service/impl/PeopleServiceImpl.java#L73)
+
+[Controller](https://github.com/pasifcode/design-patterns/blob/6ea4ac8bba4a75f8b4d1e9de9996c1690ce01824/mvc-spring-react/mvc-base-project/backend/src/main/java/com/pasifcode/baseproject/controller/PeopleController.java#L52)
 
 ---
 
@@ -305,15 +545,15 @@ _Controller_.
 - visualizar e manipular dados presentes nos _scripts_ do arquivo `application-test.properties`
 - interface gráfica no navegador a url: `http://localhost:8080/h2-console`
 
-![H2 Login](https://github.com/Henri-BS/pasifcode-docs/blob/main/docs/images/h2-login.png)
+![H2 Login](https://github.com/pasifcode/design-patterns/blob/main/mvc-spring-react/images/h2-login.png)
 
 - instrução do tipo `SELECT` e visualizar os registros de uma tabela
 
-![H2 Select](https://github.com/Henri-BS/pasifcode-docs/blob/main/docs/images/h2-select.png)
+![H2 Select](https://github.com/pasifcode/design-patterns/blob/main/mvc-spring-react/images/h2-select.png)
 
 - criação de um novo registro através do comando `INSERT INTO`, ao inserir um
   novo registro o banco de dados informará sobre a condição da inserção com uma mensagem.
-  ![H2 Insert](https://github.com/Henri-BS/pasifcode-docs/blob/main/docs/images/h2-insert.png)
+  ![H2 Insert](https://github.com/pasifcode/design-patterns/blob/main/mvc-spring-react/images/h2-insert.png)
 
 ### Teste de requisições com Postman
 
@@ -326,7 +566,7 @@ _Controller_.
 - incluir parâmetros de busca na url caso necessário.
 - postman retornará o resultado em formato JSON
 
-![Postman FindAll Function](https://github.com/Henri-BS/pasifcode-docs/blob/main/docs/images/postman-all.png)
+![Postman FindAll Function](https://github.com/pasifcode/design-patterns/blob/main/mvc-spring-react/images/postman-all.png)
 
 **Requisições do tipo _POST_ ou _PUT_**
 
@@ -335,7 +575,7 @@ _Controller_.
 - incluir o tipo de texto _raw_ e o formato JSON
 - adicionar em formato JSON os atributos referentes ao objeto
 
-![Postman Save Function](https://github.com/Henri-BS/pasifcode-docs/blob/main/docs/images/postman-save.png)
+![Postman Save Function](https://github.com/pasifcode/design-patterns/blob/main/mvc-spring-react/images/postman-save.png)
 
 # Programação Frontend
 

@@ -22,7 +22,6 @@ public class PeopleDto implements Serializable {
     private String image;
     private Long deptId;
     private String deptName;
-    
 
     public PeopleDto(People entity) {
         id = entity.getId();

@@ -15,6 +15,5 @@ public interface PeopleRepository extends JpaRepository<People, Long> {
     Page<People> findAllPeople(String name, Pageable pageable);
 
     Page<People> findPeopleByDept(Dept dept, Pageable pageable);
-
 }
 
