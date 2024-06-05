@@ -157,20 +157,24 @@ O modelo de Backend que será baseado na arquitetura MVC irá conter padrões co
 ## Classes e Interfaces
 
 ### [SecurityConfig](https://github.com/pasifcode/design-patterns/blob/main/mvc-spring-react/mvc-base-project/backend/src/main/java/com/pasifcode/baseproject/config/SecurityConfig.java)
+
 Classe com a configuração básica de segurança do Spring para o acesso às requisições, as permissões para o banco de dados H2 e o CORS
 
 #### Anotações e Implementações da Classe
-- anotação `@Configuration` para marcar como uma classe de configuração 
-- anotação `@EnableWebSecurity` 
+
+- anotação `@Configuration` para marcar como uma classe de configuração
+- anotação `@EnableWebSecurity`
 - implementação da interface `WebMvcConfigurer` para a implementação do procedimento `addCorsMapping`
 
 #### Função filterChain
+
 - implementar a função `SecurityFilterChain filterChain` para a proteção dos _endpoints_ com HTTP básico e para permitir a configuração do H2 Database
 - o parâmetro `HttpSecurity` confugurar a segurança para solicitações HTTP e lançar um `throws Exception`
 - incluir na função o argumento `http.csrf()` para utilizar o `ignoringRequestMacther()` para configurar o acesso ao H2 Console. Também será necessário acrescentar o método `authorizeHttpRequests()` para configurar a permissão do H2 Console e por fim o método `headers()` para a configuração do `FrameOptions`
 - retornar o método `http.buil()`
 
 #### Procedimento addCorsMapping
+
 - implementar o procedimento `void addCorsMapping` para configurar o CORS padrão para mapeamento e requisições no Spring
 - parâmetro `CorsRegistry registry` para os métodos de configuração do CORS
 - incluir no procesimento o argumento `registry.addMapping()` para definir mapeamento com o nível de acesso. Também deve ser incuído dos argumentos `allowedOrigins()` para definir uma origem, `allowedHeaders()` para definir o header e por fim `allowedMethods()` para definir os tipos de métodos de requisição que serão aceitos
@@ -180,7 +184,7 @@ Classe com a configuração básica de segurança do Spring para o acesso às re
 @EnableWebSecurity
 public class SecurityConfig implements WebMvcConfigurer {
 
-// Função SecurityFilterChain para 
+// Função SecurityFilterChain para
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
@@ -209,23 +213,26 @@ public class SecurityConfig implements WebMvcConfigurer {
 <br/>
 
 ### [Entity](https://github.com/pasifcode/design-patterns/blob/main/mvc-spring-react/mvc-base-project/backend/src/main/java/com/pasifcode/baseproject/entity)
+
 A classe Entity representa um modelo que possuirá uma conexão com uma tabela no banco de dados através da ORM
 
 #### Anotações
-- anotação `@Getter` para adicionar os métodos _getters_ e anotação `@Setter` para adicionar os métodos _setters_ 
-- anotação `@NoArgsConstructor` para adicionar um construtor sem argumentos e anotação `@AllArgsConstructor` para adicionar um construtor com todos os argumentos 
+
+- anotação `@Getter` para adicionar os métodos _getters_ e anotação `@Setter` para adicionar os métodos _setters_
+- anotação `@NoArgsConstructor` para adicionar um construtor sem argumentos e anotação `@AllArgsConstructor` para adicionar um construtor com todos os argumentos
 - anotação `@Entity` para indicar entidade
 - anotação `@Table(name = "tb_people")` para relacionar e nomear uma tabela
 
-#### Atributos 
+#### Atributos
+
 - atributo _id_ com as anotações `@Id` para ter as definições de um _id_ e `@GeneratedValue` para definir a forma que o valores serão gerados
 - a anotação `@Column` pode ser usada para personalizar as características dos atributos
 
 #### Relacionamentos
+
 - anotações `@ManyToOne` para indicar um relacionamento de muitos objetos da classe para um objeto do atributo indicado e a anotação `@JoinColumn` com o método `name` para indentificar o nome da coluna de relacionamento na classe
 - anotações `@OneToMany` para indicar um relacionamento de um objeto de uma classe para muitos objetos do atributo indicado e com o método `mappedBy` para mapear o atrubuto sendo relacionado
 - anotações `@OneToOne` para indicar um relacionamento de um objeto de uma classe para um objeto do atributo indicado
-
 
 ```
 /* Anotações para os métodos get, métodos set,
@@ -265,9 +272,11 @@ public class People {
 <br/>
 
 ### [Repository](https://github.com/pasifcode/design-patterns/tree/main/mvc-spring-react/mvc-base-project/backend/src/main/java/com/pasifcode/baseproject/repository)
+
 A interface Repository deve abstrair o acesso a dados de acordo com a sua entidade
 
 #### Anotações e Extesõnes
+
 - anotação `@Repository` para definir como _Repository_
 - estende a interface `JpaRepository<Entity, Long>` para receber os métodos da JPA
 
@@ -280,19 +289,23 @@ public interface PeopleRepository extends JpaRepository<People, Long> {
 <br/>
 
 ### [DTO](https://github.com/pasifcode/design-patterns/tree/main/mvc-spring-react/mvc-base-project/backend/src/main/java/com/pasifcode/baseproject/dto)
+
 A classe DTO realiza a transferência os dados entre entre as camadas reduzindo o número de transações
 
 #### Anotações e Implementações
+
 - anotação `@JsonInclude` para ocultar dados nulos na requisição Json
 - anotação `@Getter` para adicionar os métodos _getters_
 - anotação `@NoArgsConstructor` para adicionar um construtor sem argumentos
 - implementar a interface _Serializable_ para realiza a serialização
 
 #### Atributos
+
 - atributo `serialVersionUID` para definir a versão e a anotação `@Serial` será inclusa no atributo de versão
 - atributos correalionados aos atributos da classe _Entity_ e de seus relacionamentos
 
 #### Construtor
+
 - construtor com os atibutos da classe _DTO_ recebendo os métodos _get_ da classe _Entity_ correspondente
 
 ```
@@ -326,30 +339,36 @@ public class PeopleDto implements Serializable {
 <br/>
 
 ### [Service](https://github.com/pasifcode/design-patterns/tree/main/mvc-spring-react/mvc-base-project/backend/src/main/java/com/pasifcode/baseproject/service/interf)
+
 A interface Service recebe a declararação de funções de lógica de negócios
 
 #### Exemplo
+
 ```
 public interface PeopleService {
 }
 ```
+
 <br/>
 
 ### [ServiceImpl](https://github.com/pasifcode/design-patterns/tree/main/mvc-spring-react/mvc-base-project/backend/src/main/java/com/pasifcode/baseproject/service/impl)
+
 A classe Controller é usada para implementa os métodos das suas respectivas interfaces do tipo Service
 
 #### Anotações
+
 - anotação `@Service` para definir como _Service_
 - anotação `@Transacitional` para declarar a semântica de transação
 
 #### Atributos
+
 - atributo do tipo interface `Repository` para a chamada dos métodos definidos na camada `Repository`, incluir a anotação `@Autowired`
 
 ```
 @Service
 @Transactional
 public class PeopleServiceImpl implements PeopleService {
-    
+
     @Autowired
     private PeopleRepository peopleRepository;
 }
@@ -358,16 +377,20 @@ public class PeopleServiceImpl implements PeopleService {
 <br/>
 
 ### [Controller](https://github.com/pasifcode/design-patterns/tree/main/mvc-spring-react/mvc-base-project/backend/src/main/java/com/pasifcode/baseproject/controller)
+
 Classe usada como controlador da aplicação com as nuances de persistência e o mapeamento de solicitações da Web
 
 #### Anotações
+
 - anotação `@RestContoller` para definir a classe como controlador
 - anotação `@RequestMapping` para mapear as solicitações
 
 #### Atributos
+
 - atributo do tipo interface `Service` para a chamada dos métodos definidos na camada `Service`, incluir a anotação `@Autowired`
 
 #### Exemplo
+
 ```
 @RestController
 @RequestMapping("/people")
@@ -377,30 +400,32 @@ public class PeopleController {
     private PeopleService peopleService;
 }
 ```
+
 <br/>
 
 ## Funções e Procedimentos
+
 As funções e procedimentos básicas serão baseadas no CRUD (findAll, findById, save, update e delete) e estarão estabelecidas em 4 camadas diferentes: _Repository_, _Service_, _ServiceImpl_ e
-_Controller_.
+_Controller_. Será usada a classe `People` para exemplificar as funções
 
 ### FindAll (Page)
-O tipo `Page<T>` é usado para listas paginadas e o parâmetro `Pageable pageable` possui métodos de paginação (também pode ser utilizado como uma lista comum) um parâmetro pode ser utilizado para realizar buscas e filtragens
 
-#### [Repository](https://github.com/pasifcode/design-patterns/blob/960129bb3307fb1fb411ab47c8c61e8a3ac0f7b2/mvc-spring-react/mvc-base-project/backend/src/main/java/com/pasifcode/baseproject/repository/PeopleRepository.java#L15)     
-- parâmetro `String name` para filtrar a lista
-- parâmentro `Pageable pageable` para permitir os métodos de paginação
+A função `Page<T> findAll` é usada para listas paginadas e o parâmetro `Pageable pageable` possui métodos de paginação (também pode ser utilizado como uma lista comum) um parâmetro pode ser utilizado para realizar buscas e filtragens
+
+#### [Repository](https://github.com/pasifcode/design-patterns/blob/960129bb3307fb1fb411ab47c8c61e8a3ac0f7b2/mvc-spring-react/mvc-base-project/backend/src/main/java/com/pasifcode/baseproject/repository/PeopleRepository.java#L15)
+
+- acrescentar o parâmetro `String name` para filtrar a lista
+- acrescentar o parâmentro `Pageable pageable` para permitir os métodos de paginação
 - anotação `@Query` para definir as propriedades de lista, de case e de order no SQL
 
-
 ```
-    // Anotação @Query para o JPQL
    @Query("SELECT obj FROM People obj WHERE UPPER(obj.name)" +
             " LIKE UPPER(CONCAT('%', ?1, '%')) ORDER BY obj.name")
     Page<People> findAllPeople(String name, Pageable pageable);
 
 ```
 
-#### [Service](https://github.com/pasifcode/design-patterns/blob/960129bb3307fb1fb411ab47c8c61e8a3ac0f7b2/mvc-spring-react/mvc-base-project/backend/src/main/java/com/pasifcode/baseproject/service/interf/PeopleService.java#L10)                               
+#### [Service](https://github.com/pasifcode/design-patterns/blob/960129bb3307fb1fb411ab47c8c61e8a3ac0f7b2/mvc-spring-react/mvc-base-project/backend/src/main/java/com/pasifcode/baseproject/service/interf/PeopleService.java#L10)
 
 - parâmetro `String name` para filtrar a lista
 - parâmentro `Pageable pageable` para permitir os métodos de paginação
@@ -410,13 +435,13 @@ O tipo `Page<T>` é usado para listas paginadas e o parâmetro `Pageable pageabl
 
 ```
 
-#### [ServiceImpl](https://github.com/pasifcode/design-patterns/blob/960129bb3307fb1fb411ab47c8c61e8a3ac0f7b2/mvc-spring-react/mvc-base-project/backend/src/main/java/com/pasifcode/baseproject/service/impl/PeopleServiceImpl.java#L28) 
+#### [ServiceImpl](https://github.com/pasifcode/design-patterns/blob/960129bb3307fb1fb411ab47c8c61e8a3ac0f7b2/mvc-spring-react/mvc-base-project/backend/src/main/java/com/pasifcode/baseproject/service/impl/PeopleServiceImpl.java#L28)
 
-- anotação `@Override` para indicar a implementação com o método da interface
-- anotação `@Transactional(readOnly = true)` para definir a transção como 'somente leitura'
+- incluir a anotação `@Override` para indicar a implementação com o método da interface
+- incluir a anotação `@Transactional(readOnly = true)` para definir a transção como 'somente leitura'
 - parâmetro `String name` para filtrar a lista
 - parâmentro `Pageable pageable` para permitir os métodos de paginação
-- chamar o método `findAll`da camada _Repository_ como argumento
+- criar a variável `People find` chamando o método `peopleRepository.findAllPeople(name, pageable)` da interface`PeopleRepository` como argumento
 
 ```
     @Override
@@ -426,14 +451,14 @@ O tipo `Page<T>` é usado para listas paginadas e o parâmetro `Pageable pageabl
         return find.map(PeopleDto::new);
     }
 ```
-#### [Controller](https://github.com/pasifcode/design-patterns/blob/6ea4ac8bba4a75f8b4d1e9de9996c1690ce01824/mvc-spring-react/mvc-base-project/backend/src/main/java/com/pasifcode/baseproject/controller/PeopleController.java#L21) 
+
+#### [Controller](https://github.com/pasifcode/design-patterns/blob/6ea4ac8bba4a75f8b4d1e9de9996c1690ce01824/mvc-spring-react/mvc-base-project/backend/src/main/java/com/pasifcode/baseproject/controller/PeopleController.java#L21)
 
 - acrescentar o `ResponseEntity<>` na declaração para definir os métodos de requisição no retorno
-- anotação `@GetMapping` para mapear a função com a requisição _GET_, acrescentar o valor do método default `name"` para dar a nomenclatura da URL para a requisição da função
-- parâmetro `String name` para filtrar a lista, acrescentar a anotação`@RequestParams` para as definições de parâmetros na requisição e incluir o método `defaultValue=""` 
-- parâmentro `Pageable pageable` para permitir os métodos de paginação
-- chamar o método `findAll`da camada _Service_ como argumento
-
+- anotação `@GetMapping("/page")` para mapear a função com a requisição _GET_ e acrescentar o valor do método default `name` para dar a nomenclatura da URL para a requisição da função
+- acrescentar o parâmetro `String name` para filtrar a lista, acrescentar a anotação`@RequestParams` para as definições de parâmetros na requisição e incluir o método `defaultValue=""`
+- acrescentar o parâmentro `Pageable pageable` para permitir os métodos de paginação
+- criar a variável `People find` chamando o método `peopleRepository.findAllPeople(name, pageable)` da interface`PeopleService` como argumento
 ```
     @GetMapping("/page")
     ResponseEntity<Page<PeopleDto>> findAllPeople(@RequestParam(defaultValue = "") String name, Pageable pageable) {
@@ -445,57 +470,72 @@ O tipo `Page<T>` é usado para listas paginadas e o parâmetro `Pageable pageabl
 
 <br/>
 
-
 ### FindById
+
+A função `findById` é usada para buscar um objeto através do id da entidade
 
 #### [Service](https://github.com/pasifcode/design-patterns/blob/960129bb3307fb1fb411ab47c8c61e8a3ac0f7b2/mvc-spring-react/mvc-base-project/backend/src/main/java/com/pasifcode/baseproject/service/interf/PeopleService.java#L14)
 
-- parâmetro `Long id` para encontrar a instância pelo _id_
+- acrescentar o parâmetro `Long id` para encontrar a instância pelo _id_
 
 ```
-    Long PeopleDto findPeopleById(String name, Pageable pageable);
+    PeopleDto findPeopleById(Long id);
 ```
 
 #### [ServiceImpl](https://github.com/pasifcode/design-patterns/blob/960129bb3307fb1fb411ab47c8c61e8a3ac0f7b2/mvc-spring-react/mvc-base-project/backend/src/main/java/com/pasifcode/baseproject/service/impl/PeopleServiceImpl.java#L42)
-- anotação `@Override` para indicar a implementação com o método da interface
-- anotação `@Transactional(readOnly = true)` para definir a transção como 'somente leitura'
+
+- incluir a anotação `@Override` para indicar a implementação com o método da interface
+- incluir a anotação `@Transactional(readOnly = true)` para definir a transção como 'somente leitura'
 - parâmetro `Long id` para encontrar a instância pelo _id_
-- cria uma variável chamando o método `findById`da camada _Repository_ como argumento
+- criar a variável `People find` chamando o método `peopleRepository.findById(id).orElseThrow()` da interface`PeopleRepository` como argumento
 
 ```
     @Override
     @Transactional(readOnly = true)
-    public Page<PeopleDto> findAllPeople(String name, Pageable pageable) {
-        Page<People> find = peopleRepository.findAllPeople(name, pageable);
-        return find.map(PeopleDto::new);
+    public PeopleDto findPeopleById(Long id) {
+        People find = peopleRepository.findById(id).orElseThrow();
+        return new PeopleDto(find);
     }
 ```
 
 #### [Controller](https://github.com/pasifcode/design-patterns/blob/6ea4ac8bba4a75f8b4d1e9de9996c1690ce01824/mvc-spring-react/mvc-base-project/backend/src/main/java/com/pasifcode/baseproject/controller/PeopleController.java#L27)
 
 - acrescentar o `ResponseEntity<>` na declaração para definir os métodos de requisição no retorno
-- anotação `@GetMapping` para mapear a função com a requisição _GET_, acrescentar o valor do método default `name"` para dar a nomenclatura da URL para a requisição da função e incluir a variável `/{id}` no fim da nomenclatura
+- anotação `@GetMapping` para mapear a função com a requisição _GET_, acrescentar o valor do método default `name` para dar a nomenclatura da URL para a requisição da função e incluir a variável `/{id}` no fim da nomenclatura
 - parâmetro `Long id` para filtrar a lista, acrescentar a anotação`@PathVariable` para como uma variável na requisição
-- chamar o método `findById`da camada _Service_ como argumento
+- criar a variável `People find` chamando o método `peopleRepository.findPeoplById(id)` da interface`PeopleService` como argumento
+
+```
+
+@GetMapping("/{id}")
+ResponseEntity<PeopleDto> findPeopleByDept(@PathVariable Long id) {
+        PeopleDto find = peopleService.findPeopleById(id);
+        return ResponseEntity.ok(find);
+}
+```
 
 ---
 
 ### Save
+A função `save` é usada para adicionar um novo objeto de uma entidade
 
 #### [Service](https://github.com/pasifcode/design-patterns/blob/960129bb3307fb1fb411ab47c8c61e8a3ac0f7b2/mvc-spring-react/mvc-base-project/backend/src/main/java/com/pasifcode/baseproject/service/interf/PeopleService.java#L16)
-- incluir o parâmetro `PeopleDto dto` para encontrar os métodos da classe _Dto_
+
+- acrescentrar o parâmetro `PeopleDto dto` para encontrar os métodos da classe _Dto_
+
 ```
         PeopleDto savePeople(PeopleDto dto);
 ```
 
 #### [ServiceImpl](https://github.com/pasifcode/design-patterns/blob/960129bb3307fb1fb411ab47c8c61e8a3ac0f7b2/mvc-spring-react/mvc-base-project/backend/src/main/java/com/pasifcode/baseproject/service/impl/PeopleServiceImpl.java#L48)
+
 - incluir o parâmetro `PeopleDto dto` para encontrar os métodos da classe _Dto_
-- acrescentar a variável `People add` para adicionar uma nova instância usando o argumento `new People()`
+- acrescentar a variável `People add` para adicionar um novo objeto usando o argumento `new People()`
 - acrescentar os métodos _setters_ da variável `add` e passar o métrodos _getters_ da classe `PeopleDto` como argumento se necessário
-- incluir no método setter variávei com um método de busca do _Repository_ de uma classe existente como argumento se necessário
+- passa no método `add.setDept()` o argumento `dept`para encontrar o objeto `Dept` que será adicionado
 
 ```
-     @Override
+    @Override
     public PeopleDto savePeople(PeopleDto dto) {
         Dept dept = deptRepository.findByName(dto.getDeptName());
 
@@ -504,37 +544,121 @@ O tipo `Page<T>` é usado para listas paginadas e o parâmetro `Pageable pageabl
         add.setAge(dto.getAge());
         add.setImage(dto.getImage());
         add.setDept(dept);
+
         return new PeopleDto(peopleRepository.saveAndFlush(add));
     }
 ```
 
-
 #### [Controller](https://github.com/pasifcode/design-patterns/blob/6ea4ac8bba4a75f8b4d1e9de9996c1690ce01824/mvc-spring-react/mvc-base-project/backend/src/main/java/com/pasifcode/baseproject/controller/PeopleController.java#L39)
 
+- incluir o `ResponseEntity<>` no tipo da declaração para definir os métodos de requisição no retorno
+- acrescentar a anotação `@PostMapping("/save")` para mapear a função com a requisição _POST_ e acrescentar o valor do método default `name` para dar a nomenclatura da URL para a requisição da função
+- acrescentar o parâmetro `PeopleDto dto` para filtrar a lista, acrescentar a anotação`@RequestBody` para definir como o corpo da requisição
+- acrescentar a variável `PeopleDto add` para chamar o método `peopleSevice.savePeople(dto)`da classe PeopleService como argumento e
 
-- acrescentar o `ResponseEntity<>` na declaração para definir os métodos de requisição no retorno
-- anotação `@PostMapping` para mapear a função com a requisição _POST_, acrescentar o valor do método default `name"` para dar a nomenclatura da URL para a requisição da função
-- parâmetro `PeopleDto dto` para filtrar a lista, acrescentar a anotação`@RequestBody` para definir como o corpo da requisição
-- chamar o método `save`da camada _Service_ como argumento
+```
+    @PostMapping("/save")
+    ResponseEntity<PeopleDto> savePeople(@RequestBody PeopleDto dto) {
+        PeopleDto add = peopleService.savePeople(dto);
+        return new ResponseEntity<>(add, HttpStatus.CREATED);
+    }
+```
+
 ---
 
 ### Update
+A função `updadte` é usada para atualizar os dados do objeto de uma entidade
 
-[Service](https://github.com/pasifcode/design-patterns/blob/960129bb3307fb1fb411ab47c8c61e8a3ac0f7b2/mvc-spring-react/mvc-base-project/backend/src/main/java/com/pasifcode/baseproject/service/interf/PeopleService.java#L18)
+#### [Service](https://github.com/pasifcode/design-patterns/blob/960129bb3307fb1fb411ab47c8c61e8a3ac0f7b2/mvc-spring-react/mvc-base-project/backend/src/main/java/com/pasifcode/baseproject/service/interf/PeopleService.java#L18)
 
-[ServiceImpl](https://github.com/pasifcode/design-patterns/blob/960129bb3307fb1fb411ab47c8c61e8a3ac0f7b2/mvc-spring-react/mvc-base-project/backend/src/main/java/com/pasifcode/baseproject/service/impl/PeopleServiceImpl.java#L60) 
+- acrescentrar o parâmetro `PeopleDto dto` para encontrar os métodos da classe _Dto_
 
-[Controller](https://github.com/pasifcode/design-patterns/blob/6ea4ac8bba4a75f8b4d1e9de9996c1690ce01824/mvc-spring-react/mvc-base-project/backend/src/main/java/com/pasifcode/baseproject/controller/PeopleController.java#L45)
+```
+        PeopleDto updatePeople(PeopleDto dto);
+```
+
+#### [ServiceImpl](https://github.com/pasifcode/design-patterns/blob/960129bb3307fb1fb411ab47c8c61e8a3ac0f7b2/mvc-spring-react/mvc-base-project/backend/src/main/java/com/pasifcode/baseproject/service/impl/PeopleServiceImpl.java#L60)
+
+- incluir o parâmetro `PeopleDto dto` para encontrar os métodos da classe _Dto_
+- acrescentar a variável `People edit` para receber o método `findById` e retornar um objeto `People`
+- acrescentar os métodos _setters_ da variável `edit` e passar o métrodos _getters_ da classe `PeopleDto` como argumento se necessário
+- passa no método `edit.setId()` o argumento `edit.getId()`para encontrar o id do objeto que será editado
+- passa no método `edit.setDept()` o argumento `dept`para encontrar o objeto `Dept` que será editado
+
+```
+   @Override
+    public PeopleDto updatePeople(PeopleDto dto) {
+        People edit = peopleRepository.findById(dto.getId()).orElseThrow();
+        Dept dept = deptRepository.findByName(dto.getDeptName());
+
+        edit.setId(edit.getId());
+        edit.setName(dto.getName());
+        edit.setAge(dto.getAge());
+        edit.setImage(dto.getImage());
+        edit.setDept(dept);
+        return new PeopleDto(peopleRepository.save(edit));
+    }
+```
+
+#### [Controller](https://github.com/pasifcode/design-patterns/blob/6ea4ac8bba4a75f8b4d1e9de9996c1690ce01824/mvc-spring-react/mvc-base-project/backend/src/main/java/com/pasifcode/baseproject/controller/PeopleController.java#L45)
+
+
+- incluir o `ResponseEntity<>` no tipo da declaração para definir os métodos de requisição no retorno
+- acrescentar a anotação `@PuttMapping("/update")` para mapear a função com a requisição _UPDATE_ e acrescentar o valor do método default `name` para dar a nomenclatura da URL para a requisição da função
+- acrescentar o parâmetro `PeopleDto dto` para filtrar a lista, acrescentar a anotação`@RequestBody` para definir como o corpo da requisição
+- acrescentar a variável `PeopleDto edit` para chamar o método `peopleSevice.updatePeople(dto)`da classe PeopleService como argumento
+
+```
+    @PutMapping("/update")
+    ResponseEntity<PeopleDto> updatePeople(@RequestBody PeopleDto dto) {
+        PeopleDto edit = peopleService.updatePeople(dto);
+        return new ResponseEntity<>(edit, HttpStatus.OK);
+    }
+```
+
 
 ---
 
 ### Delete
+A função `delete` é usada para deletar um objeto
 
-[Service](https://github.com/pasifcode/design-patterns/blob/960129bb3307fb1fb411ab47c8c61e8a3ac0f7b2/mvc-spring-react/mvc-base-project/backend/src/main/java/com/pasifcode/baseproject/service/interf/PeopleService.java#L20) 
 
-[ServiceImpl](https://github.com/pasifcode/design-patterns/blob/960129bb3307fb1fb411ab47c8c61e8a3ac0f7b2/mvc-spring-react/mvc-base-project/backend/src/main/java/com/pasifcode/baseproject/service/impl/PeopleServiceImpl.java#L73)
+#### [Service](https://github.com/pasifcode/design-patterns/blob/960129bb3307fb1fb411ab47c8c61e8a3ac0f7b2/mvc-spring-react/mvc-base-project/backend/src/main/java/com/pasifcode/baseproject/service/interf/PeopleService.java#L20)
 
-[Controller](https://github.com/pasifcode/design-patterns/blob/6ea4ac8bba4a75f8b4d1e9de9996c1690ce01824/mvc-spring-react/mvc-base-project/backend/src/main/java/com/pasifcode/baseproject/controller/PeopleController.java#L52)
+- acrescentar o parâmetro `Long id` para encontrar a instância pelo _id_
+
+```
+    void deletePeople(Long id);
+```
+
+#### [ServiceImpl](https://github.com/pasifcode/design-patterns/blob/960129bb3307fb1fb411ab47c8c61e8a3ac0f7b2/mvc-spring-react/mvc-base-project/backend/src/main/java/com/pasifcode/baseproject/service/impl/PeopleServiceImpl.java#L73)
+
+- incluir a anotação `@Override` para indicar a implementação com o método da interface
+- parâmetro `Long id` para encontrar a instância pelo _id_
+- chamar o método `this.peopleRepository.deleteById(id)` da interface `PeopleRepository` como argumento
+
+```
+ @Override
+    public void deletePeople(Long id) {
+        this.peopleRepository.deleteById(id);
+    }
+```
+
+#### [Controller](https://github.com/pasifcode/design-patterns/blob/6ea4ac8bba4a75f8b4d1e9de9996c1690ce01824/mvc-spring-react/mvc-base-project/backend/src/main/java/com/pasifcode/baseproject/controller/PeopleController.java#L52)
+
+
+- incluir a anotação `@DeleteMapping("/delete/{id}")` para mapear a função com a requisição _DELETE_, acrescentar o valor do método default `name` para dar a nomenclatura da URL para a requisição da função e incluir a variável `id` para indicar o id
+- incluir a anotação `@ResponseStatus(HttpStatus.NO_CONTENT)` retornar um status indicandao que não há conteúdo
+- acrescentar o parâmetro `Long id` para buscar pelo id, acrescentar a anotação`@PathVariable` para definir como o variável para o id na Url da requisição
+- chamar o método `this.peopleSevice.deletePeople(id)`da classe `PeopleService` como argumento
+
+```
+    @DeleteMapping("/delete/{id}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    void deletePeople(@PathVariable Long id) {
+        this.peopleService.deletePeople(id);
+    }
+```
 
 ---
 
@@ -582,9 +706,11 @@ O tipo `Page<T>` é usado para listas paginadas e o parâmetro `Pageable pageabl
 O modelo de Frontend que irá representar a camada visual da arquitetura MVC, o Frontend em React irá conter os componentes em formato _tsx_ e a estilização feita em CSS em conjunto com a biblioteca Bootstrap. O padrão Observer será usado para a construção dos componentes e neste tópico também serão usadas entidades genéricas para exemplificação.
 
 ## [Requests](https://github.com/pasifcode/design-patterns/tree/main/mvc-spring-react/mvc-base-project/frontend/src/utils/requests.tsx)
+
 O componente request permite que a camada de Frontend possa encontrar a camada de Backend através do arquivo _requests.ts_
 
 #### Base Url
+
 - criar caminho para o Backend chamado `BASE_URL`
 - incluir a url do localhost com o backend local
 - incluir operador de coalescência nula para indicar uma variável comoutra localidade em que o Backend de encontra
@@ -593,7 +719,9 @@ O componente request permite que a camada de Frontend possa encontrar a camada d
 // Variável referente a BASE_URL
 export const BASE_URL = process.env.REACT_APP_BACKEND_URL ?? "http://localhost:8080";
 ```
+
 ## [Types](https://github.com/pasifcode/design-patterns/tree/main/mvc-spring-react/mvc-base-project/frontend/src/types)
+
 As _types_ podem representar objetos, coleções paginadas ou parâmetros, elas são implementadas de forma semelhante ao formato JSON e algumas irão corresponder a classes e funções do Backend
 
 ```
@@ -627,8 +755,8 @@ export type PeoplePage = {
   }
 ```
 
-- o arquivo `main.ts` é responsável por _types_ genéricas 
-- a `type Page` no arquivo `main.ts` é usada para o componente de paginação recebendo as _types_ das listas presentes na aplicação como valor da chave `content`  
+- o arquivo `main.ts` é responsável por _types_ genéricas
+- a `type Page` no arquivo `main.ts` é usada para o componente de paginação recebendo as _types_ das listas presentes na aplicação como valor da chave `content`
 - a `type Props` no arquivo `main.ts` é usada para representa um paramêtro de _id_ em um componente
 
 ```
@@ -662,13 +790,16 @@ export type Props = {
 ## [Componentes](https://github.com/pasifcode/design-patterns/tree/main/mvc-spring-react/mvc-base-project/frontend/src/components)
 
 ### [Card](https://github.com/pasifcode/design-patterns/tree/main/mvc-spring-react/mvc-base-project/frontend/src/components/cards)
+
 O componente _card_ será usado como um "cartão" que irá conter informações básicas sobre determinado conteúdo, o card pode ser de vários tamanhos e usadas em diferentes contextos, podendo ser tanto para listagens, quanto para um perfil específico
 
 #### Card Médio
+
 - criar modelo com base no _card_ do Bootstrap e personalizá-lo através do arquivo _card.css_
 - incluir a `type PeopleProps` nos parâmetros do componente para receber os dados necessários
 
 #### Retorno
+
 - incluir o `Link` do React Routes para direcionar para a página de perfil correspondente ao link definido no arquivo de rotas
 - criar um elemento para exibir o valores correspondentes as chaves definidas na _type_ referenciada
 
@@ -697,14 +828,16 @@ export function PeopleMdCard({ people }: PeopleProps) {
 ```
 
 ### [Form](https://github.com/pasifcode/design-patterns/tree/main/mvc-spring-react/mvc-base-project/frontend/src/components/forms)
+
 O componente _form_ irá permitir que a submissão se dados relacionada deja feita
 
 #### Variável handleSubmit
+
 - declaração uma variável `const` chamada `handleSubmit` com a propreidade `event: React.FormEvent<HTMLFormElement>` para realizar o evento de submissão no formulário
 - no `handleSubmit` deve ser declarado as variáveis _const_ referentes a cada atributo da _type_ referenciada, afim de criar um evento de inserção de valor nos campos do formulário
 
-
 #### Variável config no handleSubmit
+
 - uma variável _const_ chamada `config: AxiosRequestConfig` para realizar a configuração da requisição através da seguintes propriedades:
   - **baseUrl:** recebe a BASE*URL configurada no arquivo \_requests.ts*
   - **method:** define o método HTTP que será usado
@@ -714,6 +847,7 @@ O componente _form_ irá permitir que a submissão se dados relacionada deja fei
 - o método _axios_ deve ser chamado para receber as configurações definidas anteriormente na _const_ `config`, o método irá retonar a _const_ navigate para a página seguir a rota indicada (o valor '0' retornará a última página navegada)
 
 #### Retorno
+
 - criação de um elemento form com o `onSubmit={handleSubmit}` para definir a funcionalidade de subimissão no elemento
 - inserção dos elementos com campo de label e input com as propriedades de `id` contendo o nome do atributo correspondente
 - inclusão de um datalist para input com umas lista de elementos para selecionar
@@ -756,7 +890,7 @@ export function PeopleAddForm() {
 
     return (
 
-        // Elemento com referência do handleSubmit para submissão do formulário 
+        // Elemento com referência do handleSubmit para submissão do formulário
         <form className=" form-container" onSubmit={handleSubmit}>
 
             // Elemento que representa o campo para inserção do nome de uma pessoa
@@ -777,7 +911,7 @@ export function PeopleAddForm() {
                 <input className="form-control" id="age" />
             </div>
 
-            // Elemento Datalist com a lista de departamentos selecionáveis para uma pessoa 
+            // Elemento Datalist com a lista de departamentos selecionáveis para uma pessoa
             <DeptDatalist />
 
             // Elemento para os botões de subimissão e cancelamento da adição de uma pessoa
@@ -792,18 +926,20 @@ export function PeopleAddForm() {
 ```
 
 ### [Pagination](https://github.com/pasifcode/design-patterns/tree/main/mvc-spring-react/mvc-base-project/frontend/src/components/shared/Pagination.tsx)
+
 O componente de Pagination é responsável pelas funcionalidades para página em uma lista de elementos.
 
 #### Type PageProps
+
 - fazer a declaração da _type_ `PageProps` para definir os atributos de paginação
 - adicionar o atributo `page: Page` que contém _contents_ das possíveis listas que serão paginadas
 - adicionar o atributo `onPageChange: Function` para definir a mudança entre páginas
 
 #### Retorno
+
 - criação de um botão para 'página anterior' através do `OnChangePage` com o método `page.number - 1`
 - criação de um elemento para visualização do número da página atual através do método `page.number + 1` e a visualização do total de páginas através do método `page.totalPages`
 - criação de um botão para 'próxima página' através do `OnChangePage` com o método `page.number + 1`
-
 
 ```
 import { Page } from "types/main";
@@ -851,6 +987,7 @@ export default Pagination;
 <br/>
 
 ## Páginas e Rotas
+
 As Páginas também são componentes, mas são caracterizadas por representarem um conjunto de componentes apresentados em uma única página e que estão relacionados a uma entidade específica. Já as Rotas são as definições feitas usando o React Router para realizar a transição entre as páginas.
 
 ### [List](https://github.com/pasifcode/design-patterns/tree/main/mvc-spring-react/mvc-base-project/frontend/src/pages/PeopleList.tsx)
@@ -858,11 +995,13 @@ As Páginas também são componentes, mas são caracterizadas por representarem 
 Uma List(lista) representa uma página web contendo a implementação de uma lista paginada com propriedades de comamndo de paginaação e com um mecanismo de busca
 
 #### Variáveis de busca, número da página e mudança de páginas paginação
+
 - criar a _const_ `value` representará o texto do parâmetro de busca
 - declarar a variável useState `const[pageNumber, setPageNumber]` para definir o número das páginas
 - criar a _const_ `handlePageChange` para definir as mudanças da página
 
 #### Variável useEffect de paginação, lista e busca
+
 - declarar a variável useState `const[peoplePage, setPeoplePage]` para definir o número das páginas
 - criação um `useEffect` para permitir que o
   componente execute os efeitos necessários para a lista
@@ -871,6 +1010,7 @@ Uma List(lista) representa uma página web contendo a implementação de uma lis
 - adicionar os parâmetros `pageNumber` e `value`
 
 #### Retorno do componente de lista
+
 - incluir funcionalidade com um botão para
   adicionar um novo elemento na lista
 - importar o componente _Pagnation_ para os botões de paginação
@@ -889,7 +1029,7 @@ import { BASE_URL } from "utils/requests";
 
 export function PeopleList() {
 
-    // Variáveis para busca, número de página e mudança de página 
+    // Variáveis para busca, número de página e mudança de página
     const [value, setValue] = useState("");
     const [pageNumber, setPageNumber] = useState(0);
     const handlePageChange = (newPageNumber: number) => {
@@ -908,7 +1048,7 @@ export function PeopleList() {
     return (
         <>
             <div className="container">
-                <nav className="navbar row m-0">                   
+                <nav className="navbar row m-0">
 
                     // Botão para adicionar uma nova pessoa na lista
                     <div className="col-12 col-md-4 col-xl-4 mb-2" >
@@ -935,7 +1075,7 @@ export function PeopleList() {
                     </div>
                 </nav >
 
-                // Lista paginada de pessoas com filtragem 
+                // Lista paginada de pessoas com filtragem
                 <div className="row">
                     {peoplePage.content?.filter((x) =>
                         x.name.toUpperCase().includes(value.toLocaleUpperCase()))
@@ -985,7 +1125,7 @@ export function PeopleProfile() {
     return (
         <>
             <div className="container">
-                <PeopleLgCard id={`${params.peopleId}`} />               
+                <PeopleLgCard id={`${params.peopleId}`} />
             </div>
         </>
     );
@@ -993,12 +1133,15 @@ export function PeopleProfile() {
 ```
 
 ### [Routes](https://github.com/pasifcode/design-patterns/tree/main/mvc-spring-react/mvc-base-project/frontend/src/routes/PageRoutes.tsx)
+
 A interação entre as páginas poderá ser feita através das configurações com o React Routes
 
 #### Navegação entre Rotas
+
 - incluir as _tags_ `<BrowserRoutes>` e `<Routes>` para agregar todas as rotas
 
 #### Criação de uma Rota
+
 - incluir a _tag_ `<Route>` para agragrar rotas específicas
 - adicionar url no atributo `path` e o componente no atributo `element`
 - criar sub-rotas interna para relacionar um _path_ a um _id_
@@ -1033,4 +1176,5 @@ function PageRoutes() {
 
 export default PageRoutes;
 ```
+
 <br/>
