@@ -184,7 +184,6 @@ Classe com a configuração básica de segurança do Spring para o acesso às re
 @EnableWebSecurity
 public class SecurityConfig implements WebMvcConfigurer {
 
-// Função SecurityFilterChain para
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
@@ -232,12 +231,9 @@ A classe Entity representa um modelo que possuirá uma conexão com uma tabela n
 
 - anotações `@ManyToOne` para indicar um relacionamento de muitos objetos da classe para um objeto do atributo indicado e a anotação `@JoinColumn` com o método `name` para indentificar o nome da coluna de relacionamento na classe
 - anotações `@OneToMany` para indicar um relacionamento de um objeto de uma classe para muitos objetos do atributo indicado e com o método `mappedBy` para mapear o atrubuto sendo relacionado
-- anotações `@OneToOne` para indicar um relacionamento de um objeto de uma classe para um objeto do atributo indicado
+
 
 ```
-/* Anotações para os métodos get, métodos set,
-construtor sem argumentos, para o construtor com todos argumentos, para definição de entidade e para definição de tabela respectivamente
-*/
 @Getter
 @Setter
 @NoArgsConstructor
@@ -246,13 +242,13 @@ construtor sem argumentos, para o construtor com todos argumentos, para definiç
 @Table(name = "tb_people")
 public class People {
 
-    // Atributo id para identificação da enttidade
+    // Atributo id para identificação da classe de entidade
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "people_id")
     private Long id;
 
-    // Atributos personalizados com a anotação @Column
+    // Atributos personalizados com a anotação Column
     @Column(name = "name", nullable = false, length = 80)
     private String name;
 
@@ -275,14 +271,13 @@ public class People {
 
 A interface Repository deve abstrair o acesso a dados de acordo com a sua entidade
 
-#### Anotações e Extesõnes
-
 - anotação `@Repository` para definir como _Repository_
-- estende a interface `JpaRepository<Entity, Long>` para receber os métodos da JPA
+- estende a interface  `JpaRepository<Entity, Long>` para receber os métodos da JPA
 
 ```
 @Repository
 public interface PeopleRepository extends JpaRepository<People, Long> {
+    // Métodos personalizados da camada Repository
 }
 ```
 
@@ -306,18 +301,19 @@ A classe DTO realiza a transferência os dados entre entre as camadas reduzindo 
 
 #### Construtor
 
-- construtor com os atibutos da classe _DTO_ recebendo os métodos _get_ da classe _Entity_ correspondente
+- construtor com os atibutos da classe _PeopleDTO_ recebendo os métodos _getters_ da classe _People_ correspondente
 
 ```
-
 @Getter
 @NoArgsConstructor
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class PeopleDto implements Serializable {
-
+    
+    // Atributo serialVersionUID para serialização
     @Serial
     private static final long serialVersionUID = 1L;
 
+    // Atributos relacionados a classe People
     private Long id;
     private String name;
     private Integer age;
@@ -325,6 +321,7 @@ public class PeopleDto implements Serializable {
     private Long deptId;
     private String deptName;
 
+    // Construtor recebendo valores da classe People
     public PeopleDto(People entity) {
         id = entity.getId();
         name = entity.getName();
@@ -342,10 +339,9 @@ public class PeopleDto implements Serializable {
 
 A interface Service recebe a declararação de funções de lógica de negócios
 
-#### Exemplo
-
 ```
 public interface PeopleService {
+    // Declaração dos métodos de interface Service
 }
 ```
 
@@ -353,24 +349,27 @@ public interface PeopleService {
 
 ### [ServiceImpl](https://github.com/pasifcode/design-patterns/tree/main/mvc-spring-react/mvc-base-project/backend/src/main/java/com/pasifcode/baseproject/service/impl)
 
-A classe Controller é usada para implementa os métodos das suas respectivas interfaces do tipo Service
+A classe Service é usada para implementa os métodos das suas respectivas interfaces do tipo Service
 
 #### Anotações
 
-- anotação `@Service` para definir como _Service_
-- anotação `@Transacitional` para declarar a semântica de transação
+- incluir a anotação `@Service` para definir como _Service_
+- incluir a anotação `@Transacitional` para declarar a semântica de transação
 
 #### Atributos
 
-- atributo do tipo interface `Repository` para a chamada dos métodos definidos na camada `Repository`, incluir a anotação `@Autowired`
+- acrescentar o atributo do tipo interface `Repository` para a chamada dos métodos definidos na camada `Repository`, incluir a anotação `@Autowired`
 
 ```
 @Service
 @Transactional
 public class PeopleServiceImpl implements PeopleService {
 
+    // Atributo que recebe os métodos da camada Repository
     @Autowired
     private PeopleRepository peopleRepository;
+
+    // Implementação dos métodos da classe Service
 }
 ```
 
@@ -382,22 +381,23 @@ Classe usada como controlador da aplicação com as nuances de persistência e o
 
 #### Anotações
 
-- anotação `@RestContoller` para definir a classe como controlador
-- anotação `@RequestMapping` para mapear as solicitações
+- incluir a anotação `@RestContoller` para definir a classe como controlador
+- incluir a anotação `@RequestMapping` para mapear as solicitações
 
 #### Atributos
 
-- atributo do tipo interface `Service` para a chamada dos métodos definidos na camada `Service`, incluir a anotação `@Autowired`
-
-#### Exemplo
+- acrescentar a atributo do tipo interface `Service` para a chamada dos métodos definidos na camada `Service`, incluir a anotação `@Autowired`
 
 ```
 @RestController
 @RequestMapping("/people")
 public class PeopleController {
 
+    // Atributo que recebe os métodos da camada Service
     @Autowired
     private PeopleService peopleService;
+
+    // Declaração dos métodos da classe controller
 }
 ```
 
@@ -406,7 +406,7 @@ public class PeopleController {
 ## Funções e Procedimentos
 
 As funções e procedimentos básicas serão baseadas no CRUD (findAll, findById, save, update e delete) e estarão estabelecidas em 4 camadas diferentes: _Repository_, _Service_, _ServiceImpl_ e
-_Controller_. Será usada a classe `People` para exemplificar as funções
+_Controller_. Será usada a classe genérica `People` para exemplificar as funções
 
 ### FindAll (Page)
 
