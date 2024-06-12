@@ -30,7 +30,7 @@ O trecho de código relacionado a cada tópico está linkado nos títulos, mas t
 - adicionar configurações e dependências necessárias
 - baixar, descompactar e renomear a pasta para 'backend'
 
-![Spring Initializr](https://github.com/pasifcode/design-patterns/tree/main/mvc-spring-react/images/spring-init.png)
+![Spring Initializr](https://github.com/pasifcode/design-patterns/blob/main/mvc-spring-react/images/spring-init.png)
 
 ### IntelliJ
 
