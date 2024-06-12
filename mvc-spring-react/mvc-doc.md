@@ -30,7 +30,7 @@ O trecho de código relacionado a cada tópico está linkado nos títulos, mas t
 - adicionar configurações e dependências necessárias
 - baixar, descompactar e renomear a pasta para 'backend'
 
-![Spring Initializr](https://github.com/pasifcode/design-patterns/blob/main/mvc-spring-react/images/spring-init.png)
+![Spring Initializr](https://github.com/pasifcode/design-patterns/tree/main/mvc-spring-react/images/spring-init.png)
 
 ### IntelliJ
 
@@ -160,21 +160,18 @@ O modelo de Backend que será baseado na arquitetura MVC irá conter padrões co
 
 Classe com a configuração básica de segurança do Spring para o acesso às requisições, as permissões para o banco de dados H2 e o CORS
 
-#### Anotações e Implementações da Classe
-
-- anotação `@Configuration` para marcar como uma classe de configuração
-- anotação `@EnableWebSecurity`
-- implementação da interface `WebMvcConfigurer` para a implementação do procedimento `addCorsMapping`
+#### Anotações e implementações da Classe
+- incluir a anotação `@Configuration` para marcar como uma classe de configuração
+- incluir a anotação `@EnableWebSecurity`
+- implementar a interface `WebMvcConfigurer` para a implementação do procedimento `addCorsMapping`
 
 #### Função filterChain
-
 - implementar a função `SecurityFilterChain filterChain` para a proteção dos _endpoints_ com HTTP básico e para permitir a configuração do H2 Database
-- o parâmetro `HttpSecurity` confugurar a segurança para solicitações HTTP e lançar um `throws Exception`
-- incluir na função o argumento `http.csrf()` para utilizar o `ignoringRequestMacther()` para configurar o acesso ao H2 Console. Também será necessário acrescentar o método `authorizeHttpRequests()` para configurar a permissão do H2 Console e por fim o método `headers()` para a configuração do `FrameOptions`
+- incluir o parâmetro `HttpSecurity` confugurar a segurança para solicitações HTTP e lançar um `throws Exception`
+- acrescentar na função o método `http.csrf()` para utilizar o `ignoringRequestMacther()` para configurar o acesso ao H2 Console. Também será necessário acrescentar o método `authorizeHttpRequests()` para configurar a permissão do H2 Console e por fim o método `headers()` para a configuração do `FrameOptions`
 - retornar o método `http.buil()`
 
 #### Procedimento addCorsMapping
-
 - implementar o procedimento `void addCorsMapping` para configurar o CORS padrão para mapeamento e requisições no Spring
 - parâmetro `CorsRegistry registry` para os métodos de configuração do CORS
 - incluir no procesimento o argumento `registry.addMapping()` para definir mapeamento com o nível de acesso. Também deve ser incuído dos argumentos `allowedOrigins()` para definir uma origem, `allowedHeaders()` para definir o header e por fim `allowedMethods()` para definir os tipos de métodos de requisição que serão aceitos
@@ -212,25 +209,21 @@ public class SecurityConfig implements WebMvcConfigurer {
 <br/>
 
 ### [Entity](https://github.com/pasifcode/design-patterns/blob/main/mvc-spring-react/mvc-base-project/backend/src/main/java/com/pasifcode/baseproject/entity)
-
 A classe Entity representa um modelo que possuirá uma conexão com uma tabela no banco de dados através da ORM
 
 #### Anotações
-
-- anotação `@Getter` para adicionar os métodos _getters_ e anotação `@Setter` para adicionar os métodos _setters_
-- anotação `@NoArgsConstructor` para adicionar um construtor sem argumentos e anotação `@AllArgsConstructor` para adicionar um construtor com todos os argumentos
-- anotação `@Entity` para indicar entidade
-- anotação `@Table(name = "tb_people")` para relacionar e nomear uma tabela
+- incluir a anotação `@Getter` para adicionar os métodos _getters_ e a anotação `@Setter` para adicionar os métodos _setters_
+- incluir a anotação `@NoArgsConstructor` para adicionar um construtor sem argumentos e anotação `@AllArgsConstructor` para adicionar um construtor com todos os argumentos
+- incluir a anotação `@Entity` para indicar entidade
+- incluir a anotação `@Table(name = "tb_people")` para relacionar e nomear uma tabela
 
 #### Atributos
-
-- atributo _id_ com as anotações `@Id` para ter as definições de um _id_ e `@GeneratedValue` para definir a forma que o valores serão gerados
-- a anotação `@Column` pode ser usada para personalizar as características dos atributos
+- acrescentar o atributo _id_ com as anotações `@Id` para ter as definições de um _id_ e `@GeneratedValue` para definir a forma que o valores serão gerados
+- incluir a anotação `@Column` pode ser usada para personalizar as características dos atributos
 
 #### Relacionamentos
-
-- anotações `@ManyToOne` para indicar um relacionamento de muitos objetos da classe para um objeto do atributo indicado e a anotação `@JoinColumn` com o método `name` para indentificar o nome da coluna de relacionamento na classe
-- anotações `@OneToMany` para indicar um relacionamento de um objeto de uma classe para muitos objetos do atributo indicado e com o método `mappedBy` para mapear o atrubuto sendo relacionado
+- incluir a anotação `@ManyToOne` para indicar um relacionamento de muitos objetos da classe para um objeto do atributo indicado e incluir a a anotação `@JoinColumn` com o método `name` para indentificar o nome da coluna de relacionamento na classe
+- incluir a anotação `@OneToMany` para indicar um relacionamento de um objeto de uma classe para muitos objetos do atributo indicado e com o método `mappedBy` para mapear o atrubuto sendo relacionado
 
 
 ```
@@ -268,10 +261,9 @@ public class People {
 <br/>
 
 ### [Repository](https://github.com/pasifcode/design-patterns/tree/main/mvc-spring-react/mvc-base-project/backend/src/main/java/com/pasifcode/baseproject/repository)
-
 A interface Repository deve abstrair o acesso a dados de acordo com a sua entidade
 
-- anotação `@Repository` para definir como _Repository_
+- incluir a anotação `@Repository` para definir como _Repository_
 - estende a interface  `JpaRepository<Entity, Long>` para receber os métodos da JPA
 
 ```
@@ -288,20 +280,17 @@ public interface PeopleRepository extends JpaRepository<People, Long> {
 A classe DTO realiza a transferência os dados entre entre as camadas reduzindo o número de transações
 
 #### Anotações e Implementações
-
-- anotação `@JsonInclude` para ocultar dados nulos na requisição Json
-- anotação `@Getter` para adicionar os métodos _getters_
-- anotação `@NoArgsConstructor` para adicionar um construtor sem argumentos
+- incluir a anotação `@JsonInclude` para ocultar dados nulos na requisição Json
+- incluir a anotação `@Getter` para adicionar os métodos _getters_
+- incluir a anotação `@NoArgsConstructor` para adicionar um construtor sem argumentos
 - implementar a interface _Serializable_ para realiza a serialização
 
 #### Atributos
-
-- atributo `serialVersionUID` para definir a versão e a anotação `@Serial` será inclusa no atributo de versão
-- atributos correalionados aos atributos da classe _Entity_ e de seus relacionamentos
+- acrescentar o atributo `serialVersionUID` para definir a versão e a anotação `@Serial` será inclusa no atributo de versão
+- acrescentar atributos correlacionados aos tipos dos atributos da classe _Entity_ e de seus relacionamentos
 
 #### Construtor
-
-- construtor com os atibutos da classe _PeopleDTO_ recebendo os métodos _getters_ da classe _People_ correspondente
+- acrescentar o construtor com os atibutos da classe _PeopleDTO_ recebendo os métodos _getters_ da classe _People_ correspondente
 
 ```
 @Getter
@@ -380,12 +369,10 @@ public class PeopleServiceImpl implements PeopleService {
 Classe usada como controlador da aplicação com as nuances de persistência e o mapeamento de solicitações da Web
 
 #### Anotações
-
 - incluir a anotação `@RestContoller` para definir a classe como controlador
 - incluir a anotação `@RequestMapping` para mapear as solicitações
 
 #### Atributos
-
 - acrescentar a atributo do tipo interface `Service` para a chamada dos métodos definidos na camada `Service`, incluir a anotação `@Autowired`
 
 ```
