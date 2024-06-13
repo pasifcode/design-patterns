@@ -43,6 +43,10 @@ O trecho de código relacionado a cada tópico está linkado nos títulos, mas t
 | [JPA Buddy](https://plugins.jetbrains.com/plugin/15075-jpa-buddy)      |
 | [Wakatime](https://plugins.jetbrains.com/plugin/7425-wakatime)         |
 
+#### Arquivo system.properties
+O arquivo `system.properties` contém o comando de runtime com a vesão do java, e será necessário caso seja feita a implantação do Backend
+`java.runtime.version=17`
+
 ### [Resources](https://github.com/pasifcode/design-patterns/tree/main/mvc-spring-react/mvc-base-project/backend/src/main/resources)
 
 - pasta que irá conter arquivos do tipo _properties_ que irão representar os perfis e o arquivo import.sql qu irá conter os scripts do banco de dados em memória
