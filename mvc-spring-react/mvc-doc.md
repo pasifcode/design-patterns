@@ -44,8 +44,11 @@ O trecho de código relacionado a cada tópico está linkado nos títulos, mas t
 | [Wakatime](https://plugins.jetbrains.com/plugin/7425-wakatime)         |
 
 #### Arquivo system.properties
-O arquivo `system.properties` contém o comando de runtime com a vesão do java, e será necessário caso seja feita a implantação do Backend
-`java.runtime.version=17`
+O arquivo _system.properties_ contém o comando de runtime com a versão do java e será necessário caso seja feita a implantação do Backend em algum servidor
+
+```
+java.runtime.version=17
+```
 
 ### [Resources](https://github.com/pasifcode/design-patterns/tree/main/mvc-spring-react/mvc-base-project/backend/src/main/resources)
 
