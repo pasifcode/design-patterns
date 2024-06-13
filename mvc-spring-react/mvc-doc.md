@@ -30,7 +30,7 @@ O trecho de código relacionado a cada tópico está linkado nos títulos, mas t
 - adicionar configurações e dependências necessárias
 - baixar, descompactar e renomear a pasta para 'backend'
 
-![Spring Initializr](https://github.com/pasifcode/design-patterns/tree/main/mvc-spring-react/images/spring-init.png)
+![Spring Initializr](https://github.com/pasifcode/design-patterns/blob/main/mvc-spring-react/images/spring-init.png)
 
 ### IntelliJ
 
@@ -42,6 +42,10 @@ O trecho de código relacionado a cada tópico está linkado nos títulos, mas t
 | [Maven Helper](https://plugins.jetbrains.com/plugin/7179-maven-helper) |
 | [JPA Buddy](https://plugins.jetbrains.com/plugin/15075-jpa-buddy)      |
 | [Wakatime](https://plugins.jetbrains.com/plugin/7425-wakatime)         |
+
+#### Arquivo system.properties
+O arquivo `system.properties` contém o comando de runtime com a vesão do java, e será necessário caso seja feita a implantação do Backend
+`java.runtime.version=17`
 
 ### [Resources](https://github.com/pasifcode/design-patterns/tree/main/mvc-spring-react/mvc-base-project/backend/src/main/resources)
 
